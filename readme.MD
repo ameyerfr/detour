@@ -4,8 +4,10 @@
 
 Dont forget the .env file !
 
+```
 PORT = 8000
 MONGO_URI = mongodb://localhost/detour
+```
 
 ## Routes
 / index => detour view
