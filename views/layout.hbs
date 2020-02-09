@@ -2,6 +2,23 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Detour</title>
+
+  {{#each modules}}
+  <script type="module" src="/js/{{this}}.js"></script>
+  {{/each}}
+
+  {{#if gmapsk }}
+  <script type="text/javascript" src="/js/maps.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{gmapsk}}&callback=initMap"></script>
+  <link rel="stylesheet" href="/css/maps.css">
+  {{/if}}
+
+  <link rel="stylesheet" href="/css/main.css">
+
 </head>
 
 <body>
