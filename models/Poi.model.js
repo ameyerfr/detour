@@ -7,7 +7,7 @@ const schema = new Schema({
   image: String,
   coordinates: {
     lat : Number,
-    long : Number
+    lng : Number
   },
   address : String,
   user_id: {
