@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/alex-test", (req, res) => {
-  res.render("alex-test", {modules:["alex"], gmapsk:process.env.GMAPS_KEY});
+  res.render("alex-test", { modules: ["alex"], gmapsk: process.env.GMAPS_KEY });
 });
 
 module.exports = router;
