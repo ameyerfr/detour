@@ -1,23 +1,28 @@
 import APIHandler from "./APIHandler.js";
 const detour = new APIHandler("http://localhost:8000/api");
 
-(async function() {
-  let pois = await detour.getPOIList();
+const getItineraryBtn = document.getElementById("get-itinerary-btn");
+getItineraryBtn.onclick = getPOIs;
+const searchInput = document.getElementById("search-poi");
+searchInput.addEventListener("input", searchByName);
+const searchCategory = document.getElementById("poi-categories");
+searchCategory.addEventListener("click", searchByCategory);
+const poiList = document.getElementById("poi-list");
+let pois;
+
+async function getPOIs() {
+  pois = await detour.getPOIList();
   pois = pois.data.pois;
-  const poiList = document.getElementById("poi-list");
-  const searchInput = document.getElementById("search-poi");
-  searchInput.addEventListener("input", searchByName);
-  const searchCategory = document.getElementById("poi-categories");
-  searchCategory.addEventListener("click", searchByCategory);
   renderList(pois);
+}
 
-  function renderList(data) {
-    poiList.innerHTML = "";
-    data.forEach(element => renderItem(element, poiList));
-  }
+function renderList(data) {
+  poiList.innerHTML = "";
+  data.forEach(element => renderItem(element, poiList));
+}
 
-  function renderItem(data) {
-    const itemTplHTML = `
+function renderItem(data) {
+  const itemTplHTML = `
         <a class="panel-block">
             <span class="panel-icon">
                 <i class="fas fa-eye" aria-hidden="true"></i>
@@ -33,38 +38,41 @@ const detour = new APIHandler("http://localhost:8000/api");
             <a href="#" class="button is-small">Recompute Direction</a>
         </div>
   `;
-    const itemEl = document.createElement("div");
-    itemEl.className = "poi-item";
-    itemEl.innerHTML = itemTplHTML;
-    poiList.appendChild(itemEl);
-    itemEl.addEventListener("click", expandItem);
-  }
+  const itemEl = document.createElement("div");
+  itemEl.className = "poi-item";
+  itemEl.innerHTML = itemTplHTML;
+  poiList.appendChild(itemEl);
+  itemEl.addEventListener("click", expandItem);
+}
 
-  function expandItem(e) {
-    const allItems = document.querySelectorAll(".poi-details");
-    allItems.forEach(item => item.classList.add("is-hidden"));
-    e.target
-      .closest(".poi-item")
-      .querySelector(".poi-details")
-      .classList.remove("is-hidden");
-  }
+function expandItem(e) {
+  const allItems = document.querySelectorAll(".poi-details");
+  allItems.forEach(item => item.classList.add("is-hidden"));
+  e.target
+    .closest(".poi-item")
+    .querySelector(".poi-details")
+    .classList.remove("is-hidden");
+}
 
-  function searchByName(e) {
-    const query = e.target.value;
-    const filteredPOIs = pois.filter(element => element.title.match(new RegExp(query, "i")));
-    renderList(filteredPOIs);
-  }
+function searchByName(e) {
+  filterPOIs();
+}
 
-  function searchByCategory(e) {
-    if (e.target.hasAttribute("data-category")) {
-      console.log(e.target);
-      const category = e.target.getAttribute("data-category");
-      if (category === "all") {
-        renderList(pois);
-        return;
-      }
-      const filteredPOIs = pois.filter(element => element.category === category);
-      renderList(filteredPOIs);
-    }
+function searchByCategory(e) {
+  if (e.target.hasAttribute("data-category")) {
+    searchCategory.querySelectorAll("a").forEach(element => element.classList.remove("is-active"));
+    e.target.classList.add("is-active");
+    filterPOIs();
   }
-})();
+}
+
+function filterPOIs() {
+  const textQuery = searchInput.value;
+  // console.log(searchCategory.querySelector(".is-active"));
+  const categoryQuery = searchCategory.querySelector(".is-active").getAttribute("data-category");
+  const filteredPOIs = pois.filter(element => {
+    if (categoryQuery === "all") return element.title.match(new RegExp(textQuery, "i"));
+    return element.category === categoryQuery && element.title.match(new RegExp(textQuery, "i"));
+  });
+  renderList(filteredPOIs);
+}
