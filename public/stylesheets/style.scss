@@ -5,7 +5,8 @@
 
 $scheme-main: aliceblue;
 $link: hsl(171, 100%, 41%);
-$navbar-item-img-max-height: 100px;
+$navbar-item-img-max-height: 6.25rem;
+$navbar-height: 6.5rem;
 // Import only what you need from Bulma
 @import "../../node_modules/bulma/bulma.sass";
 // @import "../../node_modules/bulma/sass/base/_all.sass";
