@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router();
+const router = new express.Router();
 const userModel = require("../models/User.model");
 const bcryptjs = require("bcryptjs");
 const flash = require("connect-flash");
