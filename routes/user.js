@@ -11,13 +11,13 @@ const bcryptjs = require("bcryptjs");
 // /user/poi/edit/:id
 
 
-router.get("/profil", (req, res) => {
+router.get("/profil", (req, res, next) => {
     res.render("user/profil");
   });
   
 
 //profil update : password 
-router.post("/profil/password/:id", (req, res) => {
+router.post("/profil/password/:id", (req, res, next) => {
 
     const { password } = req.body;
     const salt = bcryptjs.genSaltSync(10);
@@ -31,12 +31,12 @@ router.post("/profil/password/:id", (req, res) => {
             req.flash("success", "password updated");
             res.redirect("/dashboard")
         })
-        .catch(dbErr => console.log("error updating user password", dbErr);
+        .catch(next);
 
 })
 
 //profil update : data (preferences) 
-router.post("/profil/data/:id", (req, res) => {
+router.post("/profil/data/:id", (req, res, next) => {
 
     const {
         preferences
@@ -50,18 +50,19 @@ router.post("/profil/data/:id", (req, res) => {
             req.flash("success", "sneaker successfully added");
             res.redirect("/dashboard")
         })
-        .catch(dbErr => console.log("error updating user preferences", dbErr);
+        .catch(next);
 })
 
 
 //profil delete
-router.post("/profil/delete/:id", (req, res) => {
+router.post("/profil/delete/:id", (req, res, next) => {
     userModel
     .findByIdAndDelete(req.params.id)
         .then(dbRes => {
             console.log("User account deleted", dbRes);
             res.redirect("/dashboard");
         })
-        .catch(dbErr => console.log("error deleting user", dbErr));
+        .catch(next);
 })
 
+module.exports = router;
