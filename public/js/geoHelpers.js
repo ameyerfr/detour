@@ -1,5 +1,3 @@
-console.log('Hello world')
-
 function calculateOffset() {
   //Position, decimal degrees
   const lat = 48.0112333
