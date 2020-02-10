@@ -1,42 +1,16 @@
 <h1>List of your Point of Interests</h1>
 
 <div>
-    {{#each userPois}}
-    <img src={{this.image}}>
-    <h2>{{this.title}}</h2> 
-    <p>Description: {{this.description}}</p>
-    <p>{{this.description}}</p>
-    <p>{{this.description}}</p>
-    <p>{{this.description}}</p>
-    <p>{{this.description}}</p>
 
+    <a href="/user/poi/new/{{id}}"><btn>Create new POI</btn></a>
+
+    {{#each userPois}}
+    {{>poi_item}}
+    {{#if ../isMultiple}}
+    <a href="/user/poi/{{id}}/{{this._id}}">view more...</a>
+    {{/if}}
+    <br>
     {{/each}}
 
 </div>
 
-
-title: {type:String, required:true},
-  description: String,
-  image: String,
-  coordinates: {
-    lat : Number,
-    lng : Number
-  },
-  location: {
-    type: {
-      type: String, // Don't do `{ location: { type: String } }`
-      enum: ['Point'], // 'location.type' must be 'Point'
-      required: true
-    },
-    coordinates: {
-      type: [Number],
-      required: true
-    }
-  },
-  address : String,
-  user_id: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  },
-  url : String,
-  details : String
