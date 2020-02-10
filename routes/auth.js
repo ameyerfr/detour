@@ -1,7 +1,8 @@
 const express = require("express");
-const router = express.Router();
+const router = new express.Router();
 const userModel = require("../models/User.model");
 const bcryptjs = require("bcryptjs");
+const flash = require("connect-flash");
 
 
 ////////////////////
@@ -36,7 +37,9 @@ router.post("/register", (req, res, next) => {
           const hashed = bcryptjs.hashSync(user.password, salt);
           user.password = hashed;
 
-          userModel.create(user).then(() => res.redirect("/user/poi/all"));
+          userModel.create(user).then(user => {
+            res.redirect("/user/" + user._id + "/poi/all")
+          });
       })
       .catch(next);
   }
