@@ -38,7 +38,7 @@ router.post("/register", (req, res, next) => {
           user.password = hashed;
 
           userModel.create(user).then(user => {
-            res.redirect("/user/" + user._id + "/poi/all")
+            res.redirect("/user/poi/all/" + user._id)
           });
       })
       .catch(next);
@@ -82,7 +82,7 @@ router.post("/login", (req, res, next) => {
         console.log(user)
 
         req.session.currentUser = clone;
-        return res.redirect("/user/" + dbRes._id + "/poi/all")
+        return res.redirect("/user/poi/all/" + dbRes._id)
       } else {
         req.flash("error", "wrong credentials");
         return res.redirect("/login");

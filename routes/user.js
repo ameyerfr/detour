@@ -76,38 +76,16 @@ router.post("/profile/delete/:id", (req, res, next) => {
 // USER POI CRUD
 ////////////////
 
-
-// READ ALL ( show all the user's personnal pois ) 
-
-router.get("/:id/poi/all", (req, res, next) => {
-    poiModel
-    .find({user_id: req.params.id})
-    .then(userPois => {
-        res.render("user/poi_all", {userPois});
-    })
-    .catch(next);
-});
-
-
-// READ ONE ( show one of the user's personnal pois ) 
-
-router.get("/:id/poi/:id_poi", (req, res, next) => {
-    poiModel
-    .findOne({_id: req.params.id_poi})
-    .then(userPoi => {
-        res.render("user/poi_one", {userPoi});
-    })
-    .catch(next);
-});
-
-
 // CREATE
 
-router.get("/:id/poi/new", (req, res, next) => {
-    res.render("user/poi_new")
+router.get("/poi/new/:id", (req, res, next) => {
+    res.render("user/poi_new", {id:req.params.id})
 });
 
-router.post("/:id/poi/new", (req, res, next) => {
+
+router.post("/poi/new/:id", (req, res, next) => {
+
+    console.log(req.body)
 
     const {
         title,
@@ -118,8 +96,15 @@ router.post("/:id/poi/new", (req, res, next) => {
         details
     } = req.body
 
+    if (req.body.Museums === 'on') {
+        var category = "Museums";
+    }
+    else if (req.body.Friends === 'on') {
+        var category = "Friends";
+    }
+
     poiModel
-    .create({title, description, image,
+    .create({title, description, image, category,
         coordinates: {
             lat: req.body.lat,
             lng: req.body.lng
@@ -140,9 +125,36 @@ router.post("/:id/poi/new", (req, res, next) => {
 
 });
 
+// READ ALL ( show all the user's personnal pois ) 
+
+router.get("/poi/all/:id", (req, res, next) => {
+    poiModel
+    .find({user_id: req.params.id})
+    .then(userPois => {
+        res.render("user/poi_all", {userPois, id:req.params.id, isMultiple: true});
+    })
+    .catch(next);
+});
+
+
+// READ ONE ( show one of the user's personnal pois ) 
+
+router.get("/poi/:id/:id_poi", (req, res, next) => {
+
+    poiModel
+    .findOne({_id: req.params.id_poi})
+    .then(userPoi => {
+        res.render("user/poi_all", {userPois:[userPoi]});
+    })
+    .catch(next);
+});
+
+
+
+
 // UPDATE
 
-router.get("/:id/poi/edit/id_poi", (req, res, next) => {
+router.get("/poi/edit/:id/id_poi", (req, res, next) => {
     poiModel
     .findOne({_id: req.params.id_poi})
     .then(userPoi => {
@@ -152,7 +164,7 @@ router.get("/:id/poi/edit/id_poi", (req, res, next) => {
 });
 
 
-router.post("/:id/poi/edit/id_poi", (req, res, next) => {
+router.post("/poi/edit/:id/id_poi", (req, res, next) => {
     
     const {
         title, 
@@ -189,7 +201,7 @@ router.post("/:id/poi/edit/id_poi", (req, res, next) => {
 
 // DELETE
 
-router.post("/:id/poi/delete/id_poi", (req, res, next) => {
+router.post("/poi/delete/:id/id_poi", (req, res, next) => {
     poiModel
     .findByIdAndDelete(req.params.id_poi)
         .then(dbRes => {

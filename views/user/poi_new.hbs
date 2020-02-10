@@ -1,0 +1,53 @@
+<h1>Create a new Point of Interest</h1>
+
+<form action="/user/poi/new/{{id}}" method="post">
+
+    <div>
+      <label for="title">POI title</label>
+      <input id="title" name="title" type="text" placeholder="Enter your new POI title" value="POI 1">
+    </div>
+
+    <div>
+        <label for="category">Choose POI category...</label>
+        <input type="radio" name="Friends">
+        <label value="Friends">Friends</label>
+        <input type="radio" name="Museums">
+        <label value="Museums">Museums</label>
+    </div>
+
+    <div>
+      <label for="description">Description</label>
+      <input id="description" name="description" type="text" placeholder="Enter your new POI description" value="description">
+    </div>
+
+    <div>
+      <label for="address">Address</label>
+      <input id="address" name="address" type="text" placeholder="Enter your new POI address" value="Address">
+    </div>
+
+    <div>
+      <label for="lat">Latitude</label>
+      <input id="lat" name="lat" type="number" placeholder="Enter your new POI latitude" value=5>
+    </div>
+
+    <div>
+      <label for="lng">Longitude</label>
+      <input id="lng" name="lng" type="number" placeholder="Enter your new POI longitude" value=5>
+    </div>
+
+    <div>
+      <label for="url">Website</label>
+      <input id="url" name="url" type="text" placeholder="Enter your new POI website" value=5>
+    </div>
+
+    <div>
+      <label for="details">Additional information</label>
+      <input id="details" name="details" type="text" placeholder="Enter any additional information" value=5>
+    </div>
+
+    <button>Add to my POI list</button>
+  </form>
+
+
+
+
