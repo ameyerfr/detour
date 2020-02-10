@@ -7,6 +7,8 @@ Dont forget the .env file !
 ```
 PORT = 8000
 MONGO_URI = mongodb://localhost/detour
+SESSION_SECRET = tKS?9AaLongStSringHardTOCrackjQ¨*SA?SA
+
 ```
 
 ## Routes
