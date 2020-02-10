@@ -5,9 +5,9 @@ const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 
 // TODO
-// /user/profile ( update password, preferences, deleted account) 
-// /user/poi/all ( show all the user's personnal pois ) 
-// /user/poi/new 
+// /user/profile ( update password, preferences, deleted account)
+// /user/poi/all ( show all the user's personnal pois )
+// /user/poi/new
 // /user/poi/edit/:id
 
 
@@ -15,13 +15,13 @@ const bcryptjs = require("bcryptjs");
 // USER PROFIL & UPDATE
 ///////////////////////
 
-router.get("/profil", (req, res, next) => {
-    res.render("user/profil");
+router.get("/profile", (req, res, next) => {
+    res.render("user/profile");
 });
-  
 
-//profil update : password 
-router.post("/profil/password/:id", (req, res, next) => {
+
+//profile update : password
+router.post("/profile/password/:id", (req, res, next) => {
 
     const { password } = req.body;
     const salt = bcryptjs.genSaltSync(10);
@@ -39,8 +39,8 @@ router.post("/profil/password/:id", (req, res, next) => {
 
 })
 
-//profil update : data (preferences) 
-router.post("/profil/data/:id", (req, res, next) => {
+//profile update : data (preferences)
+router.post("/profile/data/:id", (req, res, next) => {
 
     const {
         preferences
@@ -58,8 +58,8 @@ router.post("/profil/data/:id", (req, res, next) => {
 })
 
 
-//profil delete
-router.post("/profil/delete/:id", (req, res, next) => {
+//profile delete
+router.post("/profile/delete/:id", (req, res, next) => {
     userModel
     .findByIdAndDelete(req.params.id)
         .then(dbRes => {
@@ -75,7 +75,7 @@ router.post("/profil/delete/:id", (req, res, next) => {
 ////////////////
 
 
-// READ /user/poi/all ( show all the user's personnal pois ) 
+// READ /user/poi/all ( show all the user's personnal pois )
 
 router.get("/user/:id/poi/all", (req, res, next) => {
     poiModel
@@ -87,18 +87,18 @@ router.get("/user/:id/poi/all", (req, res, next) => {
 });
 
 
-// /user/poi/new 
-// CREATE /user/poi/all ( show all the user's personnal pois ) 
+// /user/poi/new
+// CREATE /user/poi/all ( show all the user's personnal pois )
 
 router.get("/user/:id/poi/new", (req, res, next) => {
     res.render("user/pois/new")
 });
 
 router.post("/user/:id/poi/new", (req, res, next) => {
-    
+
     const {
-        title, 
-        description, 
+        title,
+        description,
         image,
         address,
         url,
@@ -111,7 +111,7 @@ router.post("/user/:id/poi/new", (req, res, next) => {
             lat: req.body.lat,
             lng: req.body.lng
         },
-        location: { 
+        location: {
             type: "Point",
             coordinates: [req.body.lng, req.body.lat]
         },
@@ -119,16 +119,14 @@ router.post("/user/:id/poi/new", (req, res, next) => {
         user_id: req.params.id,
         url, details})
 
-    .then(req.flash("success", "poi successfully created");
+    .then( results => {
+        req.flash("success", "poi successfully created")
         res.redirect("/user/" + req.params.id + "/poi/all")
     })
     .catch(next);
 
 });
 
-// /user/poi/new 
+// /user/poi/new
 
 module.exports = router;
-
-
-
