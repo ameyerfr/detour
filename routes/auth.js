@@ -17,7 +17,7 @@ router.post("/register", (req, res, next) => {
 
   const user = req.body
 
-  if (!user.email || !user.password || !user.name || !user.lastname) {
+  if (!user.email || !user.password) {
     req.flash("error", "no empty fields here please");
     res.redirect("/register");
     return;
