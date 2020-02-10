@@ -7102,6 +7102,10 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.columns {
+  margin-left: inherit;
+  margin-right: inherit; }
+
 #register-form,
 #login-form {
   height: 100vh; }
