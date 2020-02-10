@@ -19,7 +19,21 @@ router.get("/profil", (req, res) => {
 //profil update : password 
 router.post("/profil/password/:id", (req, res) => {
 
-}
+    const { password } = req.body;
+    const salt = bcryptjs.genSaltSync(10);
+    const hashed = bcryptjs.hashSync(password, salt);
+
+    userModel
+        .findByIdAndUpdate(req.params.id, {
+            password: hashed
+        })
+        .then(() => {
+            req.flash("success", "password updated");
+            res.redirect("/dashboard")
+        })
+        .catch(dbErr => console.log("error updating user password", dbErr);
+
+})
 
 //profil update : data (preferences) 
 router.post("/profil/data/:id", (req, res) => {
@@ -36,8 +50,8 @@ router.post("/profil/data/:id", (req, res) => {
             req.flash("success", "sneaker successfully added");
             res.redirect("/dashboard")
         })
-        .catch(next);
-}
+        .catch(dbErr => console.log("error updating user preferences", dbErr);
+})
 
 
 //profil delete
@@ -49,5 +63,5 @@ router.post("/profil/delete/:id", (req, res) => {
             res.redirect("/dashboard");
         })
         .catch(dbErr => console.log("error deleting user", dbErr));
-}
+})
 
