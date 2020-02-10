@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const poiModel = require("../models/Poi.model");
-
 const defaultRadius = 20000; // default search circle in meters
 
 router.get("/poi/query", (req, res, next) => {
@@ -23,8 +22,8 @@ router.get("/poi/query", (req, res, next) => {
     if (req.query.user_id ) {
       dbQuery.$or = [
         {user_id : {$exists: false}},
-        {user_id : {$eq: null}},
-        {user_id : { $exists: true, $eq: req.query.user_id }}
+        {user_id : {$exists: true, $eq: null}},
+        {user_id : {$exists: true, $eq: req.query.user_id }}
       ]
     }
     //  return only general pois in area
@@ -33,7 +32,7 @@ router.get("/poi/query", (req, res, next) => {
       // Or user_id = null
       dbQuery.$or = [
         {user_id : {$exists: false}},
-        {user_id : {$eq: null}}
+        {user_id : {$exists: true, $eq: null}}
       ]
     }
 
