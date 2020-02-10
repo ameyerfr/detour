@@ -5,9 +5,9 @@ const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 
 // TODO
-// /user/profile ( update password, preferences, deleted account) 
-// /user/poi/all ( show all the user's personnal pois ) 
-// /user/poi/new 
+// /user/profile ( update password, preferences, deleted account)
+// /user/poi/all ( show all the user's personnal pois )
+// /user/poi/new
 // /user/poi/edit/:id
 
 
@@ -18,9 +18,8 @@ const bcryptjs = require("bcryptjs");
 router.get("/profile", (req, res, next) => {
     res.render("user/profile");
 });
-  
 
-//profil update : password 
+//profile update : password
 router.post("/profile/password/:id", (req, res, next) => {
 
     const { password } = req.body;
@@ -39,7 +38,7 @@ router.post("/profile/password/:id", (req, res, next) => {
 
 })
 
-//profil update : data (preferences) 
+//profile update : data (preferences) 
 router.post("/profile/data/:id", (req, res, next) => {
 
     const {
@@ -58,7 +57,8 @@ router.post("/profile/data/:id", (req, res, next) => {
 })
 
 
-//profil delete
+
+//profile delete
 router.post("/profile/delete/:id", (req, res, next) => {
     userModel
     .findByIdAndDelete(req.params.id)
@@ -86,6 +86,7 @@ router.get("/:id/poi/all", (req, res, next) => {
     .catch(next);
 });
 
+
 // READ ONE ( show one of the user's personnal pois ) 
 
 router.get("/:id/poi/:id_poi", (req, res, next) => {
@@ -105,10 +106,10 @@ router.get("/:id/poi/new", (req, res, next) => {
 });
 
 router.post("/:id/poi/new", (req, res, next) => {
-    
+
     const {
-        title, 
-        description, 
+        title,
+        description,
         image,
         address,
         url,
@@ -121,7 +122,7 @@ router.post("/:id/poi/new", (req, res, next) => {
             lat: req.body.lat,
             lng: req.body.lng
         },
-        location: { 
+        location: {
             type: "Point",
             coordinates: [req.body.lng, req.body.lat]
         },
@@ -129,13 +130,15 @@ router.post("/:id/poi/new", (req, res, next) => {
         user_id: req.params.id,
         url, details})
 
-    .then(req.flash("success", "poi successfully created");
+    .then( results => {
+        req.flash("success", "poi successfully created")
         res.redirect("/user/" + req.params.id + "/poi/all")
     })
     .catch(next);
 
 });
 
+<<<<<<< HEAD
 
 // UPDATE
 
@@ -176,6 +179,7 @@ router.post("/:id/poi/edit/id_poi", (req, res, next) => {
 
 });
 
+
 // DELETE
 
 router.post("/:id/poi/delete/id_poi", (req, res, next) => {
@@ -190,7 +194,6 @@ router.post("/:id/poi/delete/id_poi", (req, res, next) => {
 
 
 
+
+
 module.exports = router;
-
-
-
