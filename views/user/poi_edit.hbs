@@ -1,0 +1,49 @@
+<h1>Update Point of Interest</h1>
+
+<form action="/user/poi/edit/{{id}}/{{poi._id}}" method="post">
+
+    <div>
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" placeholder="Enter your new POI title" value="{{poi.title}}">
+    </div>
+
+    <div>
+        <label for="category">Choose POI category...</label>
+        <input type="radio" name="Friends">
+        <label value="Friends">Friends</label>
+        <input type="radio" name="Museums">
+        <label value="Museums">Museums</label>
+    </div>
+
+    <div>
+      <label for="description">Description</label>
+      <input id="description" name="description" type="text" placeholder="Enter your new POI description" value="{{poi.description}}">
+    </div>
+
+    <div>
+      <label for="address">Address</label>
+      <input id="address" name="address" type="text" placeholder="Enter your new POI address" value="{{poi.address}}">
+    </div>
+
+    <div>
+      <label for="lat">Latitude</label>
+      <input id="lat" name="lat" type="number" placeholder="Enter your new POI latitude" value={{poi.coordinates.lat}}>
+    </div>
+
+    <div>
+      <label for="lng">Longitude</label>
+      <input id="lng" name="lng" type="number" placeholder="Enter your new POI longitude" value={{poi.coordinates.lng}}>
+    </div>
+
+    <div>
+      <label for="url">Website</label>
+      <input id="url" name="url" type="text" placeholder="Enter your new POI website" value="{{poi.url}}">
+    </div>
+
+    <div>
+      <label for="details">Additional information</label>
+      <textarea id="details" name="details" placeholder="Enter any additional information">{{poi.details}}</textarea>
+    </div>
+
+    <button>Update POI</button>
+  </form>

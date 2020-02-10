@@ -85,8 +85,6 @@ router.get("/poi/new/:id", (req, res, next) => {
 
 router.post("/poi/new/:id", (req, res, next) => {
 
-    console.log(req.body)
-
     const {
         title,
         description,
@@ -131,7 +129,7 @@ router.get("/poi/all/:id", (req, res, next) => {
     poiModel
     .find({user_id: req.params.id})
     .then(userPois => {
-        res.render("user/poi_all", {userPois, id:req.params.id, isMultiple: true});
+        res.render("user/poi_all", {userPois, idUser:req.params.id, isMultiple: true});
     })
     .catch(next);
 });
@@ -144,7 +142,7 @@ router.get("/poi/:id/:id_poi", (req, res, next) => {
     poiModel
     .findOne({_id: req.params.id_poi})
     .then(userPoi => {
-        res.render("user/poi_all", {userPois:[userPoi]});
+        res.render("user/poi_all", {userPois:[userPoi], idUser:req.params.id});
     })
     .catch(next);
 });
@@ -154,17 +152,17 @@ router.get("/poi/:id/:id_poi", (req, res, next) => {
 
 // UPDATE
 
-router.get("/poi/edit/:id/id_poi", (req, res, next) => {
+router.get("/poi/edit/:id/:id_poi", (req, res, next) => {
     poiModel
     .findOne({_id: req.params.id_poi})
-    .then(userPoi => {
-        res.render("user/poi_edit", {userPoi});
+    .then(poi => {
+        res.render("user/poi_edit", {poi, idUser:req.params.id});
     })
     .catch(next);
 });
 
 
-router.post("/poi/edit/:id/id_poi", (req, res, next) => {
+router.post("/poi/edit/:id/:id_poi", (req, res, next) => {
     
     const {
         title, 
@@ -175,9 +173,16 @@ router.post("/poi/edit/:id/id_poi", (req, res, next) => {
         details
     } = req.body
 
+    if (req.body.Museums === 'on') {
+        var category = "Museums";
+    }
+    else if (req.body.Friends === 'on') {
+        var category = "Friends";
+    }
+
     poiModel
-    .findByIdAndUpdate(req.params.id-poiModel,
-        {title, description, image,
+    .findByIdAndUpdate(req.params.id_poi,
+        {title, description, image, category,
         coordinates: {
             lat: req.body.lat,
             lng: req.body.lng
@@ -192,7 +197,7 @@ router.post("/poi/edit/:id/id_poi", (req, res, next) => {
 
     .then(results => {
         req.flash("success", "poi successfully updated")
-        res.redirect("/user/" + req.params.id + "/poi/all")
+        res.redirect("/user/poi/all/" + req.params.id)
     })
     .catch(next);
 
@@ -200,13 +205,12 @@ router.post("/poi/edit/:id/id_poi", (req, res, next) => {
 
 
 // DELETE
-
-router.post("/poi/delete/:id/id_poi", (req, res, next) => {
+router.get("/poi/delete/:id/:id_poi", (req, res, next) => {
+    
     poiModel
     .findByIdAndDelete(req.params.id_poi)
         .then(dbRes => {
-            console.log("poi deleted", dbRes);
-            res.redirect("/user/" + req.params.id + "/poi/all");
+            res.redirect("/user/poi/all/" + req.params.id);
         })
         .catch(next);
 })
