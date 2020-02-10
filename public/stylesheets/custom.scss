@@ -10,7 +10,7 @@
 
 #register-form,
 #login-form {
-    height: 100vh;
+    height: calc(100vh - 9.5rem);
 }
 
 .poi-details {
@@ -22,4 +22,18 @@
 
 .full-width {
     width: 100%;
+}
+
+#search-itinerary-form .field-label {
+    flex-grow: 0;
+    margin-right: 0.5rem;
+    text-align: left;
+}
+
+#search-itinerary-form .field-body {
+    margin-right: 0.5rem;
+}
+
+.panel {
+    background-color: gainsboro;
 }

@@ -37,7 +37,7 @@ function renderItem(data) {
                 <p>${data.address}</p>
                 <p>Lat: ${data.coordinates.lat}, Lng: ${data.coordinates.lng}</p>
             </div>
-            <a href="#" class="button is-small">Recompute Direction</a>
+            <a href="#" class="button is-small">Make a detour</a>
         </div>
   `;
   const itemEl = document.createElement("div");

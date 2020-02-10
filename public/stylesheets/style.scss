@@ -3,10 +3,12 @@
 // Import a Google Font
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");
 
-$scheme-main: aliceblue;
+$scheme-main: white;
+$primary: hsl(171, 100%, 41%);
 $link: hsl(171, 100%, 41%);
-$navbar-item-img-max-height: 6.25rem;
 $navbar-height: 6.5rem;
+$navbar-item-img-max-height: 6.25rem;
+$panel-heading-padding: .5rem 1rem;
 // Import only what you need from Bulma
 @import "../../node_modules/bulma/bulma.sass";
 // @import "../../node_modules/bulma/sass/base/_all.sass";
