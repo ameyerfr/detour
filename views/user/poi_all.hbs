@@ -2,13 +2,27 @@
 
 <div>
 
-    <a href="/user/poi/new/{{id}}"><btn>Create new POI</btn></a>
+    <br>
+    <br>
+    {{#if isMultiple}}
+    <a href="/user/poi/new/{{idUser}}"><button>Create new POI</button></a>
+    {{/if}}
+    <br>
+    <br>
 
     {{#each userPois}}
     {{>poi_item}}
+    <br>
+    <a href="/user/poi/edit/{{../idUser}}/{{this._id}}"><button>Edit POI</button></a>
+    <br>
+    <a href="/user/poi/delete/{{../idUser}}/{{this._id}}"><button>Delete POI</button></a>
+    <br>
+    <br>
     {{#if ../isMultiple}}
-    <a href="/user/poi/{{id}}/{{this._id}}">view more...</a>
+    <a href="/user/poi/{{../idUser}}/{{this._id}}">view more...</a>
     {{/if}}
+    <br>
+    <br>
     <br>
     {{/each}}
 
