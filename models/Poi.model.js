@@ -9,6 +9,10 @@ const schema = new Schema({
     lat : Number,
     lng : Number
   },
+  location: {
+    type: { type: String },
+    coordinates: []
+  },
   address : String,
   user_id: {
     type: Schema.Types.ObjectId,
@@ -17,6 +21,8 @@ const schema = new Schema({
   url : String,
   details : String
 });
+
+schema.index({ location: "2dsphere" });
 
 const Poi = mongoose.model("Poi", schema);
 
