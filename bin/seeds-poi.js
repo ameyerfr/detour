@@ -18,7 +18,7 @@ mongoose
 poiModel
     .insertMany(poi)
     .then(dbSuccess => {
-        console.log("tags inserted successfully", dbSuccess)
+        console.log("pois inserted successfully", dbSuccess)
     })
     .catch(dbErr => {
         console.log("oh no, error connecting to mongo", dbErr)

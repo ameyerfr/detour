@@ -70,6 +70,8 @@ router.post("/profile/delete/:id", (req, res, next) => {
 })
 
 
+
+
 ////////////////
 // USER POI CRUD
 ////////////////
@@ -79,7 +81,7 @@ router.post("/profile/delete/:id", (req, res, next) => {
 
 router.get("/:id/poi/all", (req, res, next) => {
     poiModel
-    .find({user_id: req.param.id})
+    .find({user_id: req.params.id})
     .then(userPois => {
         res.render("user/poi_all", {userPois});
     })
@@ -91,7 +93,7 @@ router.get("/:id/poi/all", (req, res, next) => {
 
 router.get("/:id/poi/:id_poi", (req, res, next) => {
     poiModel
-    .findOne({_id: req.param.id_poi})
+    .findOne({_id: req.params.id_poi})
     .then(userPoi => {
         res.render("user/poi_one", {userPoi});
     })
@@ -141,8 +143,14 @@ router.post("/:id/poi/new", (req, res, next) => {
 // UPDATE
 
 router.get("/:id/poi/edit/id_poi", (req, res, next) => {
-    res.render("user/poi_edit")
+    poiModel
+    .findOne({_id: req.params.id_poi})
+    .then(userPoi => {
+        res.render("user/poi_edit", {userPoi});
+    })
+    .catch(next);
 });
+
 
 router.post("/:id/poi/edit/id_poi", (req, res, next) => {
     
@@ -190,9 +198,5 @@ router.post("/:id/poi/delete/id_poi", (req, res, next) => {
         })
         .catch(next);
 })
-
-
-
-
 
 module.exports = router;
