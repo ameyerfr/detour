@@ -5,6 +5,11 @@ const schema = new Schema({
   title: {type:String, required:true},
   description: String,
   image: String,
+  category: {
+    type: String,
+    enum: ["Friends", "Museums"],
+    required: true
+  },
   coordinates: {
     lat : Number,
     lng : Number
