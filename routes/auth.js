@@ -1,7 +1,8 @@
 const express = require("express");
-const router = express.Router();
+const router = new express.Router();
 const userModel = require("../models/User.model");
 const bcryptjs = require("bcryptjs");
+const flash = require("connect-flash");
 
 
 ////////////////////
@@ -36,7 +37,9 @@ router.post("/register", (req, res, next) => {
           const hashed = bcryptjs.hashSync(user.password, salt);
           user.password = hashed;
 
-          userModel.create(user).then(() => res.redirect("/user/poi/all"));
+          userModel.create(user).then(user => {
+            res.redirect("/user/poi/all/" + user._id)
+          });
       })
       .catch(next);
   }
@@ -63,6 +66,7 @@ router.post("/login", (req, res, next) => {
   userModel
     .findOne({ email: user.email })
     .then(dbRes => {
+      
       if (!dbRes) {
         req.flash("error", "wrong credentials");
         return res.redirect("/login");
@@ -70,10 +74,15 @@ router.post("/login", (req, res, next) => {
 
       if (bcryptjs.compareSync(user.password, dbRes.password)) {
         const { _doc: clone } = { ...dbRes }; 
+
+        
+
         delete clone.password;
 
+        console.log(user)
+
         req.session.currentUser = clone;
-        return res.redirect("/user/poi/all");
+        return res.redirect("/user/poi/all/" + dbRes._id)
       } else {
         req.flash("error", "wrong credentials");
         return res.redirect("/login");

@@ -7102,8 +7102,18 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.columns {
+  margin-left: inherit;
+  margin-right: inherit; }
+
 #register-form,
 #login-form {
   height: 100vh; }
+
+.poi-details {
+  padding: 0.5em 0.75em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
 
 /*# sourceMappingURL=style.css.map */

@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const poiModel = require("../models/Poi.model");
 
-// READ ALL
 
 
 // READ ALL ( show all the user's personnal pois ) 

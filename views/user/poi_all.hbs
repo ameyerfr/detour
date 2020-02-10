@@ -1,0 +1,16 @@
+<h1>List of your Point of Interests</h1>
+
+<div>
+
+    <a href="/user/poi/new/{{id}}"><btn>Create new POI</btn></a>
+
+    {{#each userPois}}
+    {{>poi_item}}
+    {{#if ../isMultiple}}
+    <a href="/user/poi/{{id}}/{{this._id}}">view more...</a>
+    {{/if}}
+    <br>
+    {{/each}}
+
+</div>
+
