@@ -11,9 +11,13 @@ const bcryptjs = require("bcryptjs");
 // /user/poi/edit/:id
 
 
+///////////////////////
+// USER PROFIL & UPDATE
+///////////////////////
+
 router.get("/profil", (req, res, next) => {
     res.render("user/profil");
-  });
+});
   
 
 //profil update : password 
@@ -65,4 +69,66 @@ router.post("/profil/delete/:id", (req, res, next) => {
         .catch(next);
 })
 
+
+////////////////
+// USER POI CRUD
+////////////////
+
+
+// READ /user/poi/all ( show all the user's personnal pois ) 
+
+router.get("/user/:id/poi/all", (req, res, next) => {
+    poiModel
+    .find({user_id: req.param.id})
+    .then(userPois => {
+        res.render("user/pois", {userPois});
+    })
+    .catch(next);
+});
+
+
+// /user/poi/new 
+// CREATE /user/poi/all ( show all the user's personnal pois ) 
+
+router.get("/user/:id/poi/new", (req, res, next) => {
+    res.render("user/pois/new")
+});
+
+router.post("/user/:id/poi/new", (req, res, next) => {
+    
+    const {
+        title, 
+        description, 
+        image,
+        address,
+        url,
+        details
+    } = req.body
+
+    poiModel
+    .create({title, description, image,
+        coordinates: {
+            lat: req.body.lat,
+            lng: req.body.lng
+        },
+        location: { 
+            type: "Point",
+            coordinates: [req.body.lng, req.body.lat]
+        },
+        address,
+        user_id: req.params.id,
+        url, details})
+
+    .then(req.flash("success", "poi successfully created");
+        res.redirect("/user/" + req.params.id + "/poi/all")
+    })
+    .catch(next);
+
+});
+
+// /user/poi/new 
+
 module.exports = router;
+
+
+
