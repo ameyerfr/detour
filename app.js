@@ -27,6 +27,7 @@ app.use(express.json());
 // Routes
 app.use("/", require("./routes/index"));
 app.use(require("./routes/auth"));
+app.use("/user", require("./routes/user"));
 
 // export the app (check import ./bin/www)
 module.exports = app;
