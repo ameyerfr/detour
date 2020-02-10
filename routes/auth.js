@@ -66,6 +66,7 @@ router.post("/login", (req, res, next) => {
   userModel
     .findOne({ email: user.email })
     .then(dbRes => {
+      
       if (!dbRes) {
         req.flash("error", "wrong credentials");
         return res.redirect("/login");
@@ -73,10 +74,15 @@ router.post("/login", (req, res, next) => {
 
       if (bcryptjs.compareSync(user.password, dbRes.password)) {
         const { _doc: clone } = { ...dbRes }; 
+
+        
+
         delete clone.password;
 
+        console.log(user)
+
         req.session.currentUser = clone;
-        return res.redirect("/user/poi/all");
+        return res.redirect("/user/" + dbRes._id + "/poi/all")
       } else {
         req.flash("error", "wrong credentials");
         return res.redirect("/login");
