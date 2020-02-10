@@ -7102,6 +7102,10 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.logo {
+  width: 125px;
+  margin-bottom: 25px; }
+
 .columns {
   margin-left: inherit;
   margin-right: inherit; }
