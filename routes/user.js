@@ -70,6 +70,8 @@ router.post("/profile/delete/:id", (req, res, next) => {
 })
 
 
+
+
 ////////////////
 // USER POI CRUD
 ////////////////
