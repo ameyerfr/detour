@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const poi = require('./data/museumsFinal.json')
 
 mongoose
-    .connect({{MONGO_URI}}, {
+    .connect('mongodb://localhost/detour', {
         useNewUrlParser: true
     })
     .then(x => {
