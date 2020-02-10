@@ -138,8 +138,6 @@ router.post("/:id/poi/new", (req, res, next) => {
 
 });
 
-<<<<<<< HEAD
-
 // UPDATE
 
 router.get("/:id/poi/edit/id_poi", (req, res, next) => {
@@ -172,7 +170,8 @@ router.post("/:id/poi/edit/id_poi", (req, res, next) => {
         user_id: req.params.id,
         url, details})
 
-    .then(req.flash("success", "poi successfully updated");
+    .then(results => {
+        req.flash("success", "poi successfully updated")
         res.redirect("/user/" + req.params.id + "/poi/all")
     })
     .catch(next);
