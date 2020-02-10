@@ -4,9 +4,11 @@ const detour = new APIHandler("http://localhost:8000/api");
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
 const searchInput = document.getElementById("search-poi");
-searchInput.addEventListener("input", searchByName);
+searchInput.addEventListener("input", filterPOIs);
 const searchCategory = document.getElementById("poi-categories");
 searchCategory.addEventListener("click", searchByCategory);
+const clearSearchBtn = document.getElementById("clear-search-btn");
+clearSearchBtn.addEventListener("click", clearSearch);
 const poiList = document.getElementById("poi-list");
 let pois;
 
@@ -54,10 +56,6 @@ function expandItem(e) {
     .classList.remove("is-hidden");
 }
 
-function searchByName(e) {
-  filterPOIs();
-}
-
 function searchByCategory(e) {
   if (e.target.hasAttribute("data-category")) {
     searchCategory.querySelectorAll("a").forEach(element => element.classList.remove("is-active"));
@@ -66,9 +64,13 @@ function searchByCategory(e) {
   }
 }
 
+function clearSearch(e) {
+  searchInput.value = "";
+  filterPOIs(pois);
+}
+
 function filterPOIs() {
   const textQuery = searchInput.value;
-  // console.log(searchCategory.querySelector(".is-active"));
   const categoryQuery = searchCategory.querySelector(".is-active").getAttribute("data-category");
   const filteredPOIs = pois.filter(element => {
     if (categoryQuery === "all") return element.title.match(new RegExp(textQuery, "i"));

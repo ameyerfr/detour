@@ -10,12 +10,19 @@
         <a data-category="Museums">Museums</a>
     </p>
     <div class="panel-block">
-        <p class="control has-icons-left">
-            <input class="input is-primary" type="text" placeholder="Search" id="search-poi">
-            <span class="icon is-left">
-                <i class="fas fa-search" aria-hidden="true"></i>
-            </span>
-        </p>
+        <div class="field is-grouped full-width">
+            <p class="control is-expanded has-icons-left">
+                <input class="input is-primary" type="text" placeholder="Search" id="search-poi">
+                <span class="icon is-left">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </span>
+            </p>
+            <p class="control">
+                <a class="button is-outlined" id="clear-search-btn">
+                    Clear
+                </a>
+            </p>
+        </div>
     </div>
     <div id="poi-list">
         {{>poi_list_item}}
