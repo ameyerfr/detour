@@ -1,6 +1,6 @@
 <h1>Update Point of Interest</h1>
 
-<form action="/user/poi/edit/{{id}}/{{poi._id}}" method="post">
+<form action="/user/poi/edit/{{idUser}}/{{poi._id}}" method="post">
 
     <div>
       <label for="title">Title</label>
@@ -9,10 +9,12 @@
 
     <div>
         <label for="category">Choose POI category...</label>
-        <input type="radio" name="Friends">
-        <label value="Friends">Friends</label>
-        <input type="radio" name="Museums">
-        <label value="Museums">Museums</label>
+        <select name="category">
+        {{#each categoryList}}
+        {{#selectedCat this ../poi.category}}
+        {{/selectedCat}}
+        {{/each}}
+        </select>
     </div>
 
     <div>

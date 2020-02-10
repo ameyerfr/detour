@@ -11,6 +11,12 @@
     <br>
 
     {{#each userPois}}
+
+    {{#unless ../isMultiple}}
+    <a href="/user/poi/all/{{../idUser}}"><button>Back to list of my POI</button></a>
+    <br>
+    <br>
+    {{/unless}}
     {{>poi_item}}
     <br>
     <a href="/user/poi/edit/{{../idUser}}/{{this._id}}"><button>Edit POI</button></a>
