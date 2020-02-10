@@ -4,10 +4,13 @@
             <div class="container">
                 <h1 class="is-size-3 has-text-centered">Register</h1>
             </div>
+
+            <form method="post" action="/register" id="form_user">
+
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input class="input is-success" type="email" placeholder="Enter your email" value="hello@detour.com"
+                    <input class="input is-success" type="email" name="email" placeholder="Enter your email" value="pascal@gmail.com"
                         required />
                     <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
@@ -22,7 +25,7 @@
             <div class="field">
                 <label class="label">Password</label>
                 <div class="control has-icons-left has-icons-right">
-                    <input class="input is-danger" type="password" placeholder="Enter your password" value="1234"
+                    <input class="input" type="password" name="password" placeholder="Enter your password" value="toto"
                         required />
                     <span class="icon is-small is-left">
                         <i class="fas fa-key"></i>
@@ -31,7 +34,7 @@
                         <i class="fas fa-exclamation-triangle"></i>
                     </span>
                 </div>
-                <p class="help is-danger">This password is not valid</p>
+                <!--<p class="help is-danger">This password is not valid</p>-->
             </div>
 
             <div class="field">
@@ -51,6 +54,9 @@
                     <button class="button is-link is-light">Cancel</button>
                 </div>
             </div>
+
+            </form>
+
         </div>
     </div>
 </section>

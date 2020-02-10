@@ -8,6 +8,7 @@ const app = express();
 const path = require("path");
 const session = require("express-session");
 const mongoose = require("mongoose");
+const flash = require("connect-flash");
 
 // initial config
 app.use(
