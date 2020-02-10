@@ -79,7 +79,8 @@ router.post("/profile/delete/:id", (req, res, next) => {
 // CREATE
 
 router.get("/poi/new/:id", (req, res, next) => {
-    res.render("user/poi_new", {id:req.params.id})
+    const categoryList = poiModel.schema.path('category').enumValues;
+    res.render("user/poi_new", {id:req.params.id, categoryList})
 });
 
 
@@ -89,17 +90,11 @@ router.post("/poi/new/:id", (req, res, next) => {
         title,
         description,
         image,
+        category,
         address,
         url,
         details
     } = req.body
-
-    if (req.body.Museums === 'on') {
-        var category = "Museums";
-    }
-    else if (req.body.Friends === 'on') {
-        var category = "Friends";
-    }
 
     poiModel
     .create({title, description, image, category,
@@ -117,7 +112,7 @@ router.post("/poi/new/:id", (req, res, next) => {
 
     .then( results => {
         req.flash("success", "poi successfully created")
-        res.redirect("/user/" + req.params.id + "/poi/all")
+        res.redirect("/user/poi/all/" + req.params.id)
     })
     .catch(next);
 
@@ -153,10 +148,13 @@ router.get("/poi/:id/:id_poi", (req, res, next) => {
 // UPDATE
 
 router.get("/poi/edit/:id/:id_poi", (req, res, next) => {
+
+    const categoryList = poiModel.schema.path('category').enumValues;
+
     poiModel
     .findOne({_id: req.params.id_poi})
     .then(poi => {
-        res.render("user/poi_edit", {poi, idUser:req.params.id});
+        res.render("user/poi_edit", {poi, idUser:req.params.id, categoryList});
     })
     .catch(next);
 });
@@ -168,17 +166,12 @@ router.post("/poi/edit/:id/:id_poi", (req, res, next) => {
         title, 
         description, 
         image,
+        category,
         address,
         url,
         details
     } = req.body
 
-    if (req.body.Museums === 'on') {
-        var category = "Museums";
-    }
-    else if (req.body.Friends === 'on') {
-        var category = "Friends";
-    }
 
     poiModel
     .findByIdAndUpdate(req.params.id_poi,

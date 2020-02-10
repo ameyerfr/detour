@@ -9,10 +9,12 @@
 
     <div>
         <label for="category">Choose POI category...</label>
-        <input type="radio" name="Friends">
-        <label value="Friends">Friends</label>
-        <input type="radio" name="Museums">
-        <label value="Museums">Museums</label>
+        <select name="category">
+        {{#each categoryList}}
+        {{#selectedCat this ../poi.category}}
+        {{/selectedCat}}
+        {{/each}}
+        </select>
     </div>
 
     <div>
