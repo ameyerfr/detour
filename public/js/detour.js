@@ -10,7 +10,7 @@ searchCategory.addEventListener("click", searchByCategory);
 const clearSearchBtn = document.getElementById("clear-search-btn");
 clearSearchBtn.addEventListener("click", clearSearch);
 const poiList = document.getElementById("poi-list");
-const durationContainer = document.getElementById("itinerary-duration");
+const notificationContainer = document.getElementById("itinerary-notification");
 let pois;
 
 const inputFrom = document.getElementById("direction-from");
@@ -19,7 +19,7 @@ const inputTo = document.getElementById("direction-to");
 async function getPOIs() {
 
   if (inputFrom.value === "" || inputTo.value === "") {
-    durationContainer.innerHTML = "Please fill the fields before searching !"
+    notificationContainer.innerHTML = "Please fill the fields before searching !"
     return;
   }
 
@@ -31,13 +31,17 @@ async function getPOIs() {
   let response = await window.DETOUR.routeHelper.generateRoute(directionRequest)
   pois = response.pois;
 
+  console.log(response)
+
+  // var duration = window.moment.duration(response.duration, 'seconds');
+
   displayItineraryDuration(response.duration)
 
   renderList(pois);
 }
 
 function displayItineraryDuration(duration) {
-  durationContainer.innerHTML = `This route will take you : ${duration}`
+  notificationContainer.innerHTML = `This route will take you : ${duration}`
 }
 
 function renderList(data) {
