@@ -6,36 +6,69 @@ class DetourRoutes {
     this.renderer = new google.maps.DirectionsRenderer();
     this.renderer.setMap(map);
     this.travelMode = 'DRIVING';
+    this.spacing = 10000;
+
+    // TODO : Externalize
+    this.axios = axios.create({
+      baseURL: 'http://localhost:8000/api'
+    });
+
   }
 
+  /**
+   * This method does in order :
+   *  - API Call to google MAPS
+   *  - Renders the result of MAPS API on the map
+   *  - Calculate a spacing for the coordinates where we will make a POI search
+   *  - Make a call to Detour api
+   *  - Orders the resulting pois
+   *  - Display a Maker on the map for each poi
+   */
   generateRoute(directionRequest) {
 
     directionRequest.travelMode = this.travelMode;
 
-    this.service.route(directionRequest, (response, status) => {
+    this.service.route(directionRequest, async (response, status) => {
 
           if (status !== 'OK') {
             console.log("GMAP API CALL TO DIRECTION FAILED : ", status)
           }
 
-          console.log(response, response.routes[0])
-
           // Draw itinerary on map
           this.renderItinerary(response);
 
-          let spacedCoords = this.getSpacedCoordsFromRoute(response.routes[0], 10000)
-          this.getPoisFromDB(spacedCoords)
+          // Store current route
+          this.currentRoute = response.routes[0];
+
+          // Calculate a list of coordinates from where we will request POIs
+          let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
+
+          // Get the POIs close to the the spacedCoords
+          let detourPois = await this.getPoisFromDB(spacedCoords)
+
+          // Order the POIs from the Origin of the route
+          this.orderPoisFromOrigin(detourPois)
+
+          // For each POI, display a custom Marker on the map
+          detourPois.forEach((poi, i) => {
+            this.addMarker({lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
+          })
 
       });
 
   }
 
+  /* Draws directionResults on map */
   renderItinerary(directionResults) {
     this.renderer.setDirections(directionResults);
   }
 
-  getSpacedCoordsFromRoute(directionsRoute, spacing) {
-    const overViewPath = directionsRoute.overview_path;
+  /**
+   * This method uses the overview_path of the currentRoute
+   * and return a list of coorinates spaced by about the spacing parameter
+   */
+  getSpacedCoordsFromRoute(spacing) {
+    const overViewPath = this.currentRoute.overview_path;
 
     let accumulator = 0;
     let previousCoords = {lat : overViewPath[0].lat(), lng : overViewPath[0].lng() };
@@ -65,20 +98,51 @@ class DetourRoutes {
 
   }
 
-  getPoisFromDB(spacedCoords) {
+  /**
+   * This method makes a call to Detour's API
+   * And return the resulting Pois
+   */
+  async getPoisFromDB(spacedCoords) {
+    try {
 
-    // TODO DB API CALL
-    spacedCoords.forEach(coord => {
-      this.addMarker(coord)
-    })
+      // Detour API Call
+      const results = await this.axios.post("/poi/list", { coordinates : spacedCoords} )
+      return results.data.pois;
 
+    } catch (error) {
+      console.log("ERROR getPoisFromDB : ", error)
+    }
   }
 
-  addMarker(coord) {
-    let m = new google.maps.Marker({ position: coord })
+  /* Add a marker on the map */
+  addMarker(coord, label) {
+    let m = new google.maps.Marker({ position: coord, label : label})
     m.setMap(this.map);
   }
 
+  /**
+   * This method sorts the POIs
+   * From the Origin point of the current route
+   */
+  orderPoisFromOrigin(pois) {
+    const originCoords = this.getStartLocationCoordinates();
+
+    pois.sort((a, b ) => {
+      return this.geoSpatialDist(originCoords.lat, originCoords.lng, a.coordinates.lat, a.coordinates.lng) - this.geoSpatialDist(originCoords.lat, originCoords.lng, b.coordinates.lat, b.coordinates.lng);
+    })
+
+    return pois;
+  }
+
+  /* Get the coordinates of the origin of the current route */
+  getStartLocationCoordinates() {
+    if (!this.currentRoute) { return null }
+
+    return {
+      lat : this.currentRoute.legs[0].start_location.lat(),
+      lng : this.currentRoute.legs[0].start_location.lng()
+    }
+  }
 
   // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
   // Alex tested for accuracy

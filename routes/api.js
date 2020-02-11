@@ -9,6 +9,7 @@ router.get("/poi/query", (req, res, next) => {
 
     if (!req.query || !req.query.lat || !req.query.lng) {
       res.json({error : 'Wrong query parameters'})
+      return;
     }
 
     dbQuery.location = {
@@ -44,5 +45,34 @@ router.get("/poi/query", (req, res, next) => {
     }).catch(next)
 
 });
+
+router.post("/poi/list", (req, res, next) => {
+
+  if (!req.body || !req.body.coordinates) {
+    res.json({error : 'Wrong query parameters'})
+    return;
+  }
+
+  const coordList = req.body.coordinates;
+
+  mongoGEOList = [];
+  queryRadius  = req.body.radius || defaultRadius;
+  queryRadiusRAD  = queryRadius / 1000 / 6371; // Convert in Radians
+  coordList.forEach(coord => {
+    mongoGEOList.push({ location : {
+        $geoWithin: { $centerSphere: [ [coord.lng, coord.lat], queryRadiusRAD] }
+      } } )
+  })
+
+  const dbQuery = {$or : mongoGEOList}
+
+  poiModel.find(dbQuery).then(results => {
+    res.json({
+      pois : results,
+      total : results.length
+    })
+  }).catch(next)
+
+})
 
 module.exports = router;
