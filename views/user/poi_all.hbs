@@ -1,11 +1,11 @@
 <div class="container">
-    <h1 class="is-size-3 has-text-centered">List of your Points of Interest</h1>
+    <h1 class="is-size-3 has-text-centered">Your Points of Interest</h1>
 </div>
 
 <div class="section">
-    <div class="columns">
+    <div class="columns is-multiline">
         {{#each userPois}}
-        <div class="column is-one-quarter">
+        <div class="column is-one-quarter" data-poi="{{this._id}}">
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-4by3">

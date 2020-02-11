@@ -202,9 +202,9 @@ router.delete("/poi/delete/:id/:id_poi", checkLoginStatus, (req, res, next) => {
   poiModel
     .findByIdAndDelete(req.params.id_poi)
     .then(dbRes => {
-      res.redirect("/user/poi/all/" + req.params.id);
+      res.json("/user/poi/all/" + req.params.id);
     })
-    .catch(next);
+    .catch(err => res.json({ error: err }));
 });
 
 module.exports = router;

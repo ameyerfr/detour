@@ -8,11 +8,11 @@
   <title>Detour</title>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-  {{#if gmapsk }}
   <script type="text/javascript" src="/js/DetourRoutes.js"></script>
-  <script type="text/javascript" src="/js/maps.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+  {{#if gmapsk }}
   <script async defer src="https://maps.googleapis.com/maps/api/js?key={{gmapsk}}&callback=initMap"></script>
-  <!-- <link rel="stylesheet" href="/stylesheets/maps.css"> -->
   {{/if}}
 
   {{#each scripts}}
