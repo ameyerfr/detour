@@ -16,57 +16,51 @@ const checkLoginStatus = require("../middlewares/checkLoginStatus");
 ///////////////////////
 
 router.get("/profile/:id", checkLoginStatus, (req, res, next) => {
-    res.render("user/profile", {user:req.session.currentUser, { scripts: ["user"] }});
+  res.render("user/profile", { user: req.session.currentUser, scripts: ["user"] });
 });
 
 router.get("/password-edit/:id", checkLoginStatus, (req, res, next) => {
-    res.render("user/password-edit", {user:req.session.currentUser, { scripts: ["user"] }});
+  res.render("user/password-edit", { user: req.session.currentUser, scripts: ["user"] });
 });
 
 //profile update : password
 router.post("/password-edit/:id", checkLoginStatus, (req, res, next) => {
+  var current_pwd = req.body.current_pwd;
+  var new_pwd1 = req.body.new_pwd1;
+  var new_pwd2 = req.body.new_pwd2;
 
-    var current_pwd = req.body.current_pwd;
-    var new_pwd1=req.body.new_pwd1;
-    var new_pwd2=req.body.new_pwd2;
+  //password typing ok
+  if (new_pwd1 == new_pwd2) {
+    userModel
+      .findOne({ _id: req.session.currentUser._id })
+      .then(user => {
+        //current password ok
+        if (bcryptjs.compareSync(current_pwd, user.password)) {
+          const salt = bcryptjs.genSaltSync(10);
+          const hashed = bcryptjs.hashSync(new_pwd1, salt);
 
-    //password typing ok
-    if (new_pwd1==new_pwd2) {
-
-        userModel
-        .findOne({ _id: req.session.currentUser._id })
-        .then(user => {
-
-            //current password ok
-            if (bcryptjs.compareSync(current_pwd, user.password)) {
-
-                const salt = bcryptjs.genSaltSync(10);
-                const hashed = bcryptjs.hashSync(new_pwd1, salt);
-
-                userModel
-                .findByIdAndUpdate(req.params.id, {
-                    password: hashed
-                })
-                .then(() => {
-                    req.flash("success", "password updated");
-                    res.redirect("/user/profile/" + req.params.id)
-                })
-                .catch(next);
-            }
-            //current password nok
-            else {
-                req.flash("error", "current password invalid")
-                res.redirect("user//password-edit/" + req.params.id)
-            }
-        })
-        .catch(next);
-    }
-    else {
-        req.flash("error", "new password mismatch, please type it again")
-        res.redirect("user//password-edit/" + req.params.id)
-    }
-
-})
+          userModel
+            .findByIdAndUpdate(req.params.id, {
+              password: hashed
+            })
+            .then(() => {
+              req.flash("success", "password updated");
+              res.redirect("/user/profile/" + req.params.id);
+            })
+            .catch(next);
+        }
+        //current password nok
+        else {
+          req.flash("error", "current password invalid");
+          res.redirect("user//password-edit/" + req.params.id);
+        }
+      })
+      .catch(next);
+  } else {
+    req.flash("error", "new password mismatch, please type it again");
+    res.redirect("user//password-edit/" + req.params.id);
+  }
+});
 
 //profile update : data (preferences)
 router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
