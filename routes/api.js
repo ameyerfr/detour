@@ -55,16 +55,42 @@ router.post("/poi/list", (req, res, next) => {
 
   const coordList = req.body.coordinates;
 
-  mongoGEOList = [];
+  // Construct a list of OR closes
+  // To find POIs around each coordinate
+  orGeoLIST = [];
   queryRadius  = req.body.radius || defaultRadius;
   queryRadiusRAD  = queryRadius / 1000 / 6371; // Convert in Radians
   coordList.forEach(coord => {
-    mongoGEOList.push({ location : {
-        $geoWithin: { $centerSphere: [ [coord.lng, coord.lat], queryRadiusRAD] }
-      } } )
+    orGeoLIST.push({ location : { $geoWithin: { $centerSphere: [ [coord.lng, coord.lat], queryRadiusRAD] } } })
   })
 
-  const dbQuery = {$or : mongoGEOList}
+  // Construct a list of OR closes
+  orUserLIST = [];
+  // If user_id present, return all general pois in area + user's pois
+  if (req.session.currentUser) {
+    orUserLIST.push(
+      {user_id : {$exists: false}},
+      {user_id : {$exists: true, $eq: null}},
+      {user_id : {$exists: true, $eq: req.session.currentUser._id }}
+    )
+  }
+  //  return only general pois in area
+  else {
+    // Where user_id field is not present
+    // Or user_id = null
+    orUserLIST.push(
+      {user_id : {$exists: false}},
+      {user_id : {$exists: true, $eq: null}}
+    )
+  }
+
+  // Construct AND with nested OR query
+  const dbQuery = {
+    $and : [
+      {$or : orGeoLIST},
+      {$or : orUserLIST}
+    ]
+  }
 
   poiModel.find(dbQuery).then(results => {
     res.json({
