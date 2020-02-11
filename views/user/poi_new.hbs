@@ -1,55 +1,154 @@
-<h1>Create a new Point of Interest</h1>
+<div class="container">
+  <h1 class="is-size-3 has-text-centered">Add a Point of Interest</h1>
+</div>
 
-<form action="/user/poi/new/{{id}}" method="post">
+<div class="section">
 
-    <div>
-      <label for="title">POI title</label>
-      <input id="title" name="title" type="text" placeholder="Enter your new POI title" value="POI 1">
+  <div class="columns">
+    <div class="column is-one-half-tablet">
+      <div class="container">
+        <form action="/user/poi/new/{{id}}" method="post">
+
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Title</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" id="title" type="text" name="title" placeholder="Enter your new POI title"
+                    value="Title" required />
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="category">Category</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <div class="select is-primary">
+                    <select id="category" name="category">
+                      <{{#each categoryList}} {{#selectedCat this ../poi.category}} {{/selectedCat}} {{/each}} </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Description</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <textarea class="textarea" id="description" name="description"
+                    placeholder="Enter a description">Enter a description</textarea>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Address</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" id="address" name="address" type="text" placeholder="Enter an address"
+                    value="Enter an address" required />
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Latitude</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" id="lat" name="lat" type="number" placeholder="10" value="10" />
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Longitude</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" id="lng" name="lng" type="number" placeholder="10" value="10" />
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Website</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" id="url" name="url" type="text" placeholder="Enter an address"
+                    value="website.com" />
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Additional Information</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <textarea class="textarea" id="details" name="details"
+                    placeholder="Additional information">Enter Additional Information</textarea>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label"></label>
+            </div>
+            <div class="field-body">
+              <div class="field is-grouped is-grouped-centered">
+                <div class="control">
+                  <button class="button is-primary">Add to my List</button>
+                </div>
+                <div class="control">
+                  <button class="button is-primary is-light">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <div class="column">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d83998.94722645804!2d2.277020253057763!3d48.858837739372575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis!5e0!3m2!1sen!2sfr!4v1581332282076!5m2!1sen!2sfr"
+        width="100%" height="800" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+
     </div>
 
-    <div>
-        <label for="category">Choose POI category...</label>
-        <select name="category">
-        {{#each categoryList}}
-        {{#selectedCat this ../poi.category}}
-        {{/selectedCat}}
-        {{/each}}
-        </select>
-    </div>
-
-    <div>
-      <label for="description">Description</label>
-      <input id="description" name="description" type="text" placeholder="Enter your new POI description" value="description">
-    </div>
-
-    <div>
-      <label for="address">Address</label>
-      <input id="address" name="address" type="text" placeholder="Enter your new POI address" value="Address">
-    </div>
-
-    <div>
-      <label for="lat">Latitude</label>
-      <input id="lat" name="lat" type="number" placeholder="Enter your new POI latitude" value=5>
-    </div>
-
-    <div>
-      <label for="lng">Longitude</label>
-      <input id="lng" name="lng" type="number" placeholder="Enter your new POI longitude" value=5>
-    </div>
-
-    <div>
-      <label for="url">Website</label>
-      <input id="url" name="url" type="text" placeholder="Enter your new POI website" value="website.com">
-    </div>
-
-    <div>
-      <label for="details">Additional information</label>
-      <input id="details" name="details" type="text" placeholder="Enter any additional information" value="">
-    </div>
-
-    <button>Add to my POI list</button>
-  </form>
 
 
-
-
+  </div>
+</div>

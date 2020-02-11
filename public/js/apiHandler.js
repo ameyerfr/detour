@@ -6,6 +6,10 @@ export default class APIHandler {
   }
 
   getPOIList() {
-    return this.api.get("/poi/query?lat=48.803595&lng=2.201986");
+    return this.api.get("/api/poi/query?lat=48.803595&lng=2.201986");
+  }
+
+  deleteUserPOI(user_id, poi_id) {
+    return this.api.delete(`/poi/delete/${user_id}/${poi_id}`);
   }
 }

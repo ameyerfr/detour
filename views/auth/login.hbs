@@ -1,48 +1,47 @@
 <section class="hero is-fullheight">
     <div class="columns is-mobile is-centered is-vcentered" id="login-form">
         <div class="column is-one-third">
-            <div class="container">
+            <div class="box">
                 <h1 class="is-size-3 has-text-centered">Login</h1>
+                <form method="post" action="/login" id="form_login">
+
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="email" name="email" placeholder="Enter your email"
+                                value="pascal@gmail.com" required />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            {{!-- <span class="icon is-small is-right">
+                                <i class="fas fa-check"></i>
+                            </span> --}}
+                        </div>
+                        <!--<p class="help is-success">This email is valid</p>-->
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="password" name="password" placeholder="Enter your password"
+                                value="toto" required />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            {{!-- <span class="icon is-small is-right">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </span> --}}
+                        </div>
+                        <!--<<p class="help is-danger">This password is not valid</p>-->
+                    </div>
+
+                    <div class="field is-grouped is-grouped-centered">
+                        <div class="control">
+                            <button class="button is-primary">Log In</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <form method="post" action="/login" id="form_login">
-
-                <div class="field">
-                    <label class="label">Email</label>
-                    <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="email" name="email" placeholder="Enter your email"
-                            value="pascal@gmail.com" required />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-check"></i>
-                        </span>
-                    </div>
-                    <!--<p class="help is-success">This email is valid</p>-->
-                </div>
-
-                <div class="field">
-                    <label class="label">Password</label>
-                    <div class="control has-icons-left has-icons-right">
-                        <input class="input is-danger" type="password" name="password" placeholder="Enter your password"
-                            value="toto" required />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-key"></i>
-                        </span>
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </span>
-                    </div>
-                    <!--<<p class="help is-danger">This password is not valid</p>-->
-                </div>
-
-                <div class="field is-grouped is-grouped-centered">
-                    <div class="control">
-                        <button class="button is-primary">Log In</button>
-                    </div>
-                </div>
-            </form>
 
         </div>
     </div>
