@@ -3,6 +3,7 @@ const router = express.Router();
 const userModel = require("../models/User.model");
 const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
+const checkLoginStatus = require("../middlewares/checkLoginStatus");
 
 // TODO
 // /user/profile ( update password, preferences, deleted account)
@@ -20,7 +21,7 @@ router.get("/profile", (req, res, next) => {
 });
 
 //profile update : password
-router.post("/profile/password/:id", (req, res, next) => {
+router.post("/profile/password/:id", checkLoginStatus, (req, res, next) => {
 
     const { password } = req.body;
     const salt = bcryptjs.genSaltSync(10);
@@ -39,7 +40,7 @@ router.post("/profile/password/:id", (req, res, next) => {
 })
 
 //profile update : data (preferences) 
-router.post("/profile/data/:id", (req, res, next) => {
+router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
 
     const {
         preferences
@@ -59,7 +60,7 @@ router.post("/profile/data/:id", (req, res, next) => {
 
 
 //profile delete
-router.post("/profile/delete/:id", (req, res, next) => {
+router.post("/profile/delete/:id", checkLoginStatus, (req, res, next) => {
     userModel
     .findByIdAndDelete(req.params.id)
         .then(dbRes => {
@@ -78,7 +79,7 @@ router.post("/profile/delete/:id", (req, res, next) => {
 
 // CREATE
 
-router.get("/poi/new/:id", (req, res, next) => {
+router.get("/poi/new/:id", checkLoginStatus, (req, res, next) => {
     const categoryList = poiModel.schema.path('category').enumValues;
     res.render("user/poi_new", {id:req.params.id, categoryList})
 });
@@ -120,7 +121,8 @@ router.post("/poi/new/:id", (req, res, next) => {
 
 // READ ALL ( show all the user's personnal pois ) 
 
-router.get("/poi/all/:id", (req, res, next) => {
+router.get("/poi/all/:id", checkLoginStatus, (req, res, next) => {
+    
     poiModel
     .find({user_id: req.params.id})
     .then(userPois => {
@@ -132,7 +134,7 @@ router.get("/poi/all/:id", (req, res, next) => {
 
 // READ ONE ( show one of the user's personnal pois ) 
 
-router.get("/poi/:id/:id_poi", (req, res, next) => {
+router.get("/poi/:id/:id_poi", checkLoginStatus, (req, res, next) => {
 
     poiModel
     .findOne({_id: req.params.id_poi})
@@ -147,7 +149,7 @@ router.get("/poi/:id/:id_poi", (req, res, next) => {
 
 // UPDATE
 
-router.get("/poi/edit/:id/:id_poi", (req, res, next) => {
+router.get("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
 
     const categoryList = poiModel.schema.path('category').enumValues;
 
@@ -160,7 +162,7 @@ router.get("/poi/edit/:id/:id_poi", (req, res, next) => {
 });
 
 
-router.post("/poi/edit/:id/:id_poi", (req, res, next) => {
+router.post("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
     
     const {
         title, 
@@ -198,7 +200,7 @@ router.post("/poi/edit/:id/:id_poi", (req, res, next) => {
 
 
 // DELETE
-router.get("/poi/delete/:id/:id_poi", (req, res, next) => {
+router.get("/poi/delete/:id/:id_poi", checkLoginStatus, (req, res, next) => {
     
     poiModel
     .findByIdAndDelete(req.params.id_poi)
