@@ -1,6 +1,7 @@
 .logo {
     width: 125px;
-    // margin-bottom: 25px;
+    margin-bottom: 13px;
+    margin-left: -13px;
 }
 
 #main-navbar+div {
@@ -21,17 +22,22 @@
     height: calc(100vh - 60px);
 }
 
-#detour>div:nth-child(2) {
-    overflow: scroll;
+#search-itinerary-form .field-label {
+    flex-grow: 0;
+    margin-right: 0.5rem;
+    text-align: left;
+}
+
+#search-itinerary-form .field-body {
+    margin-right: 0.5rem;
 }
 
 #map {
     height: calc(100% - 80px);
 }
 
-#register-form,
-#login-form {
-    height: calc(100vh - 9.5rem);
+#detour>div:nth-child(2) {
+    overflow: scroll;
 }
 
 .poi-details {
@@ -55,20 +61,16 @@
     width: 100%;
 }
 
-#search-itinerary-form .field-label {
-    flex-grow: 0;
-    margin-right: 0.5rem;
-    text-align: left;
+#register-form,
+#login-form {
+    height: calc(100vh - 9.5rem);
 }
 
-#search-itinerary-form .field-body {
-    margin-right: 0.5rem;
-}
+
 
 .panel {
     background-color: gainsboro;
 }
-
 
 .notification.is-primary.is-light {
     background-color: #ebfffc;

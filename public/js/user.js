@@ -11,17 +11,21 @@ if (deletePOIBtns)
 function deleteUserPOI(userID, poiID, evt) {
   const deleteBtn = evt.target;
   deleteBtn.textContent = "Are you sure?";
-  deleteBtn.addEventListener("focusout", () => cancelDelete(deleteBtn));
-  deleteBtn.addEventListener("click", () => deleteBtn.classList.add("confirm"));
-  if (deleteBtn.classList.contains("confirm")) confirmDelete(deleteBtn);
-  function cancelDelete(el) {
-    el.textContent = "Delete";
-    el.classList.remove("confirm");
+  deleteBtn.classList.add("confirm");
+  deleteBtn.addEventListener("blur", cancelDelete);
+  deleteBtn.addEventListener("click", confirmDelete);
+  function cancelDelete() {
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.remove("confirm");
+    deleteBtn.removeEventListener("blur", cancelDelete);
+    deleteBtn.removeEventListener("click", confirmDelete);
   }
-  async function confirmDelete(el) {
+  async function confirmDelete() {
     try {
-      await detour.deleteUserPOI(userID, poiID);
-      document.querySelector(`[data-poi="${poiID}"]`).remove();
+      if (deleteBtn.classList.contains("confirm")) {
+        await detour.deleteUserPOI(userID, poiID);
+        document.querySelector(`[data-poi="${poiID}"]`).remove();
+      }
     } catch (error) {
       console.log("Unable to delete POI");
     }

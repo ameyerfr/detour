@@ -8,6 +8,7 @@ $primary: hsl(171, 100%, 41%);
 $link: hsl(171, 100%, 41%);
 $panel-heading-padding: .5rem 1rem;
 $notification-padding: .25rem .5rem;
+$navbar-item-img-max-height: 2.5rem;
 // Import only what you need from Bulma
 @import "../../node_modules/bulma/bulma.sass";
 // @import "../../node_modules/bulma/sass/base/_all.sass";
