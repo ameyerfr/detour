@@ -17,27 +17,26 @@ const inputFrom = document.getElementById("direction-from");
 const inputTo = document.getElementById("direction-to");
 
 async function getPOIs() {
-
   if (inputFrom.value === "" || inputTo.value === "") {
-    durationContainer.innerHTML = "Please fill the fields before searching !"
+    durationContainer.innerHTML = "Please fill the fields before searching !";
     return;
   }
 
   let directionRequest = {
-    origin: {query:inputFrom.value},
-    destination: {query: inputTo.value}
+    origin: { query: inputFrom.value },
+    destination: { query: inputTo.value }
   };
 
-  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest)
+  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest);
   pois = response.pois;
 
-  displayItineraryDuration(response.duration)
+  displayItineraryDuration(response.duration);
 
   renderList(pois);
 }
 
 function displayItineraryDuration(duration) {
-  durationContainer.innerHTML = `This route will take you : ${duration}`
+  durationContainer.innerHTML = `This route will take you : ${duration}`;
 }
 
 function renderList(data) {
@@ -54,12 +53,16 @@ function renderItem(data) {
             <span class="poi-title">${data.title}</span>
         </a>
         <div class="poi-details is-hidden is-size-7">
-            <div>
-                <p>${data.description}</p>
-                <p>${data.address}</p>
-                <p>Lat: ${data.coordinates.lat}, Lng: ${data.coordinates.lng}</p>
+            <div class="poi-image"><img src="${data.image}"></div>
+            <div class="poi-detail">
+                  <p>${data.description}</p>
+                  <p>${data.address}</p>
+
+              </div>
+            <div class="buttons poi-actions">
+              <a class="button is-small is-fullwidth" href="https://www.google.com/maps/place/?q=place_id:${data.place_id}" target="_blank">View details</a>
+              <a class="button is-small is-fullwidth is-primary">Make a detour</a>
             </div>
-            <a href="#" class="button is-small">Make a detour</a>
         </div>
   `;
   const itemEl = document.createElement("div");
@@ -102,12 +105,13 @@ function filterPOIs() {
 }
 
 function initWithUrlParms() {
-
   let url = new URL(window.location.href);
   let origin = url.searchParams.get("origin");
   let destination = url.searchParams.get("destination");
 
-  if(origin == null || destination == null) { return }
+  if (origin == null || destination == null) {
+    return;
+  }
 
   inputFrom.value = origin;
   inputTo.value = destination;

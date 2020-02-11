@@ -7128,6 +7128,14 @@ label.panel-block {
   justify-content: space-between;
   align-items: center; }
 
+.poi-details .poi-image {
+  flex: 0 0 200px;
+  margin-right: 1rem; }
+
+.poi-details .poi-detail {
+  flex: 1;
+  margin-right: 1rem; }
+
 .full-width {
   width: 100%; }
 
@@ -7143,10 +7151,14 @@ label.panel-block {
   background-color: gainsboro; }
 
 #map {
-  height: calc(100% - 40px); }
+  height: calc(100% - 80px); }
 
 #home p {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem; }
+
+.notification.is-primary.is-light {
+  background-color: #ebfffc;
+  color: #00947e; }
 
 /*# sourceMappingURL=style.css.map */
