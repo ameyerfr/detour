@@ -1,0 +1,13 @@
+<h1>Your Profile</h1>
+
+<p>email: {{user.email}}</p>
+
+<label for="preferences" >Choose preferences</label>
+    <div class="form-item-wrapper">
+    <input type="checkbox" name="Museums">
+    <label value="Museums">Museums</label>
+    <input type="checkbox" name="Friends">
+    <label value="Friends">Friends</label>
+</div>
+
+<a href="/user/password-edit/{{user._id}}"><button>Change Password</button></a>
