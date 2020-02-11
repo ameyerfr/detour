@@ -12,12 +12,13 @@
     </div>
 
     <div id="main-navbar" class="navbar-menu">
+        {{#if isLoggedIn}}
         <div class="navbar-start">
-            <a class="navbar-item">
+            <a class="navbar-item" href="/user/poi/new/{{user_id}}">
                 Add a POI
             </a>
 
-            <a class="navbar-item">
+            <a class="navbar-item" href="/user/poi/all/{{user_id}}">
                 View your POIs
             </a>
 
@@ -40,7 +41,7 @@
                 </div>
             </div> --}}
         </div>
-
+        {{/if}}
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
