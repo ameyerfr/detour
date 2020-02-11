@@ -43,6 +43,8 @@ class DetourRoutes {
           // Store current route
           this.currentRoute = response.routes[0];
 
+          console.log(this.currentRoute)
+
           // Calculate a list of coordinates from where we will request POIs
           let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
 
@@ -57,7 +59,10 @@ class DetourRoutes {
             this.addMarker({lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
           })
 
-          resolve(detourPois);
+          resolve({
+            duration : this.getCurrentRouteDuration(),
+            pois : detourPois
+          });
 
       });
 
@@ -143,6 +148,10 @@ class DetourRoutes {
       lat : this.currentRoute.legs[0].start_location.lat(),
       lng : this.currentRoute.legs[0].start_location.lng()
     }
+  }
+
+  getCurrentRouteDuration() {
+    return this.currentRoute.legs[0].duration.value;
   }
 
   // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
