@@ -1,4 +1,5 @@
 module.exports = function checkLoginStatus(req, res, next) {
+
   res.locals.isLoggedIn = Boolean(req.session.currentUser);
   if (res.locals.isLoggedIn) {
     if (req.params.id == req.session.currentUser._id) {
