@@ -8,6 +8,7 @@ class DetourRoutes {
     this.travelMode = 'DRIVING';
     this.spacing = 10000;
     this.searchRadius = 20000;
+    this.markers = []
 
     // TODO : Externalize
     this.axios = axios.create({
@@ -29,6 +30,9 @@ class DetourRoutes {
 
     directionRequest.travelMode = this.travelMode;
 
+    // Reset
+    this.clearAllMarkers();
+    
     return new Promise((resolve, reject) => {
 
       this.service.route(directionRequest, async (response, status) => {
@@ -123,7 +127,15 @@ class DetourRoutes {
   /* Add a marker on the map */
   addMarker(coord, label) {
     let m = new google.maps.Marker({ position: coord, label : label})
+    this.markers.push(m)
     m.setMap(this.map);
+  }
+
+  clearAllMarkers() {
+    this.markers.forEach(m => {
+      m.setMap(null)
+    })
+    this.markers = [];
   }
 
   /**
