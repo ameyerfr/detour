@@ -3,6 +3,7 @@ const router = express.Router();
 const userModel = require("../models/User.model");
 const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
+const checkLoginStatus = require("../middlewares/checkLoginStatus");
 
 // TODO
 // /user/profile ( update password, preferences, deleted account)
@@ -20,7 +21,7 @@ router.get("/profile", (req, res, next) => {
 });
 
 //profile update : password
-router.post("/profile/password/:id", (req, res, next) => {
+router.post("/profile/password/:id", checkLoginStatus, (req, res, next) => {
 
     const { password } = req.body;
     const salt = bcryptjs.genSaltSync(10);
@@ -39,7 +40,7 @@ router.post("/profile/password/:id", (req, res, next) => {
 })
 
 //profile update : data (preferences) 
-router.post("/profile/data/:id", (req, res, next) => {
+router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
 
     const {
         preferences
@@ -59,7 +60,7 @@ router.post("/profile/data/:id", (req, res, next) => {
 
 
 //profile delete
-router.post("/profile/delete/:id", (req, res, next) => {
+router.post("/profile/delete/:id", checkLoginStatus, (req, res, next) => {
     userModel
     .findByIdAndDelete(req.params.id)
         .then(dbRes => {
@@ -78,30 +79,23 @@ router.post("/profile/delete/:id", (req, res, next) => {
 
 // CREATE
 
-router.get("/poi/new/:id", (req, res, next) => {
-    res.render("user/poi_new", {id:req.params.id})
+router.get("/poi/new/:id", checkLoginStatus, (req, res, next) => {
+    const categoryList = poiModel.schema.path('category').enumValues;
+    res.render("user/poi_new", {id:req.params.id, categoryList})
 });
 
 
 router.post("/poi/new/:id", (req, res, next) => {
 
-    console.log(req.body)
-
     const {
         title,
         description,
         image,
+        category,
         address,
         url,
         details
     } = req.body
-
-    if (req.body.Museums === 'on') {
-        var category = "Museums";
-    }
-    else if (req.body.Friends === 'on') {
-        var category = "Friends";
-    }
 
     poiModel
     .create({title, description, image, category,
@@ -119,7 +113,7 @@ router.post("/poi/new/:id", (req, res, next) => {
 
     .then( results => {
         req.flash("success", "poi successfully created")
-        res.redirect("/user/" + req.params.id + "/poi/all")
+        res.redirect("/user/poi/all/" + req.params.id)
     })
     .catch(next);
 
@@ -127,11 +121,12 @@ router.post("/poi/new/:id", (req, res, next) => {
 
 // READ ALL ( show all the user's personnal pois ) 
 
-router.get("/poi/all/:id", (req, res, next) => {
+router.get("/poi/all/:id", checkLoginStatus, (req, res, next) => {
+    
     poiModel
     .find({user_id: req.params.id})
     .then(userPois => {
-        res.render("user/poi_all", {userPois, id:req.params.id, isMultiple: true});
+        res.render("user/poi_all", {userPois, idUser:req.params.id, isMultiple: true});
     })
     .catch(next);
 });
@@ -139,12 +134,12 @@ router.get("/poi/all/:id", (req, res, next) => {
 
 // READ ONE ( show one of the user's personnal pois ) 
 
-router.get("/poi/:id/:id_poi", (req, res, next) => {
+router.get("/poi/:id/:id_poi", checkLoginStatus, (req, res, next) => {
 
     poiModel
     .findOne({_id: req.params.id_poi})
     .then(userPoi => {
-        res.render("user/poi_all", {userPois:[userPoi]});
+        res.render("user/poi_all", {userPois:[userPoi], idUser:req.params.id});
     })
     .catch(next);
 });
@@ -154,30 +149,35 @@ router.get("/poi/:id/:id_poi", (req, res, next) => {
 
 // UPDATE
 
-router.get("/poi/edit/:id/id_poi", (req, res, next) => {
+router.get("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
+
+    const categoryList = poiModel.schema.path('category').enumValues;
+
     poiModel
     .findOne({_id: req.params.id_poi})
-    .then(userPoi => {
-        res.render("user/poi_edit", {userPoi});
+    .then(poi => {
+        res.render("user/poi_edit", {poi, idUser:req.params.id, categoryList});
     })
     .catch(next);
 });
 
 
-router.post("/poi/edit/:id/id_poi", (req, res, next) => {
+router.post("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
     
     const {
         title, 
         description, 
         image,
+        category,
         address,
         url,
         details
     } = req.body
 
+
     poiModel
-    .findByIdAndUpdate(req.params.id-poiModel,
-        {title, description, image,
+    .findByIdAndUpdate(req.params.id_poi,
+        {title, description, image, category,
         coordinates: {
             lat: req.body.lat,
             lng: req.body.lng
@@ -192,7 +192,7 @@ router.post("/poi/edit/:id/id_poi", (req, res, next) => {
 
     .then(results => {
         req.flash("success", "poi successfully updated")
-        res.redirect("/user/" + req.params.id + "/poi/all")
+        res.redirect("/user/poi/all/" + req.params.id)
     })
     .catch(next);
 
@@ -200,13 +200,12 @@ router.post("/poi/edit/:id/id_poi", (req, res, next) => {
 
 
 // DELETE
-
-router.post("/poi/delete/:id/id_poi", (req, res, next) => {
+router.get("/poi/delete/:id/:id_poi", checkLoginStatus, (req, res, next) => {
+    
     poiModel
     .findByIdAndDelete(req.params.id_poi)
         .then(dbRes => {
-            console.log("poi deleted", dbRes);
-            res.redirect("/user/" + req.params.id + "/poi/all");
+            res.redirect("/user/poi/all/" + req.params.id);
         })
         .catch(next);
 })

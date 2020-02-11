@@ -1,5 +1,7 @@
 require("dotenv").config();
 require("./config/mongodb"); // database initial setup
+require("./helpers/hbs"); // utils for hbs templates
+
 
 // base dependencies
 const express = require("express");
@@ -10,6 +12,8 @@ const session = require("express-session");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const MongoStore = require("connect-mongo")(session);
+const checkLoginStatus = require("./middlewares/checkLoginStatus.js");
+
 
 // initial config
 app.use(

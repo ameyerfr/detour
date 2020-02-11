@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 class="is-size-3 has-text-centered">Add a Point of Interest</h1>
+  <h1 class="is-size-3 has-text-centered">Update a Point of Interest</h1>
 </div>
 
 <div class="section">
@@ -7,7 +7,7 @@
   <div class="columns">
     <div class="column is-one-half-tablet">
       <div class="container">
-        <form action="/user/poi/new/{{id}}" method="post">
+        <form action="/user/poi/edit/{{idUser}}/{{poi._id}}" method="post">
 
 
           <div class="field is-horizontal">
@@ -18,7 +18,7 @@
               <div class="field">
                 <p class="control">
                   <input class="input" id="title" type="text" name="title" placeholder="Enter your new POI title"
-                    value="Title" required />
+                    value="{{poi.title}}" required />
                 </p>
               </div>
             </div>
@@ -48,7 +48,7 @@
               <div class="field">
                 <p class="control">
                   <textarea class="textarea" id="description" name="description"
-                    placeholder="Enter a description">Enter a description</textarea>
+                    placeholder="Enter a description">{{poi.description}}</textarea>
                 </p>
               </div>
             </div>
@@ -62,7 +62,7 @@
               <div class="field">
                 <p class="control">
                   <input class="input" id="address" name="address" type="text" placeholder="Enter an address"
-                    value="Enter an address" required />
+                    value="{{poi.address}}" required />
                 </p>
               </div>
             </div>
@@ -75,7 +75,8 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input" id="lat" name="lat" type="number" placeholder="10" value="10" />
+                  <input class="input" id="lat" name="lat" type="number" placeholder="10"
+                    value="{{poi.coordinates.lat}}" />
                 </p>
               </div>
             </div>
@@ -88,7 +89,8 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input" id="lng" name="lng" type="number" placeholder="10" value="10" />
+                  <input class="input" id="lng" name="lng" type="number" placeholder="10"
+                    value="{{poi.coordinates.lng}}" />
                 </p>
               </div>
             </div>
@@ -102,7 +104,7 @@
               <div class="field">
                 <p class="control">
                   <input class="input" id="url" name="url" type="text" placeholder="Enter an address"
-                    value="website.com" />
+                    value="{{poi.url}}" />
                 </p>
               </div>
             </div>
@@ -116,7 +118,7 @@
               <div class="field">
                 <p class="control">
                   <textarea class="textarea" id="details" name="details"
-                    placeholder="Additional information">Enter Additional Information</textarea>
+                    placeholder="Additional information">{{poi.details}}</textarea>
                 </p>
               </div>
             </div>
@@ -129,10 +131,7 @@
             <div class="field-body">
               <div class="field is-grouped is-grouped-centered">
                 <div class="control">
-                  <button class="button is-primary">Add to my List</button>
-                </div>
-                <div class="control">
-                  <button class="button is-primary is-light">Reset</button>
+                  <button class="button is-primary">Update</button>
                 </div>
               </div>
             </div>

@@ -58,7 +58,7 @@
   vertical-align: top;
   width: 20px; }
   .delete::before, .modal-close::before, .delete::after, .modal-close::after {
-    background-color: aliceblue;
+    background-color: white;
     content: "";
     display: block;
     left: 50%;
@@ -262,7 +262,7 @@ th {
     text-align: left; }
 
 html {
-  background-color: aliceblue;
+  background-color: white;
   font-size: 16px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -1142,7 +1142,7 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   position: relative !important; }
 
 .box {
-  background-color: aliceblue;
+  background-color: white;
   border-radius: 6px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   color: #4a4a4a;
@@ -1156,7 +1156,7 @@ a.box:active {
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #00d1b2; }
 
 .button {
-  background-color: aliceblue;
+  background-color: white;
   border-color: #dbdbdb;
   border-width: 1px;
   color: #363636;
@@ -1966,7 +1966,7 @@ a.box:active {
     font-size: 1.5rem; }
   .button[disabled],
   fieldset[disabled] .button {
-    background-color: aliceblue;
+    background-color: white;
     border-color: #dbdbdb;
     box-shadow: none;
     opacity: 0.5; }
@@ -2322,7 +2322,7 @@ a.box:active {
     color: currentColor; }
   .notification code,
   .notification pre {
-    background: aliceblue; }
+    background: white; }
   .notification pre code {
     background: transparent; }
   .notification > .delete {
@@ -2491,7 +2491,7 @@ a.box:active {
     background-position: -200% 0; } }
 
 .table {
-  background-color: aliceblue;
+  background-color: white;
   color: #363636; }
   .table td,
   .table th {
@@ -2867,7 +2867,7 @@ a.tag:hover {
   vertical-align: top; }
 
 .input, .textarea, .select select {
-  background-color: aliceblue;
+  background-color: white;
   border-color: #dbdbdb;
   border-radius: 4px;
   color: #363636; }
@@ -3724,7 +3724,7 @@ a.tag:hover {
     content: "\0227B"; }
 
 .card {
-  background-color: aliceblue;
+  background-color: white;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   color: #4a4a4a;
   max-width: 100%;
@@ -3806,7 +3806,7 @@ a.tag:hover {
   z-index: 20; }
 
 .dropdown-content {
-  background-color: aliceblue;
+  background-color: white;
   border-radius: 4px;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
   padding-bottom: 0.5rem;
@@ -3913,7 +3913,7 @@ button.dropdown-item {
       display: flex; } }
 
 .list {
-  background-color: aliceblue;
+  background-color: white;
   border-radius: 4px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1); }
 
@@ -4143,7 +4143,7 @@ a.list-item {
   padding: 1.25em 1.5em; }
   .message-body code,
   .message-body pre {
-    background-color: aliceblue; }
+    background-color: white; }
   .message-body pre code {
     background-color: transparent; }
 
@@ -4221,14 +4221,14 @@ a.list-item {
 
 .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: aliceblue;
+  background-color: white;
   flex-grow: 1;
   flex-shrink: 1;
   overflow: auto;
   padding: 20px; }
 
 .navbar {
-  background-color: aliceblue;
+  background-color: white;
   min-height: 6.5rem;
   position: relative;
   z-index: 30; }
@@ -4847,7 +4847,7 @@ a.navbar-item,
   .navbar-link::after {
     display: none; }
   .navbar-menu {
-    background-color: aliceblue;
+    background-color: white;
     box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
     padding: 0.5rem 0; }
     .navbar-menu.is-active {
@@ -4939,7 +4939,7 @@ a.navbar-item,
     justify-content: flex-end;
     margin-left: auto; }
   .navbar-dropdown {
-    background-color: aliceblue;
+    background-color: white;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top: 2px solid #dbdbdb;
@@ -5226,7 +5226,7 @@ a.navbar-item,
   font-size: 1.25em;
   font-weight: 700;
   line-height: 1.25;
-  padding: 0.75em 1em; }
+  padding: 0.5rem 1rem; }
 
 .panel-tabs {
   align-items: flex-end;
@@ -5352,7 +5352,7 @@ label.panel-block {
       background-color: whitesmoke;
       border-bottom-color: #dbdbdb; }
   .tabs.is-boxed li.is-active a {
-    background-color: aliceblue;
+    background-color: white;
     border-color: #dbdbdb;
     border-bottom-color: transparent !important; }
   .tabs.is-fullwidth li {
@@ -7102,18 +7102,36 @@ label.panel-block {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem; }
 
+.logo {
+  width: 125px;
+  margin-bottom: 25px; }
+
 .columns {
   margin-left: inherit;
   margin-right: inherit; }
 
 #register-form,
 #login-form {
-  height: 100vh; }
+  height: calc(100vh - 9.5rem); }
 
 .poi-details {
   padding: 0.5em 0.75em;
   display: flex;
   justify-content: space-between;
   align-items: center; }
+
+.full-width {
+  width: 100%; }
+
+#search-itinerary-form .field-label {
+  flex-grow: 0;
+  margin-right: 0.5rem;
+  text-align: left; }
+
+#search-itinerary-form .field-body {
+  margin-right: 0.5rem; }
+
+.panel {
+  background-color: gainsboro; }
 
 /*# sourceMappingURL=style.css.map */

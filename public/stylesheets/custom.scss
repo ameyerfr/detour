@@ -1,3 +1,8 @@
+.logo {
+    width: 125px;
+    margin-bottom: 25px;
+}
+
 .columns {
     margin-left: inherit;
     margin-right: inherit;
@@ -5,7 +10,7 @@
 
 #register-form,
 #login-form {
-    height: 100vh;
+    height: calc(100vh - 9.5rem);
 }
 
 .poi-details {
@@ -13,4 +18,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.full-width {
+    width: 100%;
+}
+
+#search-itinerary-form .field-label {
+    flex-grow: 0;
+    margin-right: 0.5rem;
+    text-align: left;
+}
+
+#search-itinerary-form .field-body {
+    margin-right: 0.5rem;
+}
+
+.panel {
+    background-color: gainsboro;
 }
