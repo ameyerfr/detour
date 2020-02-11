@@ -12,9 +12,19 @@ clearSearchBtn.addEventListener("click", clearSearch);
 const poiList = document.getElementById("poi-list");
 let pois;
 
+const inputFrom = document.getElementById("direction-from");
+const inputTo = document.getElementById("direction-to");
+
 async function getPOIs() {
-  pois = await detour.getPOIList();
-  pois = pois.data.pois;
+
+  let directionRequest = {
+    origin: {query:inputFrom.value},
+    destination: {query: inputTo.value}
+  };
+
+  pois = await window.DETOUR.routeHelper.generateRoute(directionRequest)
+  console.log("generateRoute RESPONSE : ", pois)
+
   renderList(pois);
 }
 

@@ -7134,4 +7134,7 @@ label.panel-block {
 .panel {
   background-color: gainsboro; }
 
+#map {
+  height: 500px; }
+
 /*# sourceMappingURL=style.css.map */
