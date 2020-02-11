@@ -4,7 +4,7 @@ const poiModel = require("../models/Poi.model");
 
 
 
-// READ ALL ( show all the user's personnal pois ) 
+// READ ALL ( show all the user's personnal pois )
 
 router.get("/all", (req, res, next) => {
     poiModel
@@ -16,7 +16,7 @@ router.get("/all", (req, res, next) => {
 });
 
 
-// READ ONE ( show one of the user's personnal pois ) 
+// READ ONE ( show one of the user's personnal pois )
 
 router.get("/:id_poi", (req, res, next) => {
     poiModel
