@@ -75,13 +75,10 @@ router.post("/login", (req, res, next) => {
       if (bcryptjs.compareSync(user.password, dbRes.password)) {
         const { _doc: clone } = { ...dbRes }; 
 
-        
-
         delete clone.password;
-
-        console.log(user)
-
+        clone.id = dbRes._id
         req.session.currentUser = clone;
+
         return res.redirect("/user/poi/all/" + dbRes._id)
       } else {
         req.flash("error", "wrong credentials");
