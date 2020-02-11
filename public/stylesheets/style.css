@@ -7108,6 +7108,10 @@ label.panel-block {
 #main-navbar + div {
   margin-top: .5rem; }
 
+#home p {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem; }
+
 .columns {
   margin-left: inherit;
   margin-right: inherit; }
@@ -7117,6 +7121,9 @@ label.panel-block {
 
 #detour > div:nth-child(2) {
   overflow: scroll; }
+
+#map {
+  height: calc(100% - 80px); }
 
 #register-form,
 #login-form {
@@ -7150,15 +7157,21 @@ label.panel-block {
 .panel {
   background-color: gainsboro; }
 
-#map {
-  height: calc(100% - 80px); }
-
-#home p {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem; }
-
 .notification.is-primary.is-light {
   background-color: #ebfffc;
   color: #00947e; }
+
+.marker {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: #00d1b2;
+  color: white;
+  font-weight: bold;
+  font-size: small;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem; }
 
 /*# sourceMappingURL=style.css.map */

@@ -74,3 +74,17 @@
     background-color: #ebfffc;
     color: #00947e;
 }
+
+.marker {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: #00d1b2;
+    color: white;
+    font-weight: bold;
+    font-size: small;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+}

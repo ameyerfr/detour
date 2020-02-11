@@ -45,14 +45,14 @@ function displayItineraryDuration(duration) {
 
 function renderList(data) {
   poiList.innerHTML = "";
-  data.forEach(element => renderItem(element, poiList));
+  data.forEach((element, index) => renderItem(element, index));
 }
 
-function renderItem(data) {
+function renderItem(data, index) {
   const itemTplHTML = `
         <a class="panel-block">
-            <span class="panel-icon">
-                <i class="fas fa-eye" aria-hidden="true"></i>
+            <span class="marker">
+                ${index + 1}
             </span>
             <span class="poi-title">${data.title}</span>
         </a>
