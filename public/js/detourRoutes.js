@@ -7,6 +7,7 @@ class DetourRoutes {
     this.renderer.setMap(map);
     this.travelMode = 'DRIVING';
     this.spacing = 10000;
+    this.searchRadius = 20000;
 
     // TODO : Externalize
     this.axios = axios.create({
@@ -106,7 +107,7 @@ class DetourRoutes {
     try {
 
       // Detour API Call
-      const results = await this.axios.post("/poi/list", { coordinates : spacedCoords} )
+      const results = await this.axios.post("/poi/list", { coordinates : spacedCoords, radius : this.searchRadius } )
       return results.data.pois;
 
     } catch (error) {
