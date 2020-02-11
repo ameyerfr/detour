@@ -62,31 +62,34 @@ router.post("/password-edit/:id", checkLoginStatus, (req, res, next) => {
   }
 });
 
-//profile update : data (preferences)
-router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
-  const { preferences } = req.body;
 
-  userModel
-    .findByIdAndUpdate(req.params.id, {
-      preferences
-    })
-    .then(() => {
-      req.flash("success", "sneaker successfully added");
-      res.redirect("/user/profile");
-    })
-    .catch(next);
-});
+//account delete
+router.get("/delete/:id", checkLoginStatus, (req, res, next) => {
+    userModel
+      .findByIdAndDelete(req.params.id)
+      .then(dbRes => {
+        res.redirect("/register");
+      })
+      .catch(next);
+  });
 
-//profile delete
-router.post("/profile/delete/:id", checkLoginStatus, (req, res, next) => {
-  userModel
-    .findByIdAndDelete(req.params.id)
-    .then(dbRes => {
-      console.log("User account deleted", dbRes);
-      res.redirect("/register");
-    })
-    .catch(next);
-});
+// //profile update : data (preferences)
+// router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
+//   const { preferences } = req.body;
+
+//   userModel
+//     .findByIdAndUpdate(req.params.id, {
+//       preferences
+//     })
+//     .then(() => {
+//       req.flash("success", "sneaker successfully added");
+//       res.redirect("/user/profile");
+//     })
+//     .catch(next);
+// });
+
+
+
 
 ////////////////
 // USER POI CRUD

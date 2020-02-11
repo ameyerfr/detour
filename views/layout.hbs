@@ -7,19 +7,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Detour</title>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script type="text/javascript" src="/js/DetourRoutes.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
+
+  {{#if gmapsk }}
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{gmapsk}}&callback=initMap"></script>
+  {{/if}}
+
   {{#each scripts}}
   <script type="module" src="/js/{{this}}.js"></script>
   {{/each}}
 
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" />
-
-  {{#if gmapsk }}
-  <script type="text/javascript" src="/js/DetourRoutes.js"></script>
-  <script type="text/javascript" src="/js/maps.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{gmapsk}}&callback=initMap"></script>
-  <link rel="stylesheet" href="/stylesheets/maps.css">
-  {{/if}}
 
 </head>
 

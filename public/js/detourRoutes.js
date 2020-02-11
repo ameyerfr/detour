@@ -29,10 +29,12 @@ class DetourRoutes {
 
     directionRequest.travelMode = this.travelMode;
 
-    this.service.route(directionRequest, async (response, status) => {
+    return new Promise((resolve, reject) => {
+
+      this.service.route(directionRequest, async (response, status) => {
 
           if (status !== 'OK') {
-            console.log("GMAP API CALL TO DIRECTION FAILED : ", status)
+            reject({error : "GMAP API CALL TO DIRECTION FAILED : " + status})
           }
 
           // Draw itinerary on map
@@ -55,7 +57,11 @@ class DetourRoutes {
             this.addMarker({lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
           })
 
+          resolve(detourPois);
+
       });
+
+    });
 
   }
 
@@ -104,15 +110,9 @@ class DetourRoutes {
    * And return the resulting Pois
    */
   async getPoisFromDB(spacedCoords) {
-    try {
-
-      // Detour API Call
-      const results = await this.axios.post("/poi/list", { coordinates : spacedCoords, radius : this.searchRadius } )
-      return results.data.pois;
-
-    } catch (error) {
-      console.log("ERROR getPoisFromDB : ", error)
-    }
+    // Detour API Call
+    const results = await this.axios.post("/poi/list", { coordinates : spacedCoords, radius : this.searchRadius } )
+    return results.data.pois;
   }
 
   /* Add a marker on the map */
