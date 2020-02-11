@@ -10,6 +10,7 @@ searchCategory.addEventListener("click", searchByCategory);
 const clearSearchBtn = document.getElementById("clear-search-btn");
 clearSearchBtn.addEventListener("click", clearSearch);
 const poiList = document.getElementById("poi-list");
+const durationContainer = document.getElementById("itinerary-duration");
 let pois;
 
 const inputFrom = document.getElementById("direction-from");
@@ -17,15 +18,26 @@ const inputTo = document.getElementById("direction-to");
 
 async function getPOIs() {
 
+  if (inputFrom.value === "" || inputTo.value === "") {
+    durationContainer.innerHTML = "Please fill the fields before searching !"
+    return;
+  }
+
   let directionRequest = {
     origin: {query:inputFrom.value},
     destination: {query: inputTo.value}
   };
 
-  pois = await window.DETOUR.routeHelper.generateRoute(directionRequest)
-  console.log("generateRoute RESPONSE : ", pois)
+  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest)
+  pois = response.pois;
+
+  displayItineraryDuration(response.duration)
 
   renderList(pois);
+}
+
+function displayItineraryDuration(duration) {
+  durationContainer.innerHTML = `This route will take you : ${duration}`
 }
 
 function renderList(data) {
@@ -88,3 +100,19 @@ function filterPOIs() {
   });
   renderList(filteredPOIs);
 }
+
+function initWithUrlParms() {
+
+  let url = new URL(window.location.href);
+  let origin = url.searchParams.get("origin");
+  let destination = url.searchParams.get("destination");
+
+  if(origin == null || destination == null) { return }
+
+  inputFrom.value = origin;
+  inputTo.value = destination;
+
+  getItineraryBtn.click();
+}
+
+initWithUrlParms();
