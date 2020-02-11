@@ -1,11 +1,23 @@
 .logo {
     width: 125px;
-    margin-bottom: 25px;
+    // margin-bottom: 25px;
+}
+
+#main-navbar+div {
+    margin-top: .5rem;
 }
 
 .columns {
     margin-left: inherit;
     margin-right: inherit;
+}
+
+#detour {
+    height: calc(100vh - 60px);
+}
+
+#detour>div:nth-child(2) {
+    overflow: scroll;
 }
 
 #register-form,
@@ -38,6 +50,12 @@
     background-color: gainsboro;
 }
 
+
 #map {
-  height:500px;
+    height: calc(100% - 40px);
+}
+
+#home p {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
