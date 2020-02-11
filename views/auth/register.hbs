@@ -1,62 +1,62 @@
 <section class="hero is-fullheight">
     <div class="columns is-mobile is-centered is-vcentered" id="register-form">
         <div class="column is-one-third-tablet">
-            <div class="container">
+            <div class="box">
                 <h1 class="is-size-3 has-text-centered">Register</h1>
-            </div>
 
-            <form method="post" action="/register" id="form_register">
 
-                <div class="field">
-                    <label class="label">Email</label>
-                    <div class="control has-icons-left has-icons-right">
-                        <input class="input is-success" type="email" name="email" placeholder="Enter your email"
-                            value="pascal@gmail.com" required />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                        <span class="icon is-small is-right">
+                <form method="post" action="/register" id="form_register">
+
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="email" name="email" placeholder="Enter your email"
+                                value="pascal@gmail.com" required />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            {{!-- <span class="icon is-small is-right">
                             <i class="fas fa-check"></i>
-                        </span>
+                        </span> --}}
+                        </div>
+                        {{!-- <p class="help is-success">This email is valid</p> --}}
                     </div>
-                    <p class="help is-success">This email is valid</p>
-                </div>
 
-                <div class="field">
-                    <label class="label">Password</label>
-                    <div class="control has-icons-left has-icons-right">
-                        <input class="input" type="password" name="password" placeholder="Enter your password"
-                            value="toto" required />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-key"></i>
-                        </span>
-                        <span class="icon is-small is-right">
+                    <div class="field">
+                        <label class="label">Password</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="password" name="password" placeholder="Enter your password"
+                                value="toto" required />
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-key"></i>
+                            </span>
+                            {{!-- <span class="icon is-small is-right">
                             <i class="fas fa-exclamation-triangle"></i>
-                        </span>
+                        </span> --}}
+                        </div>
+                        <!--<p class="help is-danger">This password is not valid</p>-->
                     </div>
-                    <!--<p class="help is-danger">This password is not valid</p>-->
-                </div>
 
-                <div class="field">
-                    <div class="control">
-                        <label class="checkbox">
-                            <input type="checkbox" />
-                            I agree to the <a href="#">terms and conditions</a>
-                        </label>
+                    <div class="field">
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" />
+                                I agree to the <a href="#">terms and conditions</a>
+                            </label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="field is-grouped is-grouped-centered">
-                    <div class="control">
-                        <button class="button is-primary">Submit</button>
+                    <div class="field is-grouped is-grouped-centered">
+                        <div class="control">
+                            <button class="button is-primary">Submit</button>
+                        </div>
+                        <div class="control">
+                            <button class="button is-primary is-light">Cancel</button>
+                        </div>
                     </div>
-                    <div class="control">
-                        <button class="button is-primary is-light">Cancel</button>
-                    </div>
-                </div>
 
-            </form>
-
+                </form>
+            </div>
         </div>
     </div>
 </section>
