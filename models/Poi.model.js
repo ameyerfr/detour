@@ -31,7 +31,8 @@ const schema = new Schema({
     ref: "User"
   },
   url : String,
-  details : String
+  details : String,
+  place_id: String,
 });
 
 schema.index({ location: "2dsphere" });
