@@ -7114,6 +7114,9 @@ label.panel-block {
   background: url("/images/hp-background-cover-2.jpg") no-repeat top center;
   background-size: cover; }
 
+h1 {
+  margin-bottom: 1.5rem; }
+
 #home p {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem; }
@@ -7135,6 +7138,14 @@ label.panel-block {
 
 #map {
   height: calc(100% - 100px); }
+
+#select-category {
+  min-height: 2rem;
+  padding-left: .5rem;
+  padding-right: .5rem; }
+
+#select-category .navbar-dropdown {
+  padding: .5rem; }
 
 #poi-list {
   overflow: scroll;

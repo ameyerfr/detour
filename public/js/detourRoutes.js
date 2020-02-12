@@ -17,7 +17,9 @@ class DetourRoutes {
 
   }
 
-  addStopOver(coordinates) {
+  addStopOver(poi) {
+
+    let coordinates = poi.coordinates;
 
     this.directionRequest.waypoints = [{
       location : {lat:coordinates.lat, lng:coordinates.lng},
@@ -38,9 +40,15 @@ class DetourRoutes {
         // Draw itinerary on map
         this.renderItinerary(response);
 
+        // Give time for the render itinerary
         setTimeout(() => {
-          this.map.setZoom(10);
+
+          // Zoom map
+          this.map.setZoom(12);
+
+          // Move to POI
           this.map.panTo({lat:coordinates.lat, lng:coordinates.lng});
+
         }, 200)
 
     });
@@ -55,7 +63,7 @@ class DetourRoutes {
    *  - Orders the resulting pois
    *  - Display a Maker on the map for each poi
    */
-  generateRoute(directionRequest) {
+  generateRoute(directionRequest, categories) {
 
     directionRequest.travelMode = this.travelMode;
     this.directionRequest = directionRequest;
@@ -81,14 +89,14 @@ class DetourRoutes {
           let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
 
           // Get the POIs close to the the spacedCoords
-          let detourPois = await this.getPoisFromDB(spacedCoords)
+          let detourPois = await this.getPoisFromDB(spacedCoords, categories)
 
           // Order the POIs from the Origin of the route
           this.orderPoisFromOrigin(detourPois)
 
           // For each POI, display a custom Marker on the map
           detourPois.forEach((poi, i) => {
-            this.addMarker({lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
+            this.addMarker(poi._id, {lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
           })
 
           resolve({
@@ -146,15 +154,20 @@ class DetourRoutes {
    * This method makes a call to Detour's API
    * And return the resulting Pois
    */
-  async getPoisFromDB(spacedCoords) {
+  async getPoisFromDB(spacedCoords, categories) {
     // Detour API Call
-    const results = await this.axios.post("/poi/list", { coordinates : spacedCoords, radius : this.searchRadius } )
+    const results = await this.axios.post("/poi/list", {
+      coordinates : spacedCoords,
+      radius : this.searchRadius,
+      categories : categories
+    })
     return results.data.pois;
   }
 
   /* Add a marker on the map */
-  addMarker(coord, label) {
+  addMarker(id, coord, label) {
     let m = new google.maps.Marker({ position: coord, label : label})
+    m.set("id", id) // Embed the id of the poin into the marker
     this.markers.push(m)
     m.setMap(this.map);
   }
@@ -164,6 +177,14 @@ class DetourRoutes {
       m.setMap(null)
     })
     this.markers = [];
+  }
+
+  getMarkerByPoiId(id) {
+    for (let i = 0; i < this.markers.length; i++) {
+      if(this.markers[i].get("id") === id) {
+        return this.markers[i];
+      }
+    }
   }
 
   /**

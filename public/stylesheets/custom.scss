@@ -13,6 +13,10 @@
     background-size: cover;
 }
 
+h1 {
+    margin-bottom: 1.5rem;
+}
+
 #home p {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
@@ -39,6 +43,16 @@
 
 #map {
     height: calc(100% - 100px);
+}
+
+#select-category {
+    min-height: 2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+#select-category .navbar-dropdown {
+    padding: .5rem;
 }
 
 // #detour>div:nth-child(2) {
