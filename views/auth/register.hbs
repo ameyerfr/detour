@@ -1,57 +1,45 @@
 <section class="hero is-fullheight">
-    <div class="columns is-mobile is-centered is-vcentered" id="register-form">
+    <div class="columns is-centered is-vcentered" id="register-form">
         <div class="column is-one-third-tablet">
             <div class="box">
                 <h1 class="is-size-3 has-text-centered">Register</h1>
 
 
-                <form method="post" action="/register" id="form_register">
+                <form method="post" action="/register" id="form-register">
 
                     <div class="field">
-                        <label class="label">Email</label>
+                        <label class="label" for="email">Email</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" name="email" placeholder="Enter your email"
-                                value="pascal@gmail.com" required />
+                            <input class="input" type="email" name="email" id="email" placeholder="Enter your email"
+                                value="" required />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-envelope"></i>
                             </span>
-                            {{!-- <span class="icon is-small is-right">
-                            <i class="fas fa-check"></i>
-                        </span> --}}
+                            <span class="icon is-small is-right is-hidden" id="email-visual-feedback">
+                                <i class="fas"></i>
+                            </span>
                         </div>
-                        {{!-- <p class="help is-success">This email is valid</p> --}}
+                        <p class="help is-success is-hidden" id="email-text-feedback">This email is not valid</p>
                     </div>
 
                     <div class="field">
-                        <label class="label">Password</label>
+                        <label class="label" for="password">Password</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input class="input" type="password" name="password" placeholder="Enter your password"
-                                value="toto" required />
+                            <input class="input" type="password" name="password" id="password"
+                                placeholder="Enter your password" pattern="[A-Za-z0-9]{6,10}" value="" required />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-key"></i>
                             </span>
-                            {{!-- <span class="icon is-small is-right">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </span> --}}
+                            <span class="icon is-small is-right is-hidden" id="password-visual-feedback">
+                                <i class="fas"></i>
+                            </span>
                         </div>
-                        <!--<p class="help is-danger">This password is not valid</p>-->
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox">
-                                <input type="checkbox" />
-                                I agree to the <a href="#">terms and conditions</a>
-                            </label>
-                        </div>
+                        <p class="help is-danger is-hidden" id="password-text-feedback">This password is not valid</p>
                     </div>
 
                     <div class="field is-grouped is-grouped-centered">
                         <div class="control">
-                            <button class="button is-primary">Submit</button>
-                        </div>
-                        <div class="control">
-                            <button class="button is-primary is-light">Cancel</button>
+                            <button class="button is-primary" disabled id="submit-form">Submit</button>
                         </div>
                     </div>
 

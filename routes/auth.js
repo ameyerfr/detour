@@ -82,4 +82,12 @@ router.post("/login", (req, res, next) => {
     .catch(next);
 });
 
+router.get("/logout", (req, res, next) => {
+  req.session.destroy(() => {
+    res.locals.isLoggedIn = null;
+    res.locals.user_id = null;
+  });
+  res.redirect("/");
+});
+
 module.exports = router;
