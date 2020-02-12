@@ -31,3 +31,17 @@ function deleteUserPOI(userID, poiID, evt) {
     }
   }
 }
+
+//AUTOCOMPLETE ADDRESS
+var defaultBounds = new google.maps.LatLngBounds(
+  new google.maps.LatLng(51, -4.2),
+  new google.maps.LatLng(42.5, 7.1));
+
+var options = {
+  bounds: defaultBounds
+}
+
+var inputAddress = document.getElementById("address")
+//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+
+var autocomplete=new google.maps.places.Autocomplete(inputAddress, options)
