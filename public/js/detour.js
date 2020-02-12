@@ -1,5 +1,5 @@
 import APIHandler from "./APIHandler.js";
-const detour = new APIHandler("http://localhost:8000");
+const detour = new APIHandler();
 
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;

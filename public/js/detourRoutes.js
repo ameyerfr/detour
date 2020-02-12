@@ -9,12 +9,6 @@ class DetourRoutes {
     this.spacing = 10000;
     this.searchRadius = 20000;
     this.markers = []
-
-    // TODO : Externalize ?
-    this.axios = axios.create({
-      baseURL: 'http://localhost:8000/api'
-    });
-
   }
 
   addStopOver(poi) {
@@ -164,7 +158,7 @@ class DetourRoutes {
    */
   async getPoisFromDB(spacedCoords, categories) {
     // Detour API Call
-    const results = await this.axios.post("/poi/list", {
+    const results = await axios.post("/api/poi/list", {
       coordinates : spacedCoords,
       radius : this.searchRadius,
       categories : categories
