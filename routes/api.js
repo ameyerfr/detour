@@ -92,6 +92,15 @@ router.post("/poi/list", (req, res, next) => {
     ]
   }
 
+  // Optional categories
+  if ( req.body.categories && req.body.categories.length > 0) {
+     orCategoryList = []
+     req.body.categories.forEach(cat => {
+       orCategoryList.push({category : {$eq : cat}})
+     })
+     dbQuery.$and.push({$or : orCategoryList})
+  }
+
   poiModel.find(dbQuery).then(results => {
     res.json({
       pois : results,

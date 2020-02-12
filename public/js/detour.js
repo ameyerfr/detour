@@ -59,7 +59,7 @@ async function getPOIs() {
     destination: { query: inputTo.value }
   };
 
-  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest);
+  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, []);
   pois = response.pois;
 
   console.log("generateRoute response : ", response);
@@ -72,7 +72,7 @@ async function getPOIs() {
 }
 
 function makeADetour(poi) {
-  window.DETOUR.routeHelper.addStopOver(poi.coordinates);
+  window.DETOUR.routeHelper.addStopOver(poi)
 }
 
 function displayItineraryDuration(duration) {

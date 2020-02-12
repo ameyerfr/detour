@@ -5,11 +5,6 @@ const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
 
-// TODO
-// /user/profile ( update password, preferences, deleted account)
-// /user/poi/all ( show all the user's personnal pois )
-// /user/poi/new
-// /user/poi/edit/:id
 
 ///////////////////////
 // USER PROFIL & UPDATE
@@ -68,20 +63,6 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
     .catch(next);
 });
 
-// //profile update : data (preferences)
-// router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
-//   const { preferences } = req.body;
-
-//   userModel
-//     .findByIdAndUpdate(req.params.id, {
-//       preferences
-//     })
-//     .then(() => {
-//       req.flash("success", "sneaker successfully added");
-//       res.redirect("/user/profile");
-//     })
-//     .catch(next);
-// });
 
 ////////////////
 // USER POI CRUD
@@ -90,19 +71,27 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
 // CREATE
 
 router.get("/poi/new/:id", (req, res, next) => {
-  const categoryList = poiModel.schema.path("category").enumValues;
+  var categoryList = poiModel.schema.path("category").enumValues;
   res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user"] });
 });
 
 router.post("/poi/new/:id", (req, res, next) => {
-  const { title, description, image, category, address, url, details } = req.body;
+  var { title, description, image, category, address, url, details } = req.body;
+
+  //correction de la catégorie
+  if (category == "Michelin") {
+    category = "Michelin Restaurants"
+  }
+  else if (category == "Starred") {
+    category = "Starred Restaurants"
+  } 
 
   poiModel
     .create({
       title,
       description,
       image,
-      category,
+      category: category,
       coordinates: {
         lat: req.body.lat,
         lng: req.body.lng
@@ -149,7 +138,7 @@ router.get("/poi/:id/:id_poi", protectRoute, (req, res, next) => {
 // UPDATE
 
 router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
-  const categoryList = poiModel.schema.path("category").enumValues;
+  var categoryList = poiModel.schema.path("category").enumValues;
 
   poiModel
     .findOne({ _id: req.params.id_poi })
@@ -160,14 +149,25 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
 });
 
 router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
-  const { title, description, image, category, address, url, details } = req.body;
+
+  var { title, description, image, category, address, url, details } = req.body;
+
+  //correction de la catégorie
+  if (category == "Michelin") {
+    category = "Michelin Restaurants"
+  }
+  else if (category == "Starred") {
+    category = "Starred Restaurants"
+  } 
+
+  console.log(category)
 
   poiModel
     .findByIdAndUpdate(req.params.id_poi, {
       title,
       description,
       image,
-      category,
+      category: category,
       coordinates: {
         lat: req.body.lat,
         lng: req.body.lng

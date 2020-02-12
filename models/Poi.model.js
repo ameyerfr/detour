@@ -7,7 +7,7 @@ const schema = new Schema({
   image: String,
   category: {
     type: String,
-    enum: ["Friends", "Museums", "resto_michelin", "resto", "resto_etoile"],
+    enum: ["Friends", "Museums", "Michelin Restaurants", "Starred Restaurants", "Other"],
     required: true
   },
   coordinates: {
