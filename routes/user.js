@@ -3,7 +3,7 @@ const router = express.Router();
 const userModel = require("../models/User.model");
 const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
-const checkLoginStatus = require("../middlewares/checkLoginStatus");
+const protectRoute = require("../middlewares/protectRoute");
 
 // TODO
 // /user/profile ( update password, preferences, deleted account)
@@ -15,16 +15,16 @@ const checkLoginStatus = require("../middlewares/checkLoginStatus");
 // USER PROFIL & UPDATE
 ///////////////////////
 
-router.get("/profile/:id", checkLoginStatus, (req, res, next) => {
+router.get("/profile/:id", protectRoute, (req, res, next) => {
   res.render("user/profile", { user: req.session.currentUser, scripts: ["user"] });
 });
 
-router.get("/password-edit/:id", checkLoginStatus, (req, res, next) => {
+router.get("/password-edit/:id", protectRoute, (req, res, next) => {
   res.render("user/password-edit", { user: req.session.currentUser, scripts: ["user"] });
 });
 
 //profile update : password
-router.post("/password-edit/:id", checkLoginStatus, (req, res, next) => {
+router.post("/password-edit/:id", protectRoute, (req, res, next) => {
   var current_pwd = req.body.current_pwd;
   var new_pwd1 = req.body.new_pwd1;
   var new_pwd2 = req.body.new_pwd2;
@@ -62,16 +62,15 @@ router.post("/password-edit/:id", checkLoginStatus, (req, res, next) => {
   }
 });
 
-
 //account delete
-router.get("/delete/:id", checkLoginStatus, (req, res, next) => {
-    userModel
-      .findByIdAndDelete(req.params.id)
-      .then(dbRes => {
-        res.redirect("/register");
-      })
-      .catch(next);
-  });
+router.get("/delete/:id", protectRoute, (req, res, next) => {
+  userModel
+    .findByIdAndDelete(req.params.id)
+    .then(dbRes => {
+      res.redirect("/register");
+    })
+    .catch(next);
+});
 
 // //profile update : data (preferences)
 // router.post("/profile/data/:id", checkLoginStatus, (req, res, next) => {
@@ -88,16 +87,13 @@ router.get("/delete/:id", checkLoginStatus, (req, res, next) => {
 //     .catch(next);
 // });
 
-
-
-
 ////////////////
 // USER POI CRUD
 ////////////////
 
 // CREATE
 
-router.get("/poi/new/:id", checkLoginStatus, (req, res, next) => {
+router.get("/poi/new/:id", (req, res, next) => {
   const categoryList = poiModel.schema.path("category").enumValues;
   res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user"] });
 });
@@ -134,7 +130,7 @@ router.post("/poi/new/:id", (req, res, next) => {
 
 // READ ALL ( show all the user's personnal pois )
 
-router.get("/poi/all/:id", checkLoginStatus, (req, res, next) => {
+router.get("/poi/all/:id", protectRoute, (req, res, next) => {
   poiModel
     .find({ user_id: req.params.id })
     .then(userPois => {
@@ -145,7 +141,7 @@ router.get("/poi/all/:id", checkLoginStatus, (req, res, next) => {
 
 // READ ONE ( show one of the user's personnal pois )
 
-router.get("/poi/:id/:id_poi", checkLoginStatus, (req, res, next) => {
+router.get("/poi/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(userPoi => {
@@ -156,7 +152,7 @@ router.get("/poi/:id/:id_poi", checkLoginStatus, (req, res, next) => {
 
 // UPDATE
 
-router.get("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
+router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   const categoryList = poiModel.schema.path("category").enumValues;
 
   poiModel
@@ -167,7 +163,7 @@ router.get("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
     .catch(next);
 });
 
-router.post("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
+router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   const { title, description, image, category, address, url, details } = req.body;
 
   poiModel
@@ -198,7 +194,7 @@ router.post("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
 });
 
 // DELETE
-router.delete("/poi/delete/:id/:id_poi", checkLoginStatus, (req, res, next) => {
+router.delete("/poi/delete/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findByIdAndDelete(req.params.id_poi)
     .then(dbRes => {

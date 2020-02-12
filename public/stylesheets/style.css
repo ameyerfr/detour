@@ -7110,6 +7110,10 @@ label.panel-block {
 #main-navbar + div {
   margin-top: .5rem; }
 
+.with-background {
+  background: url("/images/hp-background-cover-2.jpg") no-repeat top center;
+  background-size: cover; }
+
 #home p {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem; }
@@ -7130,10 +7134,11 @@ label.panel-block {
   margin-right: 0.5rem; }
 
 #map {
-  height: calc(100% - 80px); }
+  height: calc(100% - 100px); }
 
-#detour > div:nth-child(2) {
-  overflow: scroll; }
+#poi-list {
+  overflow: scroll;
+  height: calc(100vh - 210px); }
 
 .poi-details {
   padding: 0.5em 0.75em;
@@ -7152,9 +7157,8 @@ label.panel-block {
 .full-width {
   width: 100%; }
 
-#register-form,
-#login-form {
-  height: calc(100vh - 9.5rem); }
+.full-height {
+  height: 100vh; }
 
 .panel {
   background-color: gainsboro; }
