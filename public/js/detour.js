@@ -40,7 +40,7 @@ async function getPOIs() {
 }
 
 function makeADetour(poi) {
-  window.DETOUR.routeHelper.addStopOver(poi.coordinates)
+  window.DETOUR.routeHelper.addStopOver(poi)
 }
 
 function displayItineraryDuration(duration) {
