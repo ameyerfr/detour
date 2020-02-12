@@ -2,21 +2,20 @@ const express = require("express");
 const router = new express.Router();
 const userModel = require("../models/User.model");
 const bcryptjs = require("bcryptjs");
-const flash = require("connect-flash");
 
 ////////////////////
 // REGISTER / SIGNUP
 ////////////////////
 
 router.get("/register", (req, res, next) => {
-  res.render("auth/register", { scripts: ["auth"] });
+  res.render("auth/register", { scripts: ["auth", "notification"] });
 });
 
 router.post("/register", (req, res, next) => {
   const user = req.body;
 
   if (!user.email || !user.password) {
-    req.flash("error", "no empty fields here please");
+    req.flash("error", "All fields are required");
     res.redirect("/register");
     return;
   } else {
@@ -26,7 +25,7 @@ router.post("/register", (req, res, next) => {
       })
       .then(dbRes => {
         if (dbRes) {
-          req.flash("error", "sorry, email is already taken");
+          req.flash("error", "Sorry, this email is already in use.");
           return res.redirect("/register");
         }
 
@@ -48,7 +47,7 @@ router.post("/register", (req, res, next) => {
 /////////////////
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", { scripts: ["auth"] });
+  res.render("auth/login", { scripts: ["auth", "notification"] });
 });
 
 router.post("/login", (req, res, next) => {

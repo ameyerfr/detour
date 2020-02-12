@@ -6,13 +6,12 @@ const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
 const axios = require('axios');
 
-
 ///////////////////////
 // USER PROFIL & UPDATE
 ///////////////////////
 
 router.get("/profile/:id", protectRoute, (req, res, next) => {
-  res.render("user/profile", { user: req.session.currentUser, scripts: ["user"] });
+  res.render("user/profile", { user: req.session.currentUser, scripts: ["user", "notification"] });
 });
 
 //profile update : password
@@ -64,7 +63,6 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
     .catch(next);
 });
 
-
 ////////////////
 // USER POI CRUD
 ////////////////
@@ -73,7 +71,11 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
 
 router.get("/poi/new/:id", (req, res, next) => {
   var categoryList = poiModel.schema.path("category").enumValues;
+<<<<<<< HEAD
+  res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user", "notification"] });
+=======
   res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user"] });
+>>>>>>> 76c27ea48e99aa18403e9cca1cc012caf92f9404
 });
 
 router.post("/poi/new/:id", (req, res, next) => {
@@ -81,8 +83,12 @@ router.post("/poi/new/:id", (req, res, next) => {
 
   //correction de la catégorie
   if (category == "Michelin") {
-    category = "Michelin Restaurants"
+    category = "Michelin Restaurants";
+  } else if (category == "Starred") {
+    category = "Starred Restaurants";
   }
+<<<<<<< HEAD
+=======
   else if (category == "Starred") {
     category = "Starred Restaurants"
   }
@@ -91,6 +97,7 @@ router.post("/poi/new/:id", (req, res, next) => {
   .then(dbRes => {
     var lat = dbRes.data.results[0].geometry.location.lat
     var lng = dbRes.data.results[0].geometry.location.lng
+>>>>>>> 76c27ea48e99aa18403e9cca1cc012caf92f9404
 
     poiModel
     .create({
@@ -127,7 +134,7 @@ router.get("/poi/all/:id", protectRoute, (req, res, next) => {
   poiModel
     .find({ user_id: req.params.id })
     .then(userPois => {
-      res.render("user/poi_all", { userPois, idUser: req.params.id, isMultiple: true, scripts: ["user"] });
+      res.render("user/poi_all", { userPois, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -138,7 +145,7 @@ router.get("/poi/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(userPoi => {
-      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, scripts: ["user"] });
+      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -151,23 +158,48 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(poi => {
+<<<<<<< HEAD
+      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, scripts: ["user", "notification"] });
+=======
       res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user"] });
+>>>>>>> 76c27ea48e99aa18403e9cca1cc012caf92f9404
     })
     .catch(next);
 });
 
 router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
-
   var { title, description, image, category, address, url, details } = req.body;
 
   //correction de la catégorie
   if (category == "Michelin") {
-    category = "Michelin Restaurants"
+    category = "Michelin Restaurants";
+  } else if (category == "Starred") {
+    category = "Starred Restaurants";
   }
-  else if (category == "Starred") {
-    category = "Starred Restaurants"
-  } 
 
+<<<<<<< HEAD
+  console.log(category);
+
+  poiModel
+    .findByIdAndUpdate(req.params.id_poi, {
+      title,
+      description,
+      image,
+      category: category,
+      coordinates: {
+        lat: req.body.lat,
+        lng: req.body.lng
+      },
+      location: {
+        type: "Point",
+        coordinates: [req.body.lng, req.body.lat]
+      },
+      address,
+      user_id: req.params.id,
+      url,
+      details
+    })
+=======
   axios.get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + address + "&key=" + process.env.GPLACES_KEY)
   .then(dbRes => {
     var lat = dbRes.data.results[0].geometry.location.lat
@@ -192,6 +224,7 @@ router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
         url,
         details
       })
+>>>>>>> 76c27ea48e99aa18403e9cca1cc012caf92f9404
 
       .then(results => {
         req.flash("success", "poi successfully updated");

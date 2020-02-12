@@ -12,6 +12,7 @@ const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const MongoStore = require("connect-mongo")(session);
 const checkLoginStatus = require("./middlewares/checkLoginStatus.js");
+const exposeFlashMessage = require("./middlewares/flashMessages");
 
 // initial config
 app.use(
@@ -44,6 +45,7 @@ app.use(
 
 app.use(flash());
 app.use(checkLoginStatus);
+app.use(exposeFlashMessage);
 
 // Routes
 app.use("/", require("./routes/index"));
