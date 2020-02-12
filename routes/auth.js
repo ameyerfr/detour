@@ -35,6 +35,7 @@ router.post("/register", (req, res, next) => {
         user.password = hashed;
 
         userModel.create(user).then(user => {
+          req.session.currentUser = user;
           res.redirect("/user/poi/all/" + user._id);
         });
       })
@@ -54,7 +55,7 @@ router.post("/login", (req, res, next) => {
   const user = req.body;
 
   if (!user.email || !user.password) {
-    req.flash("error", "wrong credentials");
+    req.flash("error", "Wrong credentials");
     return res.redirect("/login");
   }
 
@@ -62,7 +63,7 @@ router.post("/login", (req, res, next) => {
     .findOne({ email: user.email })
     .then(dbRes => {
       if (!dbRes) {
-        req.flash("error", "wrong credentials");
+        req.flash("error", "Wrong credentials");
         return res.redirect("/login");
       }
 
@@ -75,7 +76,7 @@ router.post("/login", (req, res, next) => {
 
         return res.redirect("/user/poi/all/" + dbRes._id);
       } else {
-        req.flash("error", "wrong credentials");
+        req.flash("error", "Wrong credentials");
         return res.redirect("/login");
       }
     })

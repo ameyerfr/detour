@@ -21,28 +21,7 @@
             <a class="navbar-item" href="/user/poi/all/{{user_id}}">
                 Your POIs
             </a>
-            <a class="navbar-item" href="/user/profile/{{user_id}}">
-                Your Profile
-            </a>
 
-            {{!-- <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link">
-                    More
-                </a>
-
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        About
-                    </a>
-                    <a class="navbar-item">
-                        Contact
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Report an issue
-                    </a>
-                </div>
-            </div> --}}
         </div>
         {{/if}}
         <div class="navbar-end">
@@ -57,6 +36,9 @@
                     </a>
                     {{/unless}}
                     {{#if isLoggedIn}}
+                    <a class="button" href="/user/profile/{{user_id}}">
+                        Edit profile
+                    </a>
                     <a class="button is-outlined" href="/logout">
                         Log out
                     </a>

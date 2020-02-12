@@ -3,15 +3,15 @@
         <div class="column is-one-third">
             <div class="box">
                 <h1 class="is-size-3 has-text-centered">Edit your Profile</h1>
-                <form method="post" action="" id="form-edit-profile">
+                <form method="post" action="/user/profile/{{idUser}}" id="form-update-password">
 
                     <div class="field">
-                        <label class="label">Email</label>
+                        <label class="label" for="current-password">Current Password</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" name="email" placeholder="Enter your email"
-                                value="{{user.email}}" required />
+                            <input class="input" type="password" name="current_pwd" placeholder="Enter your password"
+                                id="current-password" required />
                             <span class="icon is-small is-left">
-                                <i class="fas fa-envelope"></i>
+                                <i class="fas fa-key"></i>
                             </span>
                         </div>
                     </div>
@@ -20,7 +20,7 @@
                         <label class="label" for="password1">New Password</label>
                         <div class="control has-icons-left has-icons-right">
                             <input class="input" type="password" name="new_pwd1" placeholder="Enter your password"
-                                value="toto" id="password1" required />
+                                id="password1" required />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-key"></i>
                             </span>
@@ -31,7 +31,7 @@
                         <label class="label" for="password2">Retype New Password</label>
                         <div class="control has-icons-left has-icons-right">
                             <input class="input" type="password" name="new_pwd2" placeholder="Enter your password"
-                                value="toto" id="password2" required />
+                                id="password2" required />
                             <span class="icon is-small is-left">
                                 <i class="fas fa-key"></i>
                             </span>
@@ -40,13 +40,12 @@
 
                     <div class="field is-grouped is-grouped-centered">
                         <div class="control">
-                            <button class="button is-primary">Update</button>
+                            <button class="button is-primary">Update Password</button>
                         </div>
                         <div class="control">
                             <a href="/user/delete/{{user._id}}" class="button is-danger is-outlined">Delete Account</a>
                         </div>
                     </div>
-                    <a href="/user/password-edit/{{user._id}}"><button>Change Password</button></a>
             </div>
             </form>
         </div>

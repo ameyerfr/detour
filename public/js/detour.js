@@ -16,6 +16,38 @@ let pois;
 const inputFrom = document.getElementById("direction-from");
 const inputTo = document.getElementById("direction-to");
 
+const categoryListItems = document.getElementById("select-category").querySelectorAll("input[name]");
+const categoryAllItem = document.getElementById("all-categories");
+
+// Auto select categories when clicking ALL
+categoryAllItem.onclick = selectAllCategories;
+function selectAllCategories() {
+  categoryListItems.forEach(element => {
+    element.checked = categoryAllItem.checked ? true : false;
+  });
+}
+
+// Unckecked ALL when unckecking any other value
+categoryListItems.forEach((el, i) => {
+  if (i > 0) {
+    el.addEventListener("click", () => {
+      if (!el.checked) categoryAllItem.checked = false;
+    });
+  }
+});
+
+// Return selected categories in array, except the ALL value
+function getSelectedCategories() {
+  let selectedCategories = [];
+  categoryListItems.forEach((element, i) => {
+    if (element.checked && i > 0) selectedCategories.push(element.name);
+  });
+  if (selectedCategories.length === categoryListItems.length - 1) selectedCategories = [];
+  return selectedCategories;
+}
+
+getItineraryBtn.addEventListener("click", () => console.log(getSelectedCategories()));
+
 async function getPOIs() {
   if (inputFrom.value === "" || inputTo.value === "") {
     notificationContainer.innerHTML = "Please fill the fields before searching !";
