@@ -5,6 +5,8 @@ const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
 const axios = require('axios');
+const uploadCloud = require('../config/cloudinary.js');
+
 
 
 ///////////////////////
@@ -76,8 +78,16 @@ router.get("/poi/new/:id", (req, res, next) => {
   res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user"] });
 });
 
-router.post("/poi/new/:id", (req, res, next) => {
-  var { title, description, image, category, address, url, details } = req.body;
+router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
+
+  if (req.file) {
+    var image = req.file.secure_url;
+  } 
+  else {
+    var image="";
+  }
+
+  var { title, description, category, address, url, details } = req.body;
 
   //correction de la catégorie
   if (category == "Michelin") {
@@ -156,9 +166,16 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
     .catch(next);
 });
 
-router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
+router.post("/poi/edit/:id/:id_poi", protectRoute, uploadCloud.single("image"), (req, res, next) => {
 
-  var { title, description, image, category, address, url, details } = req.body;
+  if (req.file) {
+    var image = req.file.secure_url;
+  } 
+  else {
+    var image=req.body.imageOriginal;
+  }
+
+  var { title, description, category, address, url, details } = req.body;
 
   //correction de la catégorie
   if (category == "Michelin") {

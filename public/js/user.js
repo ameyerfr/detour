@@ -45,3 +45,8 @@ var inputAddress = document.getElementById("address")
 //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
 
 var autocomplete=new google.maps.places.Autocomplete(inputAddress, options)
+
+inputAddress.onchange = () => {
+  new google.maps.Marker({ position: coord, label : label})
+  m.setMap(this.map);
+}
