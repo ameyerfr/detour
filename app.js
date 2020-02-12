@@ -2,7 +2,6 @@ require("dotenv").config();
 require("./config/mongodb"); // database initial setup
 require("./helpers/hbs"); // utils for hbs templates
 
-
 // base dependencies
 const express = require("express");
 const hbs = require("hbs");
@@ -13,7 +12,6 @@ const mongoose = require("mongoose");
 const flash = require("connect-flash");
 const MongoStore = require("connect-mongo")(session);
 const checkLoginStatus = require("./middlewares/checkLoginStatus.js");
-
 
 // initial config
 app.use(
@@ -30,8 +28,6 @@ hbs.registerPartials(__dirname + "/views/partials");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
 // SESSION SETUP
 app.use(
   session({
@@ -47,6 +43,7 @@ app.use(
 );
 
 app.use(flash());
+app.use(checkLoginStatus);
 
 // Routes
 app.use("/", require("./routes/index"));
