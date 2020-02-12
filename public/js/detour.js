@@ -31,13 +31,17 @@ async function getPOIs() {
   let response = await window.DETOUR.routeHelper.generateRoute(directionRequest)
   pois = response.pois;
 
-  console.log(response)
+  console.log("generateRoute response : ", response)
 
   // var duration = window.moment.duration(response.duration, 'seconds');
 
   displayItineraryDuration(response.duration)
 
   renderList(pois);
+}
+
+function makeADetour(poi) {
+  window.DETOUR.routeHelper.addStopOver(poi.coordinates)
 }
 
 function displayItineraryDuration(duration) {
@@ -67,19 +71,30 @@ function renderItem(data) {
         </div>
   `;
   const itemEl = document.createElement("div");
+  itemEl.setAttribute("data-poi-id", data._id)
   itemEl.className = "poi-item";
   itemEl.innerHTML = itemTplHTML;
   poiList.appendChild(itemEl);
-  itemEl.addEventListener("click", expandItem);
+  itemEl.addEventListener("click", onPoiItemClick);
 }
 
-function expandItem(e) {
+function onPoiItemClick(e) {
   const allItems = document.querySelectorAll(".poi-details");
+
+  // Toggle details
   allItems.forEach(item => item.classList.add("is-hidden"));
   e.target
     .closest(".poi-item")
     .querySelector(".poi-details")
     .classList.remove("is-hidden");
+
+  // Make a Detour button
+  if (e.target.classList.contains('button')) {
+    let poiId = e.target
+                  .closest(".poi-item")
+                  .getAttribute('data-poi-id')
+    makeADetour(getPoiById(poiId))
+  }
 }
 
 function searchByCategory(e) {
@@ -103,6 +118,14 @@ function filterPOIs() {
     return element.category === categoryQuery && element.title.match(new RegExp(textQuery, "i"));
   });
   renderList(filteredPOIs);
+}
+
+function getPoiById(id) {
+  for (let i = 0; i < pois.length; i++) {
+    if(pois[i]._id === id) {
+      return pois[i];
+    }
+  }
 }
 
 function initWithUrlParms() {
