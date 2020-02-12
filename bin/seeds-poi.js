@@ -2,7 +2,7 @@ const poiModel = require("../models/Poi.model")
 const mongoose = require('mongoose');
 
 //data to insert
-const poi = require('./data/michelinFinal.json')
+const poi = require('./data/museumsFinal.json')
 
 mongoose
     .connect('mongodb://localhost/detour', {
