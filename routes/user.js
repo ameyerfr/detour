@@ -200,7 +200,6 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
     .catch(next);
 });
 
-<<<<<<< HEAD
 router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
 
   var { title, description, image, category, address, url, details } = req.body;
