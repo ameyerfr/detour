@@ -48,12 +48,19 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
+                    {{#unless isLoggedIn}}
                     <a class="button is-primary" href="/register">
                         Register
                     </a>
                     <a class="button is-outlined" href="/login">
                         Log in
                     </a>
+                    {{/unless}}
+                    {{#if isLoggedIn}}
+                    <a class="button is-outlined" href="/logout">
+                        Log out
+                    </a>
+                    {{/if}}
                 </div>
             </div>
         </div>

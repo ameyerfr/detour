@@ -4790,7 +4790,7 @@ a.navbar-item,
   flex-grow: 0;
   flex-shrink: 0; }
   .navbar-item img {
-    max-height: 1.75rem; }
+    max-height: 2.5rem; }
   .navbar-item.has-dropdown {
     padding: 0; }
   .navbar-item.is-expanded {
@@ -7103,7 +7103,9 @@ label.panel-block {
   padding: 3rem 1.5rem 6rem; }
 
 .logo {
-  width: 125px; }
+  width: 125px;
+  margin-bottom: 13px;
+  margin-left: -13px; }
 
 #main-navbar + div {
   margin-top: .5rem; }
@@ -7119,15 +7121,19 @@ label.panel-block {
 #detour {
   height: calc(100vh - 60px); }
 
-#detour > div:nth-child(2) {
-  overflow: scroll; }
+#search-itinerary-form .field-label {
+  flex-grow: 0;
+  margin-right: 0.5rem;
+  text-align: left; }
+
+#search-itinerary-form .field-body {
+  margin-right: 0.5rem; }
 
 #map {
   height: calc(100% - 80px); }
 
-#register-form,
-#login-form {
-  height: calc(100vh - 9.5rem); }
+#detour > div:nth-child(2) {
+  overflow: scroll; }
 
 .poi-details {
   padding: 0.5em 0.75em;
@@ -7146,13 +7152,9 @@ label.panel-block {
 .full-width {
   width: 100%; }
 
-#search-itinerary-form .field-label {
-  flex-grow: 0;
-  margin-right: 0.5rem;
-  text-align: left; }
-
-#search-itinerary-form .field-body {
-  margin-right: 0.5rem; }
+#register-form,
+#login-form {
+  height: calc(100vh - 9.5rem); }
 
 .panel {
   background-color: gainsboro; }
