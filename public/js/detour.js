@@ -8,7 +8,7 @@ searchInput.addEventListener("input", filterPOIs);
 const searchCategory = document.getElementById("poi-categories");
 searchCategory.addEventListener("click", searchByCategory);
 const clearSearchBtn = document.getElementById("clear-search-btn");
-clearSearchBtn.addEventListener("click", clearSearch);
+clearSearchBtn.addEventListener("click", initSearch);
 const poiList = document.getElementById("poi-list");
 const notificationContainer = document.getElementById("itinerary-notification");
 let pois;
@@ -30,17 +30,17 @@ async function getPOIs() {
   let response = await window.DETOUR.routeHelper.generateRoute(directionRequest);
   pois = response.pois;
 
-  console.log("generateRoute response : ", response)
+  console.log("generateRoute response : ", response);
 
   // var duration = window.moment.duration(response.duration, 'seconds');
 
   displayItineraryDuration(response.duration);
 
-  renderList(pois);
+  initSearch();
 }
 
 function makeADetour(poi) {
-  window.DETOUR.routeHelper.addStopOver(poi.coordinates)
+  window.DETOUR.routeHelper.addStopOver(poi.coordinates);
 }
 
 function displayItineraryDuration(duration) {
@@ -74,7 +74,7 @@ function renderItem(data, index) {
         </div>
   `;
   const itemEl = document.createElement("div");
-  itemEl.setAttribute("data-poi-id", data._id)
+  itemEl.setAttribute("data-poi-id", data._id);
   itemEl.className = "poi-item";
   itemEl.innerHTML = itemTplHTML;
   poiList.appendChild(itemEl);
@@ -92,11 +92,9 @@ function onPoiItemClick(e) {
     .classList.remove("is-hidden");
 
   // Make a Detour button
-  if (e.target.classList.contains('button')) {
-    let poiId = e.target
-                  .closest(".poi-item")
-                  .getAttribute('data-poi-id')
-    makeADetour(getPoiById(poiId))
+  if (e.target.classList.contains("button")) {
+    let poiId = e.target.closest(".poi-item").getAttribute("data-poi-id");
+    makeADetour(getPoiById(poiId));
   }
 }
 
@@ -108,8 +106,12 @@ function searchByCategory(e) {
   }
 }
 
-function clearSearch(e) {
+function initSearch() {
   searchInput.value = "";
+  document.querySelectorAll("#poi-categories a[data-category]").forEach(el => {
+    el.classList.remove("is-active");
+    if (el.dataset.category === "all") el.classList.add("is-active");
+  });
   filterPOIs(pois);
 }
 
@@ -125,7 +127,7 @@ function filterPOIs() {
 
 function getPoiById(id) {
   for (let i = 0; i < pois.length; i++) {
-    if(pois[i]._id === id) {
+    if (pois[i]._id === id) {
       return pois[i];
     }
   }
