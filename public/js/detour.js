@@ -5,8 +5,8 @@ const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
 const searchInput = document.getElementById("search-poi");
 searchInput.addEventListener("input", filterPOIs);
-const searchCategory = document.getElementById("poi-categories");
-searchCategory.addEventListener("click", searchByCategory);
+// const searchCategory = document.getElementById("poi-categories");
+// searchCategory.addEventListener("click", searchByCategory);
 const clearSearchBtn = document.getElementById("clear-search-btn");
 clearSearchBtn.addEventListener("click", initSearch);
 const poiList = document.getElementById("poi-list");
@@ -46,8 +46,6 @@ function getSelectedCategories() {
   return selectedCategories;
 }
 
-getItineraryBtn.addEventListener("click", () => console.log(getSelectedCategories()));
-
 async function getPOIs() {
   if (inputFrom.value === "" || inputTo.value === "") {
     notificationContainer.innerHTML = "Please fill the fields before searching !";
@@ -72,7 +70,7 @@ async function getPOIs() {
 }
 
 function makeADetour(poi) {
-  window.DETOUR.routeHelper.addStopOver(poi)
+  window.DETOUR.routeHelper.addStopOver(poi);
 }
 
 function displayItineraryDuration(duration) {
@@ -149,10 +147,13 @@ function initSearch() {
 
 function filterPOIs() {
   const textQuery = searchInput.value;
-  const categoryQuery = searchCategory.querySelector(".is-active").getAttribute("data-category");
+  // const categoryQuery = searchCategory.querySelector(".is-active").getAttribute("data-category");
+  // const filteredPOIs = pois.filter(element => {
+  //   if (categoryQuery === "all") return element.title.match(new RegExp(textQuery, "i"));
+  //   return element.category === categoryQuery && element.title.match(new RegExp(textQuery, "i"));
+  // });
   const filteredPOIs = pois.filter(element => {
-    if (categoryQuery === "all") return element.title.match(new RegExp(textQuery, "i"));
-    return element.category === categoryQuery && element.title.match(new RegExp(textQuery, "i"));
+    return element.title.match(new RegExp(textQuery, "i"));
   });
   renderList(filteredPOIs);
 }
