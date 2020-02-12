@@ -7180,4 +7180,10 @@ label.panel-block {
   align-items: center;
   margin-right: 1rem; }
 
+#base-duration {
+  margin: 0 10px; }
+
+#detour-duration {
+  font-weight: 800; }
+
 /*# sourceMappingURL=style.css.map */
