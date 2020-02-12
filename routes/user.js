@@ -93,8 +93,6 @@ router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
     category = "Michelin Restaurants";
   } else if (category == "Starred") {
     category = "Starred Restaurants";
-  } else if (category == "Starred") {
-    category = "Starred Restaurants";
   }
 
   axios
@@ -137,7 +135,7 @@ router.get("/poi/all/:id", protectRoute, (req, res, next) => {
   poiModel
     .find({ user_id: req.params.id })
     .then(userPois => {
-      res.render("user/poi_all", { userPois, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
+      res.render("user/poi_all", { userPois, gplacesk: process.env.GPLACES_KEY, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -148,7 +146,7 @@ router.get("/poi/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(userPoi => {
-      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, scripts: ["user", "notification"] });
+      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, gplacesk: process.env.GPLACES_KEY, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
