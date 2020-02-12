@@ -98,19 +98,37 @@ router.get("/delete/:id", checkLoginStatus, (req, res, next) => {
 // CREATE
 
 router.get("/poi/new/:id", checkLoginStatus, (req, res, next) => {
-  const categoryList = poiModel.schema.path("category").enumValues;
+  var categoryList = poiModel.schema.path("category").enumValues;
+  //correction de la category list pour affichage propre aux utilisateurs
+  categoryList = categoryList.map(cat => {
+    if (cat == "resto_michelin") {
+      cat = "Michelin Restaurants"
+    }
+    else if (cat == "resto_etoile") {
+      cat = "Starred Restaurants"
+    } 
+    return cat
+  });
   res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user"] });
 });
 
 router.post("/poi/new/:id", (req, res, next) => {
-  const { title, description, image, category, address, url, details } = req.body;
+  var { title, description, image, category, address, url, details } = req.body;
+
+  //correction de la catégorie corrigée
+  if (category == "Michelin") {
+    category = "resto_michelin"
+  }
+  else if (category == "Starred") {
+    category = "resto_etoile"
+  } 
 
   poiModel
     .create({
       title,
       description,
       image,
-      category,
+      category: category,
       coordinates: {
         lat: req.body.lat,
         lng: req.body.lng
@@ -157,25 +175,54 @@ router.get("/poi/:id/:id_poi", checkLoginStatus, (req, res, next) => {
 // UPDATE
 
 router.get("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
-  const categoryList = poiModel.schema.path("category").enumValues;
+  var categoryList = poiModel.schema.path("category").enumValues;
+
+  //correction de la category list pour affichage propre aux utilisateurs
+  categoryList = categoryList.map(cat => {
+    if (cat == "resto_michelin") {
+      cat = "Michelin Restaurants"
+    }
+    else if (cat == "resto_etoile") {
+      cat = "Starred Restaurants"
+    } 
+    return cat
+  });
 
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(poi => {
-      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, scripts: ["user"] });
+      //correction de la catégorie du POI pour être gérée dans le helper selectedCat
+      if (poi.category == "resto_michelin") {
+        var categoryPoi = "Michelin Restaurants"
+      }
+      else if (poi.category == "resto_etoile") {
+        var categoryPoi = "Starred Restaurants"
+      } 
+      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, categoryPoi, scripts: ["user"] });
     })
     .catch(next);
 });
 
 router.post("/poi/edit/:id/:id_poi", checkLoginStatus, (req, res, next) => {
-  const { title, description, image, category, address, url, details } = req.body;
+
+  var { title, description, image, category, address, url, details } = req.body;
+
+  //correction de la catégorie corrigée
+  if (category == "Michelin") {
+    category = "resto_michelin"
+  }
+  else if (category == "Starred") {
+    category = "resto_etoile"
+  } 
+
+  console.log(category)
 
   poiModel
     .findByIdAndUpdate(req.params.id_poi, {
       title,
       description,
       image,
-      category,
+      category: category,
       coordinates: {
         lat: req.body.lat,
         lng: req.body.lng
