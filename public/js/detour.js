@@ -1,4 +1,4 @@
-import APIHandler from "./APIHandler.js";
+import APIHandler from "./apiHandler.js";
 const detour = new APIHandler();
 
 const getItineraryBtn = document.getElementById("get-itinerary-btn");

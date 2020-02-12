@@ -1,4 +1,4 @@
-import APIHandler from "./APIHandler.js";
+import APIHandler from "./apiHandler.js";
 const detour = new APIHandler();
 
 // Delete POI for a user
