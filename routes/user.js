@@ -5,13 +5,12 @@ const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
 
-
 ///////////////////////
 // USER PROFIL & UPDATE
 ///////////////////////
 
 router.get("/profile/:id", protectRoute, (req, res, next) => {
-  res.render("user/profile", { user: req.session.currentUser, scripts: ["user"] });
+  res.render("user/profile", { user: req.session.currentUser, scripts: ["user", "notification"] });
 });
 
 //profile update : password
@@ -63,7 +62,6 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
     .catch(next);
 });
 
-
 ////////////////
 // USER POI CRUD
 ////////////////
@@ -72,7 +70,7 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
 
 router.get("/poi/new/:id", (req, res, next) => {
   var categoryList = poiModel.schema.path("category").enumValues;
-  res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user"] });
+  res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user", "notification"] });
 });
 
 router.post("/poi/new/:id", (req, res, next) => {
@@ -80,11 +78,10 @@ router.post("/poi/new/:id", (req, res, next) => {
 
   //correction de la catégorie
   if (category == "Michelin") {
-    category = "Michelin Restaurants"
+    category = "Michelin Restaurants";
+  } else if (category == "Starred") {
+    category = "Starred Restaurants";
   }
-  else if (category == "Starred") {
-    category = "Starred Restaurants"
-  } 
 
   poiModel
     .create({
@@ -119,7 +116,7 @@ router.get("/poi/all/:id", protectRoute, (req, res, next) => {
   poiModel
     .find({ user_id: req.params.id })
     .then(userPois => {
-      res.render("user/poi_all", { userPois, idUser: req.params.id, isMultiple: true, scripts: ["user"] });
+      res.render("user/poi_all", { userPois, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -130,7 +127,7 @@ router.get("/poi/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(userPoi => {
-      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, scripts: ["user"] });
+      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -143,24 +140,22 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(poi => {
-      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, scripts: ["user"] });
+      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
 
 router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
-
   var { title, description, image, category, address, url, details } = req.body;
 
   //correction de la catégorie
   if (category == "Michelin") {
-    category = "Michelin Restaurants"
+    category = "Michelin Restaurants";
+  } else if (category == "Starred") {
+    category = "Starred Restaurants";
   }
-  else if (category == "Starred") {
-    category = "Starred Restaurants"
-  } 
 
-  console.log(category)
+  console.log(category);
 
   poiModel
     .findByIdAndUpdate(req.params.id_poi, {

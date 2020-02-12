@@ -2,6 +2,7 @@
     <div class="columns is-centered is-vcentered full-height">
         <div class="column is-one-third">
             <div class="box">
+                {{>flash_message}}
                 <h1 class="is-size-3 has-text-centered">Edit your Profile</h1>
                 <form method="post" action="/user/profile/{{idUser}}" id="form-update-password">
 
