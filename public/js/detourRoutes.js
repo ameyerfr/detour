@@ -10,13 +10,42 @@ class DetourRoutes {
     this.searchRadius = 20000;
     this.markers = []
 
-    // TODO : Externalize
+    // TODO : Externalize ?
     this.axios = axios.create({
       baseURL: 'http://localhost:8000/api'
     });
 
   }
 
+  addStopOver(coordinates) {
+
+    this.directionRequest.waypoints = [{
+      location : {lat:coordinates.lat, lng:coordinates.lng},
+      stopover : false
+    }]
+
+    this.service.route(this.directionRequest, async (response, status) => {
+
+        console.log("addStopOver response : ", response)
+
+        if (status !== 'OK') {
+          reject({error : "GMAP API CALL TO DIRECTION FAILED : " + status})
+        }
+
+        // Store current route
+        this.detourRoute = response.routes[0];
+
+        // Draw itinerary on map
+        this.renderItinerary(response);
+
+        setTimeout(() => {
+          this.map.setZoom(10);
+          this.map.panTo({lat:coordinates.lat, lng:coordinates.lng});
+        }, 200)
+
+    });
+
+  }
   /**
    * This method does in order :
    *  - API Call to google MAPS
@@ -29,10 +58,11 @@ class DetourRoutes {
   generateRoute(directionRequest) {
 
     directionRequest.travelMode = this.travelMode;
+    this.directionRequest = directionRequest;
 
     // Reset
     this.clearAllMarkers();
-    
+
     return new Promise((resolve, reject) => {
 
       this.service.route(directionRequest, async (response, status) => {
@@ -46,8 +76,6 @@ class DetourRoutes {
 
           // Store current route
           this.currentRoute = response.routes[0];
-
-          console.log(this.currentRoute)
 
           // Calculate a list of coordinates from where we will request POIs
           let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
