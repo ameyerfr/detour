@@ -2,6 +2,19 @@
     <h1 class="is-size-3 has-text-centered">Your Points of Interest</h1>
 </div>
 
+{{#unless userPois}}
+<section class="hero is-fullheight">
+    <div class="columns is-centered is-vcentered">
+        <div class="column is-one-third ">
+            <div class="box">
+                <h2 class="is-size-4 has-text-centered">Add your own Points of Interest !</h2>
+                <h3 class="is-size-6 has-text-centered">By clicking <b>Add a POI</b> in the nav bar, you can add friends, museums or restaurant so you find them along the way</h3>
+            </div>
+        </div>
+    </div>
+</section>
+{{/unless}}
+
 <div class="section">
     <div class="columns is-multiline">
         {{#each userPois}}
