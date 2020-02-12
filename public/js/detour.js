@@ -1,5 +1,5 @@
-import APIHandler from "./APIHandler.js";
-const detour = new APIHandler("http://localhost:8000");
+import APIHandler from "./apiHandler.js";
+const detour = new APIHandler();
 
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
@@ -62,19 +62,29 @@ async function getPOIs() {
 
   console.log("generateRoute response : ", response);
 
-  // var duration = window.moment.duration(response.duration, 'seconds');
-
   displayItineraryDuration(response.duration);
 
   initSearch();
 }
 
-function makeADetour(poi) {
-  window.DETOUR.routeHelper.addStopOver(poi);
+async function makeADetour(poi) {
+  let response = await window.DETOUR.routeHelper.addStopOver(poi)
+  console.log("response : ", response)
+  displayDetourDuration(response.duration);
 }
 
 function displayItineraryDuration(duration) {
-  notificationContainer.innerHTML = `This route will take you : ${duration}`;
+  let d = humanizeSecondsDuration(duration);
+  notificationContainer.innerHTML = `
+  <span id="base-duration">This route will take you : <span id="base-duration-value">${d}</span></span>
+  <span id="detour-duration"></span>`;
+}
+
+function displayDetourDuration(duration) {
+  let detourDuration = humanizeSecondsDuration(duration.detourDuration);
+  let detourDiff     = humanizeSecondsDuration(duration.diff);
+  document.getElementById("base-duration-value").innerHTML = detourDuration;
+  document.getElementById("detour-duration").innerHTML = `Detour : <span id="detour-duration-value">${detourDiff}</span>`;
 }
 
 function renderList(data) {
@@ -156,6 +166,22 @@ function filterPOIs() {
     return element.title.match(new RegExp(textQuery, "i"));
   });
   renderList(filteredPOIs);
+}
+
+ /*
+  * day, h, m (and s)
+  */
+function humanizeSecondsDuration(seconds) {
+  var days     = Math.floor(seconds / (24*60*60));
+      seconds -= days    * (24*60*60);
+  var hours    = Math.floor(seconds / (60*60));
+      seconds -= hours   * (60*60);
+  var minutes  = Math.floor(seconds / (60));
+
+      // Unused - Remaining seconds
+      seconds -= minutes * (60);
+
+  return ((0<days)?(days+" day, "):"")+hours+"h and "+minutes+"min";
 }
 
 function getPoiById(id) {

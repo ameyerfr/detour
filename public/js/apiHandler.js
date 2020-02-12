@@ -1,8 +1,6 @@
 export default class APIHandler {
-  constructor(baseUrl) {
-    this.api = axios.create({
-      baseURL: baseUrl
-    });
+  constructor() {
+    this.api = axios.create();
   }
 
   deleteUserPOI(user_id, poi_id) {

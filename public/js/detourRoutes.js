@@ -9,12 +9,6 @@ class DetourRoutes {
     this.spacing = 10000;
     this.searchRadius = 20000;
     this.markers = []
-
-    // TODO : Externalize ?
-    this.axios = axios.create({
-      baseURL: 'http://localhost:8000/api'
-    });
-
   }
 
   addStopOver(poi) {
@@ -26,6 +20,7 @@ class DetourRoutes {
       stopover : false
     }]
 
+    return new Promise((resolve, reject) => {
     this.service.route(this.directionRequest, async (response, status) => {
 
         console.log("addStopOver response : ", response)
@@ -51,6 +46,13 @@ class DetourRoutes {
 
         }, 200)
 
+        resolve({ duration : {
+          originalDuration : this.getCurrentRouteDuration(),
+          detourDuration   : this.getAlternativeRouteDuration(),
+          diff             : this.getAlternativeRouteDurationDiff()
+        }})
+
+    });
     });
 
   }
@@ -156,7 +158,7 @@ class DetourRoutes {
    */
   async getPoisFromDB(spacedCoords, categories) {
     // Detour API Call
-    const results = await this.axios.post("/poi/list", {
+    const results = await axios.post("/api/poi/list", {
       coordinates : spacedCoords,
       radius : this.searchRadius,
       categories : categories
@@ -215,6 +217,13 @@ class DetourRoutes {
     return this.currentRoute.legs[0].duration.value;
   }
 
+  getAlternativeRouteDuration() {
+    return this.detourRoute.legs[0].duration.value;
+  }
+
+  getAlternativeRouteDurationDiff() {
+    return this.getAlternativeRouteDuration() - this.getCurrentRouteDuration();
+  }
   // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
   // Alex tested for accuracy
   geoSpatialDist(lat1, lon1, lat2, lon2) {
