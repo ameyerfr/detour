@@ -4,6 +4,7 @@ const userModel = require("../models/User.model");
 const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
+const axios = require('axios');
 
 
 ///////////////////////
@@ -14,12 +15,8 @@ router.get("/profile/:id", protectRoute, (req, res, next) => {
   res.render("user/profile", { user: req.session.currentUser, scripts: ["user"] });
 });
 
-router.get("/password-edit/:id", protectRoute, (req, res, next) => {
-  res.render("user/password-edit", { user: req.session.currentUser, scripts: ["user"] });
-});
-
 //profile update : password
-router.post("/password-edit/:id", protectRoute, (req, res, next) => {
+router.post("/profile/:id", protectRoute, (req, res, next) => {
   var current_pwd = req.body.current_pwd;
   var new_pwd1 = req.body.new_pwd1;
   var new_pwd2 = req.body.new_pwd2;
@@ -39,21 +36,21 @@ router.post("/password-edit/:id", protectRoute, (req, res, next) => {
               password: hashed
             })
             .then(() => {
-              req.flash("success", "password updated");
+              req.flash("success", "Password updated.");
               res.redirect("/user/profile/" + req.params.id);
             })
             .catch(next);
         }
         //current password nok
         else {
-          req.flash("error", "current password invalid");
-          res.redirect("user//password-edit/" + req.params.id);
+          req.flash("error", "Current password invalid.");
+          res.redirect("/user/profile/" + req.params.id);
         }
       })
       .catch(next);
   } else {
-    req.flash("error", "new password mismatch, please type it again");
-    res.redirect("user//password-edit/" + req.params.id);
+    req.flash("error", "New password mismatch, please retry.");
+    res.redirect("/user/profile/" + req.params.id);
   }
 });
 
@@ -76,7 +73,7 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
 
 router.get("/poi/new/:id", (req, res, next) => {
   var categoryList = poiModel.schema.path("category").enumValues;
-  res.render("user/poi_new", { id: req.params.id, categoryList, scripts: ["user"] });
+  res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user"] });
 });
 
 router.post("/poi/new/:id", (req, res, next) => {
@@ -88,33 +85,40 @@ router.post("/poi/new/:id", (req, res, next) => {
   }
   else if (category == "Starred") {
     category = "Starred Restaurants"
-  } 
+  }
+    
+  axios.get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + address + "&key=" + process.env.GPLACES_KEY)
+  .then(dbRes => {
+    var lat = dbRes.data.results[0].geometry.location.lat
+    var lng = dbRes.data.results[0].geometry.location.lng
 
-  poiModel
+    poiModel
     .create({
       title,
       description,
       image,
       category: category,
       coordinates: {
-        lat: req.body.lat,
-        lng: req.body.lng
+        lat: lat,
+        lng: lng
       },
       location: {
         type: "Point",
-        coordinates: [req.body.lng, req.body.lat]
+        coordinates: [lng, lat]
       },
       address,
       user_id: req.params.id,
       url,
       details
     })
-
     .then(results => {
       req.flash("success", "poi successfully created");
       res.redirect("/user/poi/all/" + req.params.id);
     })
     .catch(next);
+  })
+  .catch(next)
+
 });
 
 // READ ALL ( show all the user's personnal pois )
@@ -147,7 +151,7 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(poi => {
-      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, scripts: ["user"] });
+      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user"] });
     })
     .catch(next);
 });
@@ -164,33 +168,38 @@ router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
     category = "Starred Restaurants"
   } 
 
-  console.log(category)
+  axios.get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + address + "&key=" + process.env.GPLACES_KEY)
+  .then(dbRes => {
+    var lat = dbRes.data.results[0].geometry.location.lat
+    var lng = dbRes.data.results[0].geometry.location.lng
 
-  poiModel
-    .findByIdAndUpdate(req.params.id_poi, {
-      title,
-      description,
-      image,
-      category: category,
-      coordinates: {
-        lat: req.body.lat,
-        lng: req.body.lng
-      },
-      location: {
-        type: "Point",
-        coordinates: [req.body.lng, req.body.lat]
-      },
-      address,
-      user_id: req.params.id,
-      url,
-      details
-    })
+    poiModel
+      .findByIdAndUpdate(req.params.id_poi, {
+        title,
+        description,
+        image,
+        category: category,
+        coordinates: {
+          lat: lat,
+          lng: lng
+        },
+        location: {
+          type: "Point",
+          coordinates: [lng, lat]
+        },
+        address,
+        user_id: req.params.id,
+        url,
+        details
+      })
 
-    .then(results => {
-      req.flash("success", "poi successfully updated");
-      res.redirect("/user/poi/all/" + req.params.id);
+      .then(results => {
+        req.flash("success", "poi successfully updated");
+        res.redirect("/user/poi/all/" + req.params.id);
+      })
+      .catch(next);
     })
-    .catch(next);
+    .catch(next)
 });
 
 // DELETE

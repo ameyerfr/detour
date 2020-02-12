@@ -17,6 +17,10 @@
   <script async defer src="https://maps.googleapis.com/maps/api/js?key={{gmapsk}}&callback=initMap"></script>
   {{/if}}
 
+  {{#if gplacesk}}
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{gplacesk}}&libraries=places"></script>
+  {{/if}}
+
   {{#each scripts}}
   <script type="module" src="/js/{{this}}.js"></script>
   {{/each}}
@@ -28,6 +32,7 @@
 
 <body>
   {{>navigation}}
+  {{>flash_message}}
   {{{body}}}
 </body>
 

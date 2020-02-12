@@ -33,7 +33,10 @@
                 <div class="control">
                   <div class="select is-primary">
                     <select id="category" name="category">
-                      <{{#each categoryList}} {{#selectedCat this ../poi.category}} {{/selectedCat}} {{/each}} </select>
+                      {{#each categoryList}}
+                      <option value={{this}}>{{this}}</option>
+                      {{/each}}
+                      </select>
                   </div>
                 </div>
               </div>
@@ -52,7 +55,7 @@
                 </p>
               </div>
             </div>
-          </div>
+          </div> 
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
@@ -67,6 +70,7 @@
               </div>
             </div>
           </div>
+<!--
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
@@ -93,6 +97,8 @@
               </div>
             </div>
           </div>
+
+-->
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">

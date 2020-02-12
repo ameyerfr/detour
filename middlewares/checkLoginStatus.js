@@ -3,7 +3,7 @@ module.exports = function checkLoginStatus(req, res, next) {
     res.locals.isLoggedIn = true;
     res.locals.user_id = req.session.currentUser._id;
   }
-  // console.log("Logged status:", res.locals.isLoggedIn ? "Is logged" : "Is not logged");
-  // console.log("User id:", res.locals.user_id);
+  console.log("res.locals.isLoggedIn", res.locals.isLoggedIn ? true : false);
+  console.log("res.locals.user_id", res.locals.user_id);
   next();
 };

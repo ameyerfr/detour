@@ -5,8 +5,8 @@ const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
 const searchInput = document.getElementById("search-poi");
 searchInput.addEventListener("input", filterPOIs);
-const searchCategory = document.getElementById("poi-categories");
-searchCategory.addEventListener("click", searchByCategory);
+// const searchCategory = document.getElementById("poi-categories");
+// searchCategory.addEventListener("click", searchByCategory);
 const clearSearchBtn = document.getElementById("clear-search-btn");
 clearSearchBtn.addEventListener("click", initSearch);
 const poiList = document.getElementById("poi-list");
@@ -15,6 +15,36 @@ let pois;
 
 const inputFrom = document.getElementById("direction-from");
 const inputTo = document.getElementById("direction-to");
+
+const categoryListItems = document.getElementById("select-category").querySelectorAll("input[name]");
+const categoryAllItem = document.getElementById("all-categories");
+
+// Auto select categories when clicking ALL
+categoryAllItem.onclick = selectAllCategories;
+function selectAllCategories() {
+  categoryListItems.forEach(element => {
+    element.checked = categoryAllItem.checked ? true : false;
+  });
+}
+
+// Unckecked ALL when unckecking any other value
+categoryListItems.forEach((el, i) => {
+  if (i > 0) {
+    el.addEventListener("click", () => {
+      if (!el.checked) categoryAllItem.checked = false;
+    });
+  }
+});
+
+// Return selected categories in array, except the ALL value
+function getSelectedCategories() {
+  let selectedCategories = [];
+  categoryListItems.forEach((element, i) => {
+    if (element.checked && i > 0) selectedCategories.push(element.name);
+  });
+  if (selectedCategories.length === categoryListItems.length - 1) selectedCategories = [];
+  return selectedCategories;
+}
 
 async function getPOIs() {
   if (inputFrom.value === "" || inputTo.value === "") {
@@ -127,10 +157,13 @@ function initSearch() {
 
 function filterPOIs() {
   const textQuery = searchInput.value;
-  const categoryQuery = searchCategory.querySelector(".is-active").getAttribute("data-category");
+  // const categoryQuery = searchCategory.querySelector(".is-active").getAttribute("data-category");
+  // const filteredPOIs = pois.filter(element => {
+  //   if (categoryQuery === "all") return element.title.match(new RegExp(textQuery, "i"));
+  //   return element.category === categoryQuery && element.title.match(new RegExp(textQuery, "i"));
+  // });
   const filteredPOIs = pois.filter(element => {
-    if (categoryQuery === "all") return element.title.match(new RegExp(textQuery, "i"));
-    return element.category === categoryQuery && element.title.match(new RegExp(textQuery, "i"));
+    return element.title.match(new RegExp(textQuery, "i"));
   });
   renderList(filteredPOIs);
 }
