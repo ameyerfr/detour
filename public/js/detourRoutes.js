@@ -63,7 +63,7 @@ class DetourRoutes {
    *  - Orders the resulting pois
    *  - Display a Maker on the map for each poi
    */
-  generateRoute(directionRequest) {
+  generateRoute(directionRequest, categories) {
 
     directionRequest.travelMode = this.travelMode;
     this.directionRequest = directionRequest;
@@ -89,7 +89,7 @@ class DetourRoutes {
           let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
 
           // Get the POIs close to the the spacedCoords
-          let detourPois = await this.getPoisFromDB(spacedCoords)
+          let detourPois = await this.getPoisFromDB(spacedCoords, categories)
 
           // Order the POIs from the Origin of the route
           this.orderPoisFromOrigin(detourPois)
@@ -154,9 +154,13 @@ class DetourRoutes {
    * This method makes a call to Detour's API
    * And return the resulting Pois
    */
-  async getPoisFromDB(spacedCoords) {
+  async getPoisFromDB(spacedCoords, categories) {
     // Detour API Call
-    const results = await this.axios.post("/poi/list", { coordinates : spacedCoords, radius : this.searchRadius } )
+    const results = await this.axios.post("/poi/list", {
+      coordinates : spacedCoords,
+      radius : this.searchRadius,
+      categories : categories
+    })
     return results.data.pois;
   }
 
