@@ -7125,8 +7125,8 @@ h1 {
   margin-left: inherit;
   margin-right: inherit; }
 
-#detour {
-  height: calc(100vh - 60px); }
+#search-itinerary-form {
+  margin: 0; }
 
 #search-itinerary-form .field-label {
   flex-grow: 0;
@@ -7171,6 +7171,11 @@ h1 {
 
 .poi-details .poi-actions {
   flex: 0; }
+
+#image-display {
+  margin-left: 120px;
+  width: 50%;
+  border: 1px solid lightgrey; }
 
 .full-width {
   width: 100%; }
@@ -7237,7 +7242,7 @@ h1 {
     margin-bottom: 1rem; } }
 
 #detour-container {
-  height: calc(100vh - 170px);
+  height: calc(100vh - 165px);
   width: 100%;
   display: flex;
   flex-direction: column;
