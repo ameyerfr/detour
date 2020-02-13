@@ -69,20 +69,32 @@ function initMap() {
 initMap()
 
 //AUTOCOMPLETE ADDRESS
-var autocomplete=new google.maps.places.Autocomplete(inputAddress)
+const autocomplete=new google.maps.places.Autocomplete(inputAddress, {componentRestrictions: {country: 'fr'}})
+
+autocomplete.addListener('place_changed', function() {
+  var place = autocomplete.getPlace();
+  var position = {lat:place.geometry.location.lat(), lng:place.geometry.location.lng()}
+  var marker = new google.maps.Marker({ position: position, title: "A"})
+  var map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 10,
+      center: position
+    });
+  marker.setMap(map);
+});
+
 
 //ADD MARKER ON MAP
-inputAddress.onchange = () => {
+// inputAddress.onchange = () => {
 
-    addressMap.getCoords(inputAddress.value)
-    .then(res => {
-        console.log(res.data)
-        var marker = new google.maps.Marker({ position: res.data, title: "A"})
-        var map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 10,
-            center: res.data
-          });
-        marker.setMap(map);
-    })
-    .catch(err => console.log(err))
-}
+//   addressMap.getCoords(inputAddress.value)
+//   .then(res => {
+//       var marker = new google.maps.Marker({ position: res.data, title: "A"})
+//       var map = new google.maps.Map(document.getElementById("map"), {
+//           zoom: 10,
+//           center: res.data
+//         });
+//       marker.setMap(map);
+//   })
+//   .catch(err => console.log(err))
+
+// }
