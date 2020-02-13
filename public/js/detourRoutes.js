@@ -206,6 +206,12 @@ class DetourRoutes {
 
   getMarkersBounds() {
     let bounds = new google.maps.LatLngBounds();
+
+    // Include start / end points
+    bounds.extend({ lat: this.getStartLocationCoordinates().lat, lng: this.getStartLocationCoordinates().lng })
+    bounds.extend({ lat: this.getEndLocationCoordinates().lat, lng: this.getEndLocationCoordinates().lng })
+
+    // Extend bounds for each marker
     this.markers.forEach(m => {
       bounds.extend({
         lat:m.getPosition().lat(),
@@ -241,6 +247,16 @@ class DetourRoutes {
     return {
       lat : this.currentRoute.legs[0].start_location.lat(),
       lng : this.currentRoute.legs[0].start_location.lng()
+    }
+  }
+
+  /* Get the coordinates of the origin of the current route */
+  getEndLocationCoordinates() {
+    if (!this.currentRoute) { return null }
+
+    return {
+      lat : this.currentRoute.legs[0].end_location.lat(),
+      lng : this.currentRoute.legs[0].end_location.lng()
     }
   }
 
