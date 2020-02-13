@@ -39,12 +39,14 @@
                     All
                 </label>
             </div>
+            {{#if isLoggedIn}}
             <div class="field">
                 <label class="checkbox">
                     <input type="checkbox" name="Friends">
                     Friends
                 </label>
             </div>
+            {{/if}}
             <div class="field">
                 <label class="checkbox">
                     <input type="checkbox" name="Museums">
@@ -63,12 +65,14 @@
                     Starred Restaurants
                 </label>
             </div>
+            {{#if isLoggedIn}}
             <div class="field">
                 <label class="checkbox">
                     <input type="checkbox" name="Other">
                     Other
                 </label>
             </div>
+            {{/if}}
         </div>
     </div>
 

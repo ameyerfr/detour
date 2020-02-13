@@ -4,13 +4,13 @@
     margin-left: -13px;
 }
 
-.navbar.is-fixed-top+div {
-    margin-top: .5rem;
-}
-
 .with-background {
     background: url('/images/hp-background-cover-2.jpg') no-repeat top center;
     background-size: cover;
+}
+
+.hero.is-fullheight {
+    min-height: calc(100vh - 69px);
 }
 
 h1 {
@@ -65,13 +65,9 @@ h1 {
     padding: .5rem;
 }
 
-// #detour>div:nth-child(2) {
-//     overflow: scroll;
-// }
-
 #poi-list {
     overflow: scroll;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 115px);
 }
 
 .poi-details {
