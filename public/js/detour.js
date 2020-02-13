@@ -195,6 +195,8 @@ function filterPOIs() {
  * day, h, m (and s)
  */
 function humanizeSecondsDuration(seconds) {
+  let humanText = "";
+
   var days = Math.floor(seconds / (24 * 60 * 60));
   seconds -= days * (24 * 60 * 60);
   var hours = Math.floor(seconds / (60 * 60));
@@ -204,7 +206,11 @@ function humanizeSecondsDuration(seconds) {
   // Unused - Remaining seconds
   seconds -= minutes * 60;
 
-  return (0 < days ? days + " day, " : "") + hours + "h and " + minutes + "min";
+  humanText += (days > 0) ? days + " day, " : ""
+  humanText += (hours > 0) ? hours + "h and " : ""
+  humanText += minutes + "min"
+
+  return humanText;
 }
 
 function getPoiById(id) {
