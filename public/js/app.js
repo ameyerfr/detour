@@ -1,3 +1,6 @@
+import DetourRoutes from "./detourRoutes.js";
+import initWithUrlParms from "./detour.js";
+
 /**
  * This function is called as a callback by the google maps script
  */
@@ -11,10 +14,12 @@ function initMap() {
 }
 
 function initDetour(map) {
-  window.DETOUR = { map: map };
+  window.DETOUR = {};
 
   // New detour helper
   window.DETOUR.routeHelper = new DetourRoutes(map);
+
+  initWithUrlParms();
 }
 
 // Misc functions required on all pages
@@ -35,3 +40,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+initMap();

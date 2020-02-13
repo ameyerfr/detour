@@ -1,5 +1,3 @@
-import APIHandler from "./apiHandler.js";
-const detour = new APIHandler();
 
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
@@ -57,7 +55,9 @@ async function getPOIs() {
     destination: { query: inputTo.value }
   };
 
-  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, []);
+  let selectedCategories = getSelectedCategories();
+
+  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, selectedCategories);
   pois = response.pois;
 
   console.log("generateRoute response : ", response);
@@ -197,7 +197,7 @@ function getPoiById(id) {
   }
 }
 
-function initWithUrlParms() {
+export default function initWithUrlParms() {
   let url = new URL(window.location.href);
   let origin = url.searchParams.get("origin");
   let destination = url.searchParams.get("destination");
@@ -211,5 +211,3 @@ function initWithUrlParms() {
 
   getItineraryBtn.click();
 }
-
-initWithUrlParms();
