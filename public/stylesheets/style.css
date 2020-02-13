@@ -7107,12 +7107,12 @@ label.panel-block {
   margin-bottom: 13px;
   margin-left: -13px; }
 
-.navbar.is-fixed-top + div {
-  margin-top: .5rem; }
-
 .with-background {
   background: url("/images/hp-background-cover-2.jpg") no-repeat top center;
   background-size: cover; }
+
+.hero.is-fullheight {
+  min-height: calc(100vh - 69px); }
 
 h1 {
   margin-bottom: 1.5rem; }
@@ -7156,7 +7156,7 @@ h1 {
 
 #poi-list {
   overflow: scroll;
-  height: calc(100vh - 100px); }
+  height: calc(100vh - 115px); }
 
 .poi-details {
   padding: 0.5em 0.75em;
