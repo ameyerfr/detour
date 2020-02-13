@@ -53,6 +53,7 @@ app.use(require("./routes/auth"));
 app.use("/user", require("./routes/user"));
 app.use("/api", require("./routes/api"));
 app.use("/poi", require("./routes/poi"));
+app.use("/geocaching", require("./routes/geocaching"));
 
 // export the app (check import ./bin/www)
 module.exports = app;
