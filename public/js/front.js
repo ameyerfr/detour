@@ -7,11 +7,4 @@ document.addEventListener("DOMContentLoaded", () => {
     menu.classList.toggle("is-active");
     $target.classList.toggle("is-active");
   });
-
-  // Remove notification messages
-  (document.querySelectorAll(".notification .delete") || []).forEach($notification => {
-    $notification.addEventListener("click", () => {
-      $notification.remove();
-    });
-  });
 });
