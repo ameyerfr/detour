@@ -3,12 +3,12 @@ const detour = new APIHandler();
 
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
-const searchInput = document.getElementById("search-poi");
-searchInput.addEventListener("input", filterPOIs);
+// const searchInput = document.getElementById("search-poi");
+// searchInput.addEventListener("input", filterPOIs);
 // const searchCategory = document.getElementById("poi-categories");
 // searchCategory.addEventListener("click", searchByCategory);
-const clearSearchBtn = document.getElementById("clear-search-btn");
-clearSearchBtn.addEventListener("click", initSearch);
+// const clearSearchBtn = document.getElementById("clear-search-btn");
+// clearSearchBtn.addEventListener("click", initSearch);
 const poiList = document.getElementById("poi-list");
 const notificationContainer = document.getElementById("itinerary-notification");
 let pois;
@@ -64,12 +64,13 @@ async function getPOIs() {
 
   displayItineraryDuration(response.duration);
 
-  initSearch();
+  renderList(pois);
+  // initSearch();
 }
 
 async function makeADetour(poi) {
-  let response = await window.DETOUR.routeHelper.addStopOver(poi)
-  console.log("response : ", response)
+  let response = await window.DETOUR.routeHelper.addStopOver(poi);
+  console.log("response : ", response);
   displayDetourDuration(response.duration);
 }
 
@@ -82,7 +83,7 @@ function displayItineraryDuration(duration) {
 
 function displayDetourDuration(duration) {
   let detourDuration = humanizeSecondsDuration(duration.detourDuration);
-  let detourDiff     = humanizeSecondsDuration(duration.diff);
+  let detourDiff = humanizeSecondsDuration(duration.diff);
   document.getElementById("base-duration-value").innerHTML = detourDuration;
   document.getElementById("detour-duration").innerHTML = `Detour : <span id="detour-duration-value">${detourDiff}</span>`;
 }
@@ -101,11 +102,15 @@ function renderItem(data, index) {
             <span class="poi-title">${data.title}</span>
         </a>
         <div class="poi-details is-hidden is-size-7">
-            <div class="poi-image"><img src="${data.image}"></div>
+        ${
+          data.image
+            ? `
+          <div class="poi-image"><img src="${data.image}"></div>`
+            : ""
+        }
             <div class="poi-detail">
                   <p>${data.description}</p>
                   <p>${data.address}</p>
-
               </div>
             <div class="buttons poi-actions">
               <a class="button is-small is-fullwidth" href="https://www.google.com/maps/place/?q=place_id:${data.place_id}" target="_blank">View details</a>
@@ -168,20 +173,20 @@ function filterPOIs() {
   renderList(filteredPOIs);
 }
 
- /*
-  * day, h, m (and s)
-  */
+/*
+ * day, h, m (and s)
+ */
 function humanizeSecondsDuration(seconds) {
-  var days     = Math.floor(seconds / (24*60*60));
-      seconds -= days    * (24*60*60);
-  var hours    = Math.floor(seconds / (60*60));
-      seconds -= hours   * (60*60);
-  var minutes  = Math.floor(seconds / (60));
+  var days = Math.floor(seconds / (24 * 60 * 60));
+  seconds -= days * (24 * 60 * 60);
+  var hours = Math.floor(seconds / (60 * 60));
+  seconds -= hours * (60 * 60);
+  var minutes = Math.floor(seconds / 60);
 
-      // Unused - Remaining seconds
-      seconds -= minutes * (60);
+  // Unused - Remaining seconds
+  seconds -= minutes * 60;
 
-  return ((0<days)?(days+" day, "):"")+hours+"h and "+minutes+"min";
+  return (0 < days ? days + " day, " : "") + hours + "h and " + minutes + "min";
 }
 
 function getPoiById(id) {
