@@ -189,6 +189,22 @@ class DetourRoutes {
     }
   }
 
+  getMarkersBounds() {
+    let bounds = new google.maps.LatLngBounds();
+    this.markers.forEach(m => {
+      bounds.extend({
+        lat:m.getPosition().lat(),
+        lng:m.getPosition().lng()
+      });
+    })
+
+    return bounds;
+  }
+
+  centerMapOnMarkers() {
+    this.map.fitBounds(this.getMarkersBounds())
+  }
+
   /**
    * This method sorts the POIs
    * From the Origin point of the current route
