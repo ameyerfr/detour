@@ -26,7 +26,8 @@ class DetourRoutes {
         console.log("addStopOver response : ", response)
 
         if (status !== 'OK') {
-          reject({error : "GMAP API CALL TO DIRECTION FAILED : " + status})
+          reject({error : `Gmaps API call failed : ${status}` });
+          return;
         }
 
         // Store current route
@@ -78,7 +79,8 @@ class DetourRoutes {
       this.service.route(directionRequest, async (response, status) => {
 
           if (status !== 'OK') {
-            reject({error : "GMAP API CALL TO DIRECTION FAILED : " + status})
+            reject({error : `Gmaps API call failed : ${status}` });
+            return;
           }
 
           // Draw itinerary on map

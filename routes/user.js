@@ -197,7 +197,7 @@ router.post("/poi/edit/:id/:id_poi", protectRoute, uploadCloud.single("image"), 
   }
 
   axios
-    .get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + address + "&key=" + process.env.GPLACES_KEY)
+    .get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + slugify(address) + "&key=" + process.env.GPLACES_KEY)
     .then(dbRes => {
       var lat = dbRes.data.results[0].geometry.location.lat;
       var lng = dbRes.data.results[0].geometry.location.lng;
