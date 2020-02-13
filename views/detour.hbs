@@ -3,20 +3,7 @@
         {{>search_itinerary}}
         <div id="detour-container">
             <div id="loader">
-                <div class="lds-spinner">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
+                {{> loader}}
             </div>
             <div id="itinerary-message">
                 <h2 class="is-size-3">Sorry, there are no results 😱</h2>
@@ -28,6 +15,11 @@
         </div>
     </div>
     <div class="column">
-        {{>poi_list}}
+        <article class="panel is-primary">
+            <p class="panel-heading has-text-weight-normal has-text-centered">
+                Points of Interest on the Road
+            </p>
+            <div id="poi-list"></div>
+        </article>
     </div>
 </div>
