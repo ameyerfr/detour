@@ -258,3 +258,10 @@ function displayResults(data) {
   //   <div id="map"></div>
   //   `;
 }
+
+// Listen for Enter key press on inputs
+[inputFrom, inputTo].forEach(() =>
+  addEventListener("keyup", el => {
+    if (el.keyCode === 13) getPOIs();
+  })
+);
