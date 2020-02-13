@@ -4,7 +4,7 @@
     margin-left: -13px;
 }
 
-#main-navbar+div {
+.navbar.is-fixed-top+div {
     margin-top: .5rem;
 }
 
@@ -45,10 +45,20 @@ h1 {
     height: calc(100% - 100px);
 }
 
+
 #select-category {
-    min-height: 2rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
+    width: fit-content;
+    margin: 0 .5rem;
+}
+
+#select-category .navbar-item.has-dropdown:hover .navbar-link,
+.navbar-item.has-dropdown.is-active .navbar-link {
+    background-color: white;
+    height: 2.35rem;
+}
+
+#select-category .navbar-dropdown {
+    border-top: 1px solid #dbdbdb;
 }
 
 #select-category .navbar-dropdown {
@@ -61,7 +71,7 @@ h1 {
 
 #poi-list {
     overflow: scroll;
-    height: calc(100vh - 210px);
+    height: calc(100vh - 100px);
 }
 
 .poi-details {
@@ -72,7 +82,7 @@ h1 {
 }
 
 .poi-details .poi-image {
-    flex: 0 0 200px;
+    flex: 0 0 150px;
     margin-right: 1rem;
 }
 
@@ -81,13 +91,21 @@ h1 {
     margin-right: 1rem;
 }
 
+.poi-details .poi-actions {
+    flex: 0;
+}
+
 .full-width {
     width: 100%;
 }
 
-.full-height {
-    height: 100vh;
+.hero {
+    justify-content: center;
 }
+
+// .full-height {
+//     height: 100vh;
+// }
 
 .panel {
     background-color: gainsboro;
@@ -112,5 +130,48 @@ h1 {
     margin-right: 1rem;
 }
 
-#base-duration { margin: 0 10px; }
-#detour-duration { font-weight: 800; }
+#base-duration {
+    margin: 0 10px;
+}
+
+#detour-duration {
+    font-weight: 800;
+}
+
+@media screen and (max-width:768px) {
+    #map {
+        height: 400px;
+    }
+
+    #poi-list {
+        overflow: initial !important;
+        height: initial !important;
+    }
+
+    #select-category {
+        margin: .5rem .5rem .5rem 0;
+        height: auto;
+    }
+
+    #select-category .navbar-dropdown {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #select-category .navbar-link:after {
+        display: none;
+    }
+
+    #select-category .navbar-dropdown .field {
+        margin-right: .5rem;
+        margin-bottom: 0;
+    }
+}
+
+// #select-category .navbar-link {
+//     padding-left: 0;
+// }
+
+// #select-category .navbar-link:after {
+//     display: none;
+// }

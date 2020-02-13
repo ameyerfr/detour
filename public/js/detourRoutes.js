@@ -237,3 +237,5 @@ class DetourRoutes {
   }
 
 }
+
+export default DetourRoutes;

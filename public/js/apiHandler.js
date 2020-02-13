@@ -4,7 +4,7 @@ export default class APIHandler {
   }
 
   deleteUserPOI(user_id, poi_id) {
-    return this.api.delete(`user/poi/delete/${user_id}/${poi_id}`);
+    return this.api.delete(`/user/poi/delete/${user_id}/${poi_id}`);
   }
 
   getCoords(address) {

@@ -8,7 +8,7 @@ const bcryptjs = require("bcryptjs");
 ////////////////////
 
 router.get("/register", (req, res, next) => {
-  res.render("auth/register", { scripts: ["auth", "notification"] });
+  res.render("auth/register", { scripts: ["auth"] });
 });
 
 router.post("/register", (req, res, next) => {
@@ -47,7 +47,7 @@ router.post("/register", (req, res, next) => {
 /////////////////
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", { scripts: ["auth", "notification"] });
+  res.render("auth/login", { scripts: ["auth"] });
 });
 
 router.post("/login", (req, res, next) => {

@@ -286,7 +286,7 @@ button,
 input,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif; }
+  font-family: "Nunito", sans-serif; }
 
 code,
 pre {
@@ -829,13 +829,13 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   font-weight: 700 !important; }
 
 .is-family-primary {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
+  font-family: "Nunito", sans-serif !important; }
 
 .is-family-secondary {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
+  font-family: "Nunito", sans-serif !important; }
 
 .is-family-sans-serif {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important; }
+  font-family: "Nunito", sans-serif !important; }
 
 .is-family-monospace {
   font-family: monospace !important; }
@@ -7107,7 +7107,7 @@ label.panel-block {
   margin-bottom: 13px;
   margin-left: -13px; }
 
-#main-navbar + div {
+.navbar.is-fixed-top + div {
   margin-top: .5rem; }
 
 .with-background {
@@ -7140,16 +7140,23 @@ h1 {
   height: calc(100% - 100px); }
 
 #select-category {
-  min-height: 2rem;
-  padding-left: .5rem;
-  padding-right: .5rem; }
+  width: fit-content;
+  margin: 0 .5rem; }
+
+#select-category .navbar-item.has-dropdown:hover .navbar-link,
+.navbar-item.has-dropdown.is-active .navbar-link {
+  background-color: white;
+  height: 2.35rem; }
+
+#select-category .navbar-dropdown {
+  border-top: 1px solid #dbdbdb; }
 
 #select-category .navbar-dropdown {
   padding: .5rem; }
 
 #poi-list {
   overflow: scroll;
-  height: calc(100vh - 210px); }
+  height: calc(100vh - 100px); }
 
 .poi-details {
   padding: 0.5em 0.75em;
@@ -7158,18 +7165,21 @@ h1 {
   align-items: center; }
 
 .poi-details .poi-image {
-  flex: 0 0 200px;
+  flex: 0 0 150px;
   margin-right: 1rem; }
 
 .poi-details .poi-detail {
   flex: 1;
   margin-right: 1rem; }
 
+.poi-details .poi-actions {
+  flex: 0; }
+
 .full-width {
   width: 100%; }
 
-.full-height {
-  height: 100vh; }
+.hero {
+  justify-content: center; }
 
 .panel {
   background-color: gainsboro; }
@@ -7196,5 +7206,23 @@ h1 {
 
 #detour-duration {
   font-weight: 800; }
+
+@media screen and (max-width: 768px) {
+  #map {
+    height: 400px; }
+  #poi-list {
+    overflow: initial !important;
+    height: initial !important; }
+  #select-category {
+    margin: .5rem .5rem .5rem 0;
+    height: auto; }
+  #select-category .navbar-dropdown {
+    display: flex;
+    flex-wrap: wrap; }
+  #select-category .navbar-link:after {
+    display: none; }
+  #select-category .navbar-dropdown .field {
+    margin-right: .5rem;
+    margin-bottom: 0; } }
 
 /*# sourceMappingURL=style.css.map */
