@@ -57,7 +57,9 @@ async function getPOIs() {
     destination: { query: inputTo.value }
   };
 
-  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, []);
+  let selectedCategories = getSelectedCategories();
+
+  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, selectedCategories);
   pois = response.pois;
 
   console.log("generateRoute response : ", response);
