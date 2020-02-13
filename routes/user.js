@@ -4,7 +4,10 @@ const userModel = require("../models/User.model");
 const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
-const axios = require("axios");
+const axios = require('axios');
+const uploadCloud = require('../config/cloudinary.js');
+
+
 
 ///////////////////////
 // USER PROFIL & UPDATE
@@ -74,14 +77,20 @@ router.get("/poi/new/:id", (req, res, next) => {
   res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user", "notification"] });
 });
 
-router.post("/poi/new/:id", (req, res, next) => {
-  var { title, description, image, category, address, url, details } = req.body;
+router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
+
+  if (req.file) {
+    var image = req.file.secure_url;
+  } 
+  else {
+    var image="";
+  }
+
+  var { title, description, category, address, url, details } = req.body;
 
   //correction de la catégorie
   if (category == "Michelin") {
     category = "Michelin Restaurants";
-  } else if (category == "Starred") {
-    category = "Starred Restaurants";
   } else if (category == "Starred") {
     category = "Starred Restaurants";
   }
@@ -126,7 +135,7 @@ router.get("/poi/all/:id", protectRoute, (req, res, next) => {
   poiModel
     .find({ user_id: req.params.id })
     .then(userPois => {
-      res.render("user/poi_all", { userPois, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
+      res.render("user/poi_all", { userPois, gplacesk: process.env.GPLACES_KEY, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -137,7 +146,7 @@ router.get("/poi/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(userPoi => {
-      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, scripts: ["user", "notification"] });
+      res.render("user/poi_all", { userPois: [userPoi], idUser: req.params.id, gplacesk: process.env.GPLACES_KEY, scripts: ["user", "notification"] });
     })
     .catch(next);
 });
@@ -155,8 +164,16 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
     .catch(next);
 });
 
-router.post("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
-  var { title, description, image, category, address, url, details } = req.body;
+router.post("/poi/edit/:id/:id_poi", protectRoute, uploadCloud.single("image"), (req, res, next) => {
+
+  if (req.file) {
+    var image = req.file.secure_url;
+  } 
+  else {
+    var image=req.body.imageOriginal;
+  }
+
+  var { title, description, category, address, url, details } = req.body;
 
   //correction de la catégorie
   if (category == "Michelin") {

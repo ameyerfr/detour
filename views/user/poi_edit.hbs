@@ -7,7 +7,7 @@
   <div class="columns">
     <div class="column is-one-half-tablet">
       <div class="container">
-        <form action="/user/poi/edit/{{idUser}}/{{poi._id}}" method="post">
+        <form action="/user/poi/edit/{{idUser}}/{{poi._id}}" method="post" enctype="multipart/form-data">
 
 
           <div class="field is-horizontal">
@@ -62,7 +62,7 @@
               <div class="field">
                 <p class="control">
                   <input class="input" id="address" name="address" type="text" placeholder="Enter an address"
-                    value="{{poi.address}}" required />
+                    value="{{poi.address}}" required>
                 </p>
               </div>
             </div>
@@ -112,6 +112,37 @@
                 </p>
               </div>
             </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Image</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <img src={{poi.image}}>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="title">Change Image</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" id="image" name="image" type="file" value="image">
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="is-hidden">
+              <label class="label" for="title">Original Image (temp)</label>
+              <input class="input" id="image" name="imageOriginal" type="text" value={{poi.image}}>
           </div>
 
           <div class="field is-horizontal">
