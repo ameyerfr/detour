@@ -18,13 +18,18 @@ inputImage.onchange = (evt) => {
   };
   reader.readAsDataURL(input.files[0])
 
-  //to execute only for add a poi
-  var title = document.querySelector("h1").innerText
-  if (title.includes("Add")) {
-    var elemsToDisplay = document.getElementById("elems-to-display")
-    elemsToDisplay.classList.remove("is-hidden")
-  }
+  var elemsToDisplay = document.getElementById("elems-to-display")
+  elemsToDisplay.classList.remove("is-hidden")
+
 }
+
+//CASE IMAGE="" ON EDIT LOAD
+if (!title.includes("Add") && inputImage.getAttribute("src")=="") {
+  var elemsToDisplay = document.getElementById("elems-to-display")
+  elemsToDisplay.classList.add("is-hidden")
+}
+
+
 
 /////////////////////
 //ADDRESS & MAP STUFF
@@ -41,7 +46,6 @@ function initMap() {
 
         addressMap.getCoords(inputAddress.value)
         .then(res => {
-            console.log(res.data)
             var marker = new google.maps.Marker({ position: res.data, title: "A"})
             var map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 10,
