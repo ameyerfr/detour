@@ -1,3 +1,6 @@
+import APIHandler from "./apiHandler.js";
+const addressMap = new APIHandler();
+
 //IMAGE UPDATE on add & edit poi 
 
 var imgElement = document.getElementById("image-display")
@@ -23,21 +26,58 @@ inputImage.onchange = (evt) => {
   }
 }
 
-//AUTOCOMPLETE ADDRESS
-var defaultBounds = new google.maps.LatLngBounds(
-  new google.maps.LatLng(51, -4.2),
-  new google.maps.LatLng(42.5, 7.1));
+/////////////////////
+//ADDRESS & MAP STUFF
+/////////////////////
 
-var options = {
-  bounds: defaultBounds
+const inputAddress = document.getElementById("address")
+
+///INITMAP
+function initMap() {
+
+    var title = document.querySelector("h1").innerText
+
+    if (!title.includes("Add") && inputAddress !== "") {
+
+        addressMap.getCoords(inputAddress.value)
+        .then(res => {
+            console.log(res.data)
+            var marker = new google.maps.Marker({ position: res.data, title: "A"})
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 10,
+                center: res.data
+                });
+            marker.setMap(map);
+        })
+        .catch(err => console.log(err))
+    }
+
+    var options = {
+        //bounds: defaultBounds,
+        zoom: 6,
+        center:  {lat: 48, lng: 2}
+        };
+
+    new google.maps.Map(document.getElementById('map'), options);
 }
 
-var inputAddress = document.getElementById("address")
-//map.controls[google.maps.ControlPosition.TOP_LEFT].push(input)
+initMap()
 
-var autocomplete=new google.maps.places.Autocomplete(inputAddress, options)
+//AUTOCOMPLETE ADDRESS
+var autocomplete=new google.maps.places.Autocomplete(inputAddress)
 
-// inputAddress.onchange = () => {
-//   new google.maps.Marker({ position: coord, label : label})
-//   m.setMap(this.map);
-// }
+//ADD MARKER ON MAP
+inputAddress.onchange = () => {
+
+    addressMap.getCoords(inputAddress.value)
+    .then(res => {
+        console.log(res.data)
+        var marker = new google.maps.Marker({ position: res.data, title: "A"})
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 10,
+            center: res.data
+          });
+        marker.setMap(map);
+    })
+    .catch(err => console.log(err))
+}
