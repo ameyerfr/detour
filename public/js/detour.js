@@ -131,7 +131,8 @@ function renderItem(data, index) {
                   <p>${data.address}</p>
               </div>
             <div class="buttons poi-actions">
-              <a class="button is-small is-fullwidth" href="https://www.google.com/maps/place/?q=place_id:${data.place_id}" target="_blank">View details</a>
+            ${data.place_id ? `<a class="button is-small is-fullwidth" href="https://www.google.com/maps/place/?q=place_id:${data.place_id}" target="_blank">View details</a>` : ""}
+
               <a class="button is-small is-fullwidth is-primary">Make a detour</a>
             </div>
         </div>
@@ -206,9 +207,9 @@ function humanizeSecondsDuration(seconds) {
   // Unused - Remaining seconds
   seconds -= minutes * 60;
 
-  humanText += (days > 0) ? days + " day, " : ""
-  humanText += (hours > 0) ? hours + "h and " : ""
-  humanText += minutes + "min"
+  humanText += days > 0 ? days + " day, " : "";
+  humanText += hours > 0 ? hours + "h and " : "";
+  humanText += minutes + "min";
 
   return humanText;
 }
