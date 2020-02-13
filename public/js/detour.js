@@ -62,6 +62,10 @@ async function getPOIs() {
 
   console.log("generateRoute response : ", response);
 
+  showMainMap();
+
+  window.DETOUR.routeHelper.centerMapOnMarkers();
+
   displayItineraryDuration(response.duration);
 
   initSearch();
@@ -73,7 +77,12 @@ async function makeADetour(poi) {
   displayDetourDuration(response.duration);
 }
 
+function showMainMap() {
+  document.getElementById('map').classList.remove("is-hidden");
+}
+
 function displayItineraryDuration(duration) {
+  document.getElementById('itinerary-notification').classList.remove("is-hidden");
   let d = humanizeSecondsDuration(duration);
   notificationContainer.innerHTML = `
   <span id="base-duration">This route will take you : <span id="base-duration-value">${d}</span></span>
