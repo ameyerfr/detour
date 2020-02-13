@@ -89,11 +89,22 @@ class DetourRoutes {
           // Store current route
           this.currentRoute = response.routes[0];
 
+          let spacing = this.spacing; // Default value
+          // 200km - 10% / 2 (Gradual decrease)
+          if ( this.getCurrentRouteDistance() <= 200000 ) {
+            spacing = this.getCurrentRouteDistance() / 10 / 2;
+          }
+
           // Calculate a list of coordinates from where we will request POIs
-          let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
+          let spacedCoords = this.getSpacedCoordsFromRoute(spacing)
+
+          if ( spacedCoords.length == 0 ) {
+            reject({error : `Not enough coordinates to calaculate POIs` });
+            return;
+          }
 
           // Get the POIs close to the the spacedCoords
-          let detourPois = await this.getPoisFromDB(spacedCoords, categories)
+          let detourPois = await this.getPoisFromDB(spacedCoords, (spacing * 2), categories)
 
           // Order the POIs from the Origin of the route
           this.orderPoisFromOrigin(detourPois)
@@ -157,12 +168,14 @@ class DetourRoutes {
   /**
    * This method makes a call to Detour's API
    * And return the resulting Pois
+   * IMPORTANT - RADIUS NEEDS TO BE 2 TIMES THE SPACING
    */
-  async getPoisFromDB(spacedCoords, categories) {
+  async getPoisFromDB(spacedCoords, radius, categories) {
+
     // Detour API Call
     const results = await axios.post("/api/poi/list", {
       coordinates : spacedCoords,
-      radius : this.searchRadius,
+      radius : radius,
       categories : categories
     })
     return results.data.pois;
@@ -229,6 +242,10 @@ class DetourRoutes {
       lat : this.currentRoute.legs[0].start_location.lat(),
       lng : this.currentRoute.legs[0].start_location.lng()
     }
+  }
+
+  getCurrentRouteDistance() {
+    return this.currentRoute.legs[0].distance.value;
   }
 
   getCurrentRouteDuration() {
