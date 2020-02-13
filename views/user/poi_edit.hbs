@@ -62,10 +62,14 @@
               <div class="field">
                 <p class="control">
                   <input class="input" id="address" name="address" type="text" placeholder="Enter an address"
-                    value="{{poi.address}}" required>
+                    value="{{poi.address}}">
                 </p>
               </div>
             </div>
+          </div>
+
+          <div class="is-hidden">  
+            <input id="address-hidden" type="text" value="{{poi.address}}">
           </div>
 
 <!--
@@ -163,7 +167,7 @@
             <div class="field-body">
               <div class="field is-grouped is-grouped-centered">
                 <div class="control">
-                  <button class="button is-primary">Update</button>
+                  <button class="button is-primary" id="btn">Update</button>
                 </div>
               </div>
             </div>
