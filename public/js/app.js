@@ -22,7 +22,6 @@ function initDetour(map) {
   window.DETOUR.routeHelper = new DetourRoutes(map);
 
   initWithUrlParms()
-  console.log(initWithUrlParms)
 }
 
 initMap()

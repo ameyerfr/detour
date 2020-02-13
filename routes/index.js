@@ -6,11 +6,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/detour", (req, res) => {
-  res.render("detour", { scripts: ["detourRoutes", "detour", "app"], gmapsk: process.env.GMAPS_KEY });
-});
-
-router.get("/alex-test", (req, res) => {
-  res.render("alex-test", { gmapsk: process.env.GMAPS_KEY });
+  res.render("detour", { scripts: ["detourRoutes", "detour", "app"], gmapsk: process.env.GMAPS_KEY, axios : true });
 });
 
 module.exports = router;

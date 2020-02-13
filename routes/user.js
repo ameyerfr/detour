@@ -81,7 +81,7 @@ router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
 
   if (req.file) {
     var image = req.file.secure_url;
-  } 
+  }
   else {
     var image="";
   }
@@ -135,7 +135,7 @@ router.get("/poi/all/:id", protectRoute, (req, res, next) => {
   poiModel
     .find({ user_id: req.params.id })
     .then(userPois => {
-      res.render("user/poi_all", { userPois, gplacesk: process.env.GPLACES_KEY, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"] });
+      res.render("user/poi_all", { userPois, gplacesk: process.env.GPLACES_KEY, idUser: req.params.id, isMultiple: true, scripts: ["user", "notification"], axios : true });
     })
     .catch(next);
 });
@@ -168,7 +168,7 @@ router.post("/poi/edit/:id/:id_poi", protectRoute, uploadCloud.single("image"), 
 
   if (req.file) {
     var image = req.file.secure_url;
-  } 
+  }
   else {
     var image=req.body.imageOriginal;
   }
