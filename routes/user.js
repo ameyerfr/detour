@@ -74,7 +74,7 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
 
 router.get("/poi/new/:id", (req, res, next) => {
   var categoryList = poiModel.schema.path("category").enumValues;
-  res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user", "notification"] });
+  res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user-add-edit", "notification"] });
 });
 
 router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
@@ -159,7 +159,7 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(poi => {
-      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user", "notification"] });
+      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user-add-edit", "notification"] });
     })
     .catch(next);
 });
