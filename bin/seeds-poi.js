@@ -1,8 +1,14 @@
 const poiModel = require("../models/Poi.model")
 const mongoose = require('mongoose');
+let fileToSeed = 'museumsFinal.json'; // default seed
+
+// Ability to pass argument with the name of another json file to seed
+if (process.argv && process.argv[2]) {
+  fileToSeed = process.argv[2];
+}
 
 //data to insert
-const poi = require('./data/museumsFinal.json')
+const poi = require('./data/' + fileToSeed)
 
 mongoose
     .connect(process.env.MONGO_URI, {
