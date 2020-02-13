@@ -24,6 +24,7 @@ inputImage.onchange = (evt) => {
 }
 
 //CASE IMAGE="" ON EDIT LOAD
+var title = document.querySelector("h1").innerText
 if (!title.includes("Add") && inputImage.getAttribute("src")=="") {
   var elemsToDisplay = document.getElementById("elems-to-display")
   elemsToDisplay.classList.add("is-hidden")
