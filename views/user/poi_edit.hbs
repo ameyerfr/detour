@@ -116,25 +116,22 @@
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label" for="title">Image</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <p class="control">
-                  <img src={{poi.image}}>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
               <label class="label" for="title">Change Image</label>
             </div>
             <div class="field-body">
               <div class="field">
                 <p class="control">
                   <input class="input" id="image" name="image" type="file" value="image">
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <img src={{poi.image}} id="image-display">
                 </p>
               </div>
             </div>
