@@ -168,10 +168,19 @@ h1 {
     }
 }
 
-// #select-category .navbar-link {
-//     padding-left: 0;
-// }
+@media screen and (max-width: 400px) {
+    .poi-details {
+        flex-direction: column;
+    }
 
-// #select-category .navbar-link:after {
-//     display: none;
-// }
+    .poi-details .poi-image,
+    .poi-details .poi-detail,
+    .poi-details .poi-actions {
+        margin-right: 0;
+    }
+
+    .poi-details .poi-detail {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
