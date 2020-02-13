@@ -1,8 +1,31 @@
 <div class="columns" id="detour">
     <div class="column is-three-fifths-tablet">
         {{>search_itinerary}}
-        <div id="itinerary-notification" class="is-hidden notification is-primary is-light"></div>
-        <div id="map" class="is-hidden"></div>
+        <div id="detour-container">
+            <div id="loader">
+                <div class="lds-spinner">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div id="itinerary-message">
+                <h2 class="is-size-3">Sorry, there are no results 😱</h2>
+            </div>
+            <div id="itinerary-result" class="is-hidden">
+                <div id="itinerary-notification" class="notification is-primary is-light"></div>
+                <div id="map"></div>
+            </div>
+        </div>
     </div>
     <div class="column">
         {{>poi_list}}

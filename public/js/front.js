@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Remove notification messages
-  (document.querySelectorAll(".notification") || []).forEach($notification => {
+  (document.querySelectorAll(".notification .delete") || []).forEach($notification => {
     $notification.addEventListener("click", () => {
       $notification.remove();
     });

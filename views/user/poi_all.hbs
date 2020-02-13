@@ -8,7 +8,8 @@
         <div class="column is-one-third ">
             <div class="box">
                 <h2 class="is-size-4 has-text-centered">Add your own Points of Interest !</h2>
-                <h3 class="is-size-6 has-text-centered">By clicking <b>Add a POI</b> in the nav bar, you can add friends, museums or restaurant so you find them along the way</h3>
+                <h3 class="is-size-6 has-text-centered">By clicking <b>Add a POI</b> in the nav bar, you can add
+                    friends, museums or restaurant so you find them along the way</h3>
             </div>
         </div>
     </div>
@@ -19,7 +20,7 @@
     <div class="columns is-multiline">
         {{#each userPois}}
         <div class="column is-one-quarter" data-poi="{{this._id}}">
-            <div class="card">
+            <div class="card card-full-height">
                 <div class="card-image">
                     <figure class="image is-4by3">
                         <img src="{{this.image}}" alt="{{this.title}}">

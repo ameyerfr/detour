@@ -1,4 +1,3 @@
-
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
 // const searchInput = document.getElementById("search-poi");
@@ -7,6 +6,10 @@ getItineraryBtn.onclick = getPOIs;
 // searchCategory.addEventListener("click", searchByCategory);
 // const clearSearchBtn = document.getElementById("clear-search-btn");
 // clearSearchBtn.addEventListener("click", initSearch);
+const loader = document.getElementById("loader");
+const itineraryResults = document.getElementById("itinerary-result");
+const itineraryMessage = document.getElementById("itinerary-message");
+
 const poiList = document.getElementById("poi-list");
 const notificationContainer = document.getElementById("itinerary-notification");
 let pois;
@@ -50,6 +53,8 @@ async function getPOIs() {
     return;
   }
 
+  showLoader();
+
   let directionRequest = {
     origin: { query: inputFrom.value },
     destination: { query: inputTo.value }
@@ -58,12 +63,10 @@ async function getPOIs() {
   let selectedCategories = getSelectedCategories();
 
   try {
-
     let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, selectedCategories);
     pois = response.pois;
 
-    showMainMap();
-
+    displayResults(pois);
     window.DETOUR.routeHelper.centerMapOnMarkers();
 
     displayItineraryDuration(response.duration);
@@ -71,12 +74,11 @@ async function getPOIs() {
     renderList(pois);
 
     // initSearch();
-
-  } catch(error) {
+  } catch (error) {
     console.log(error);
+    displayResults([]);
     return;
   }
-
 }
 
 async function makeADetour(poi) {
@@ -86,11 +88,11 @@ async function makeADetour(poi) {
 }
 
 function showMainMap() {
-  document.getElementById('map').classList.remove("is-hidden");
+  document.getElementById("map").classList.remove("is-hidden");
 }
 
 function displayItineraryDuration(duration) {
-  document.getElementById('itinerary-notification').classList.remove("is-hidden");
+  document.getElementById("itinerary-notification").classList.remove("is-hidden");
   let d = humanizeSecondsDuration(duration);
   notificationContainer.innerHTML = `
   <span id="base-duration">This route will take you : <span id="base-duration-value">${d}</span></span>
@@ -226,4 +228,26 @@ export default function initWithUrlParms() {
   inputTo.value = destination;
 
   getItineraryBtn.click();
+}
+
+function showLoader() {
+  loader.classList.remove("is-hidden");
+  itineraryResults.classList.add("is-hidden");
+  itineraryMessage.classList.add("is-hidden");
+}
+
+function displayResults(data) {
+  loader.classList.add("is-hidden");
+  if (!data.length) {
+    itineraryMessage.classList.remove("is-hidden");
+    itineraryResults.classList.add("is-hidden");
+  } else {
+    itineraryMessage.classList.add("is-hidden");
+    itineraryResults.classList.remove("is-hidden");
+  }
+  // document.getElementById("itinerary-no-result").classList.remove("is-hidden");
+  // resultContainer.innerHTML = `
+  //   <div id="itinerary-notification" notification is-primary is-light"></div>
+  //   <div id="map"></div>
+  //   `;
 }
