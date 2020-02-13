@@ -57,24 +57,31 @@ async function getPOIs() {
 
   let selectedCategories = getSelectedCategories();
 
-  let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, selectedCategories);
-  pois = response.pois;
+  try {
 
-  console.log("generateRoute response : ", response);
+    let response = await window.DETOUR.routeHelper.generateRoute(directionRequest, selectedCategories);
+    pois = response.pois;
 
-  showMainMap();
+    showMainMap();
 
-  window.DETOUR.routeHelper.centerMapOnMarkers();
+    window.DETOUR.routeHelper.centerMapOnMarkers();
 
-  displayItineraryDuration(response.duration);
+    displayItineraryDuration(response.duration);
 
-  renderList(pois);
-  // initSearch();
+    renderList(pois);
+
+    // initSearch();
+
+  } catch(error) {
+    console.log(error);
+    return;
+  }
+
 }
 
 async function makeADetour(poi) {
   let response = await window.DETOUR.routeHelper.addStopOver(poi);
-  console.log("response : ", response);
+  console.log("Make a detour response : ", response);
   displayDetourDuration(response.duration);
 }
 
@@ -186,6 +193,8 @@ function filterPOIs() {
  * day, h, m (and s)
  */
 function humanizeSecondsDuration(seconds) {
+  let humanText = "";
+
   var days = Math.floor(seconds / (24 * 60 * 60));
   seconds -= days * (24 * 60 * 60);
   var hours = Math.floor(seconds / (60 * 60));
@@ -195,7 +204,11 @@ function humanizeSecondsDuration(seconds) {
   // Unused - Remaining seconds
   seconds -= minutes * 60;
 
-  return (0 < days ? days + " day, " : "") + hours + "h and " + minutes + "min";
+  humanText += (days > 0) ? days + " day, " : ""
+  humanText += (hours > 0) ? hours + "h and " : ""
+  humanText += minutes + "min"
+
+  return humanText;
 }
 
 function getPoiById(id) {

@@ -26,7 +26,8 @@ class DetourRoutes {
         console.log("addStopOver response : ", response)
 
         if (status !== 'OK') {
-          reject({error : "GMAP API CALL TO DIRECTION FAILED : " + status})
+          reject({error : `Gmaps API call failed : ${status}` });
+          return;
         }
 
         // Store current route
@@ -78,7 +79,8 @@ class DetourRoutes {
       this.service.route(directionRequest, async (response, status) => {
 
           if (status !== 'OK') {
-            reject({error : "GMAP API CALL TO DIRECTION FAILED : " + status})
+            reject({error : `Gmaps API call failed : ${status}` });
+            return;
           }
 
           // Draw itinerary on map
@@ -87,11 +89,22 @@ class DetourRoutes {
           // Store current route
           this.currentRoute = response.routes[0];
 
+          let spacing = this.spacing; // Default value
+          // 200km - 10% / 2 (Gradual decrease)
+          if ( this.getCurrentRouteDistance() <= 200000 ) {
+            spacing = this.getCurrentRouteDistance() / 10 / 2;
+          }
+
           // Calculate a list of coordinates from where we will request POIs
-          let spacedCoords = this.getSpacedCoordsFromRoute(this.spacing)
+          let spacedCoords = this.getSpacedCoordsFromRoute(spacing)
+
+          if ( spacedCoords.length == 0 ) {
+            reject({error : `Not enough coordinates to calaculate POIs` });
+            return;
+          }
 
           // Get the POIs close to the the spacedCoords
-          let detourPois = await this.getPoisFromDB(spacedCoords, categories)
+          let detourPois = await this.getPoisFromDB(spacedCoords, (spacing * 2), categories)
 
           // Order the POIs from the Origin of the route
           this.orderPoisFromOrigin(detourPois)
@@ -155,12 +168,14 @@ class DetourRoutes {
   /**
    * This method makes a call to Detour's API
    * And return the resulting Pois
+   * IMPORTANT - RADIUS NEEDS TO BE 2 TIMES THE SPACING
    */
-  async getPoisFromDB(spacedCoords, categories) {
+  async getPoisFromDB(spacedCoords, radius, categories) {
+
     // Detour API Call
     const results = await axios.post("/api/poi/list", {
       coordinates : spacedCoords,
-      radius : this.searchRadius,
+      radius : radius,
       categories : categories
     })
     return results.data.pois;
@@ -191,6 +206,12 @@ class DetourRoutes {
 
   getMarkersBounds() {
     let bounds = new google.maps.LatLngBounds();
+
+    // Include start / end points
+    bounds.extend({ lat: this.getStartLocationCoordinates().lat, lng: this.getStartLocationCoordinates().lng })
+    bounds.extend({ lat: this.getEndLocationCoordinates().lat, lng: this.getEndLocationCoordinates().lng })
+
+    // Extend bounds for each marker
     this.markers.forEach(m => {
       bounds.extend({
         lat:m.getPosition().lat(),
@@ -227,6 +248,20 @@ class DetourRoutes {
       lat : this.currentRoute.legs[0].start_location.lat(),
       lng : this.currentRoute.legs[0].start_location.lng()
     }
+  }
+
+  /* Get the coordinates of the origin of the current route */
+  getEndLocationCoordinates() {
+    if (!this.currentRoute) { return null }
+
+    return {
+      lat : this.currentRoute.legs[0].end_location.lat(),
+      lng : this.currentRoute.legs[0].end_location.lng()
+    }
+  }
+
+  getCurrentRouteDistance() {
+    return this.currentRoute.legs[0].distance.value;
   }
 
   getCurrentRouteDuration() {
