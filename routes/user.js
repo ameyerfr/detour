@@ -4,8 +4,28 @@ const userModel = require("../models/User.model");
 const poiModel = require("../models/Poi.model");
 const bcryptjs = require("bcryptjs");
 const protectRoute = require("../middlewares/protectRoute");
-const axios = require("axios");
-const uploadCloud = require("../config/cloudinary.js");
+const axios = require('axios');
+const uploadCloud = require('../config/cloudinary.js');
+
+
+///////////////////////
+// USEFULL FUNCTION 
+///////////////////////
+
+function slugify(string) {
+  const a = 'àáâäæãåāăąçćčđďèéêëēėęěğǵḧîïíīįìłḿñńǹňôöòóœøōõőṕŕřßśšşșťțûüùúūǘůűųẃẍÿýžźż·/_,:;'
+  const b = 'aaaaaaaaaacccddeeeeeeeegghiiiiiilmnnnnoooooooooprrsssssttuuuuuuuuuwxyyzzz------'
+  const p = new RegExp(a.split('').join('|'), 'g')
+
+  return string.toString().toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+    .replace(/&/g, '-and-') // Replace & with 'and'
+    .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, '') // Trim - from end of text
+}
 
 ///////////////////////
 // USER PROFIL & UPDATE
@@ -72,7 +92,7 @@ router.get("/delete/:id", protectRoute, (req, res, next) => {
 
 router.get("/poi/new/:id", (req, res, next) => {
   var categoryList = poiModel.schema.path("category").enumValues;
-  res.render("user/poi_new", { id: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user-add-edit"] });
+  res.render("user/poi_new", { id: req.params.id, categoryList, axios: true, gplacesk: process.env.GPLACES_KEY, scripts: ["user-add-edit"] });
 });
 
 router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
@@ -92,7 +112,7 @@ router.post("/poi/new/:id", uploadCloud.single("image"), (req, res, next) => {
   }
 
   axios
-    .get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + address + "&key=" + process.env.GPLACES_KEY)
+    .get("https://maps.googleapis.com/maps/api/geocode/json?&address=" + slugify(address) + "&key=" + process.env.GPLACES_KEY)
     .then(dbRes => {
       var lat = dbRes.data.results[0].geometry.location.lat;
       var lng = dbRes.data.results[0].geometry.location.lng;
@@ -155,7 +175,7 @@ router.get("/poi/edit/:id/:id_poi", protectRoute, (req, res, next) => {
   poiModel
     .findOne({ _id: req.params.id_poi })
     .then(poi => {
-      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, gplacesk: process.env.GPLACES_KEY, scripts: ["user-add-edit"] });
+      res.render("user/poi_edit", { poi, idUser: req.params.id, categoryList, axios: true, gplacesk: process.env.GPLACES_KEY, scripts: ["user-add-edit"] });
     })
     .catch(next);
 });
@@ -220,5 +240,6 @@ router.delete("/poi/delete/:id/:id_poi", protectRoute, (req, res, next) => {
     })
     .catch(err => res.json({ error: err }));
 });
+
 
 module.exports = router;
