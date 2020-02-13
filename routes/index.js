@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/detour", (req, res) => {
-  res.render("detour", { scripts: ["detour"], gmapsk: process.env.GMAPS_KEY });
+  res.render("detour", { scripts: ["detourRoutes", "detour", "app"], gmapsk: process.env.GMAPS_KEY });
 });
 
 router.get("/alex-test", (req, res) => {

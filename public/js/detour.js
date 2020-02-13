@@ -1,5 +1,3 @@
-import APIHandler from "./apiHandler.js";
-const detour = new APIHandler();
 
 const getItineraryBtn = document.getElementById("get-itinerary-btn");
 getItineraryBtn.onclick = getPOIs;
@@ -194,7 +192,7 @@ function getPoiById(id) {
   }
 }
 
-function initWithUrlParms() {
+export default function initWithUrlParms() {
   let url = new URL(window.location.href);
   let origin = url.searchParams.get("origin");
   let destination = url.searchParams.get("destination");
@@ -208,5 +206,3 @@ function initWithUrlParms() {
 
   getItineraryBtn.click();
 }
-
-initWithUrlParms();

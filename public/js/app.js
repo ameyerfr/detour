@@ -1,7 +1,10 @@
+import DetourRoutes from "./detourRoutes.js";
+import initWithUrlParms from "./detour.js";
+
 /**
  * This function is called as a callback by the google maps script
  */
-function initMap() {
+function initMap () {
 
   let map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
@@ -13,8 +16,13 @@ function initMap() {
 }
 
 function initDetour(map) {
-  window.DETOUR = { map : map };
+  window.DETOUR = {};
 
   // New detour helper
   window.DETOUR.routeHelper = new DetourRoutes(map);
+
+  initWithUrlParms()
+  console.log(initWithUrlParms)
 }
+
+initMap()
