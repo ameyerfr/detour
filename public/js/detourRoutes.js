@@ -114,6 +114,7 @@ class DetourRoutes {
             this.addMarker(poi._id, {lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
           })
 
+
           resolve({
             duration : this.getCurrentRouteDuration(),
             pois : detourPois
@@ -187,6 +188,19 @@ class DetourRoutes {
     m.set("id", id) // Embed the id of the poin into the marker
     this.markers.push(m)
     m.setMap(this.map);
+
+    // Add a listener to each marker
+    google.maps.event.addListener(m, 'click', function () {
+      this.map.panTo(m.position)
+
+      document.getElementById('poi-list').querySelectorAll('.poi-details').forEach((el) => {
+        el.classList.add('is-hidden');
+      });
+
+      let relatedPoiDiv = document.querySelector(`div[data-poi-id="${this.get('id')}"]`);
+      relatedPoiDiv.querySelector(".poi-details").classList.remove("is-hidden");
+      relatedPoiDiv.scrollIntoView();
+    });
   }
 
   clearAllMarkers() {

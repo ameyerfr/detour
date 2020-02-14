@@ -8,8 +8,6 @@
     <div class="column is-one-half-tablet">
       <div class="container">
         <form action="/user/poi/new/{{id}}" method="post" enctype="multipart/form-data">
-
-
           <div class="field is-horizontal">
             <div class="field-label is-normal">
               <label class="label" for="title">Title</label>
@@ -68,6 +66,10 @@
                 </p>
               </div>
             </div>
+          </div>
+
+          <div class="is-hidden">
+            <input id="address-hidden" type="text">
           </div>
           <!--
 
@@ -156,7 +158,7 @@
             <div class="field-body">
               <div class="field is-grouped is-grouped-centered">
                 <div class="control">
-                  <button class="button is-primary">Add to my List</button>
+                  <button class="button is-primary" id="btn">Add to my List</button>
                 </div>
               </div>
             </div>
