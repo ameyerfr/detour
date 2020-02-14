@@ -95,7 +95,7 @@ function displayItineraryDuration(duration) {
   document.getElementById("itinerary-notification").classList.remove("is-hidden");
   let d = humanizeSecondsDuration(duration);
   notificationContainer.innerHTML = `
-  <span id="base-duration">This route will take you : <span id="base-duration-value">${d}</span></span>
+  <span id="base-duration">This route will take you: <span id="base-duration-value">${d}</span></span>
   <span id="detour-duration"></span>`;
 }
 
@@ -103,7 +103,7 @@ function displayDetourDuration(duration) {
   let detourDuration = humanizeSecondsDuration(duration.detourDuration);
   let detourDiff = humanizeSecondsDuration(duration.diff);
   document.getElementById("base-duration-value").innerHTML = detourDuration;
-  document.getElementById("detour-duration").innerHTML = `Detour : <span id="detour-duration-value">${detourDiff}</span>`;
+  document.getElementById("detour-duration").innerHTML = `Detour: <span id="detour-duration-value">${detourDiff}</span>`;
 }
 
 function renderList(data) {
