@@ -45,7 +45,7 @@ class DetourRoutes {
           // Move to POI
           this.map.panTo({lat:coordinates.lat, lng:coordinates.lng});
 
-        }, 200)
+        }, 10)
 
         resolve({ duration : {
           originalDuration : this.getCurrentRouteDuration(),
@@ -190,16 +190,29 @@ class DetourRoutes {
     m.setMap(this.map);
 
     // Add a listener to each marker
+    // When clicking a marker
     google.maps.event.addListener(m, 'click', function () {
+
+      // Pan to marker
       this.map.panTo(m.position)
 
+      // Hide all details panels
       document.getElementById('poi-list').querySelectorAll('.poi-details').forEach((el) => {
         el.classList.add('is-hidden');
       });
 
+      // Get the related POI in List
       let relatedPoiDiv = document.querySelector(`div[data-poi-id="${this.get('id')}"]`);
+
+      // Show POI details
       relatedPoiDiv.querySelector(".poi-details").classList.remove("is-hidden");
+
+      // Scroll POI in list into view
       relatedPoiDiv.scrollIntoView();
+
+      // Click the button to make the detour
+      relatedPoiDiv.querySelector('.button-detour').click();
+
     });
   }
 
