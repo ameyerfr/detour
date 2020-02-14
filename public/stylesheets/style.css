@@ -3759,10 +3759,6 @@ a.tag:hover {
 
 .card-content {
   background-color: transparent;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-  height: 65%;
   padding: 1.5rem; }
 
 .card-footer {
