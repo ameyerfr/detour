@@ -114,8 +114,6 @@ class DetourRoutes {
             this.addMarker(poi._id, {lat:poi.location.coordinates[1], lng :poi.location.coordinates[0]}, (i + 1).toString())
           })
 
-          this.markersCluster = new MarkerClusterer(this.map, this.markers,
-            {imagePath: '/img/gmaps-cluster/m'});
 
           resolve({
             duration : this.getCurrentRouteDuration(),
@@ -223,10 +221,6 @@ class DetourRoutes {
       m.setMap(null)
     })
     this.markers = [];
-
-    if ( this.markersCluster ) {
-      this.markersCluster.clearMarkers();
-    }
   }
 
   getMarkerByPoiId(id) {
