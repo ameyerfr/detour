@@ -133,7 +133,7 @@ function renderItem(data, index) {
             <div class="buttons poi-actions">
             ${data.place_id ? `<a class="button is-small is-fullwidth" href="https://www.google.com/maps/place/?q=place_id:${data.place_id}" target="_blank">View details</a>` : ""}
 
-              <a class="button is-small is-fullwidth is-primary">Make a detour</a>
+              <a class="button button-detour is-small is-fullwidth is-primary">Make a detour</a>
             </div>
         </div>
   `;
@@ -141,8 +141,15 @@ function renderItem(data, index) {
   itemEl.setAttribute("data-poi-id", data._id);
   itemEl.className = "poi-item";
   itemEl.innerHTML = itemTplHTML;
+
   poiList.appendChild(itemEl);
+
   itemEl.addEventListener("click", onPoiItemClick);
+
+  itemEl.querySelector(".button-detour").addEventListener("click", function(e) {
+    makeADetour(getPoiById(data._id));
+  });
+
 }
 
 function onPoiItemClick(e) {
@@ -154,12 +161,6 @@ function onPoiItemClick(e) {
     .closest(".poi-item")
     .querySelector(".poi-details")
     .classList.remove("is-hidden");
-
-  // Make a Detour button
-  if (e.target.classList.contains("button")) {
-    let poiId = e.target.closest(".poi-item").getAttribute("data-poi-id");
-    makeADetour(getPoiById(poiId));
-  }
 }
 
 function searchByCategory(e) {
