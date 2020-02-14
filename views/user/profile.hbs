@@ -4,7 +4,7 @@
             <div class="box">
                 {{>flash_message}}
                 <h1 class="is-size-3 has-text-centered">Edit your Profile</h1>
-                <form method="post" action="/user/profile/{{idUser}}" id="form-update-password">
+                <form method="post" action="/user/profile/{{user.id}}" id="form-update-password">
 
                     <div class="field">
                         <label class="label" for="current-password">Current Password</label>

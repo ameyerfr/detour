@@ -37,6 +37,7 @@ if (!title.includes("Add") && inputImage.getAttribute("src")=="") {
 /////////////////////
 
 const inputAddress = document.getElementById("address")
+const inputAddressHidden = document.getElementById("address-hidden")
 
 ///INITMAP
 function initMap() {
@@ -80,7 +81,19 @@ autocomplete.addListener('place_changed', function() {
       center: position
     });
   marker.setMap(map);
+  inputAddressHidden.value="truc"
 });
+
+const btn = document.getElementById("btn")
+
+btn.onclick = function(event) {
+  if (inputAddressHidden.value=="") {
+    event.preventDefault();
+    alert("In order to get a correct location for your POI, please enter your address using autocomplete")
+  }
+}
+
+
 
 
 //ADD MARKER ON MAP
