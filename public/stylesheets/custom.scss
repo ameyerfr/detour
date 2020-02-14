@@ -27,7 +27,10 @@ h1 {
     margin-right: inherit;
 }
 
-#search-itinerary-form { margin: 0; }
+#search-itinerary-form {
+    margin: 0;
+}
+
 #search-itinerary-form .field-label {
     flex-grow: 0;
     margin-right: 0.5rem;
@@ -84,9 +87,9 @@ h1 {
 }
 
 #image-display {
-  margin-left:120px;
-  width:50%;
-  border:1px solid lightgrey;
+    margin-left: 120px;
+    width: 50%;
+    border: 1px solid lightgrey;
 }
 
 .full-width {

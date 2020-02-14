@@ -15,7 +15,8 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input" id="title" type="text" name="title" placeholder="Enter your new POI title" required>
+                  <input class="input" id="title" type="text" name="title" placeholder="Enter your new POI title"
+                    required>
                 </p>
               </div>
             </div>
@@ -33,7 +34,7 @@
                       {{#each categoryList}}
                       <option value={{this}}>{{this}}</option>
                       {{/each}}
-                      </select>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -42,7 +43,7 @@
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label" for="title">Description</label>
+              <label class="label" for="description">Description</label>
             </div>
             <div class="field-body">
               <div class="field">
@@ -52,29 +53,29 @@
                 </p>
               </div>
             </div>
-          </div> 
+          </div>
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label" for="title">Address</label>
+              <label class="label" for="address">Address</label>
             </div>
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input" id="address" name="address" type="text" placeholder="Enter an address">
+                  <input class="input" id="address" name="address" type="text" placeholder="Start typing..." required>
                 </p>
               </div>
             </div>
           </div>
 
-          <div class="is-hidden">  
+          <div class="is-hidden">
             <input id="address-hidden" type="text">
           </div>
-<!--
+          <!--
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label" for="title">Latitude</label>
+              <label class="label" for="lat">Latitude</label>
             </div>
             <div class="field-body">
               <div class="field">
@@ -87,7 +88,7 @@
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label" for="title">Longitude</label>
+              <label class="label" for="lng">Longitude</label>
             </div>
             <div class="field-body">
               <div class="field">
@@ -107,7 +108,7 @@
             <div class="field-body">
               <div class="field">
                 <p class="control">
-                  <input class="input" id="url" name="url" type="text" placeholder="Enter an address">
+                  <input class="input" id="url" name="url" type="text" placeholder="Enter a URL">
                 </p>
               </div>
             </div>
@@ -115,7 +116,7 @@
 
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label" for="title">Add an image</label>
+              <label class="label" for="image">Add an image</label>
             </div>
             <div class="field-body">
               <div class="field">
@@ -159,9 +160,6 @@
                 <div class="control">
                   <button class="button is-primary" id="btn">Add to my List</button>
                 </div>
-                <div class="control">
-                  <button class="button is-primary is-light">Reset</button>
-                </div>
               </div>
             </div>
           </div>
@@ -172,8 +170,5 @@
     <div class="column">
       <div id="map"></div>
     </div>
-
-
-
   </div>
 </div>
