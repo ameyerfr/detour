@@ -2,11 +2,14 @@ import APIHandler from "./apiHandler.js";
 const detour = new APIHandler();
 
 // Delete POI for a user
-const deletePOIBtns = document.querySelectorAll(".delete-poi-btn");
-if (deletePOIBtns)
-  deletePOIBtns.forEach(btn => {
-    btn.onclick = evt => deleteUserPOI(btn.getAttribute("data-user"), btn.getAttribute("data-poi"), evt);
-  });
+// const deletePOIBtns = document.querySelectorAll(".delete-poi-btn");
+// if (deletePOIBtns)
+//   deletePOIBtns.forEach(btn => {
+//     btn.onclick = evt => deleteUserPOI(btn.getAttribute("data-user"), btn.getAttribute("data-poi"), evt);
+//   });
+(document.querySelectorAll(".delete-poi-btn") || []).forEach(btn => {
+  btn.onclick = evt => deleteUserPOI(btn.getAttribute("data-user"), btn.getAttribute("data-poi"), evt);
+});
 
 function deleteUserPOI(userID, poiID, evt) {
   const deleteBtn = evt.target;
